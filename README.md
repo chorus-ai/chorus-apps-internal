@@ -76,7 +76,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### To get temo db started with data
+### To get test env with db started
 
 To avoid conflicts, please remove your current `db.sqlite3` file first and restart back-end by running `node server`
 
