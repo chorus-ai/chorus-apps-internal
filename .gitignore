@@ -33,4 +33,3 @@ yarn-error.log*
 /python-scripts/vpp_model/__pycache__
 /python-scripts/siamaf_model/__pycache__
 /python-scripts/data_handlers/__pycache__
-README_pm2.md
