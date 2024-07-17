@@ -1,0 +1,23 @@
+{
+  "id": 9,
+  "tokens": [
+    "respiratory_rate_High->respiratory_rate_High",
+    "respiratory_rate_High",
+    "OTHER",
+    "pO2_Low",
+    "age65+",
+    "hematocrit_Low",
+    "hemoglobin_Low"
+  ],
+  "sources": [
+    "ventilation_settings_and_measurements",
+    "ventilation_settings_and_measurements",
+    "demographics",
+    "lab_results",
+    "demographics",
+    "lab_results",
+    "lab_results"
+  ],
+  "ppv": 0.8727272727272727,
+  "sensitivity": 0.11822660098522167
+}

@@ -1,0 +1,21 @@
+{
+  "id": 7,
+  "tokens": [
+    "pCO2_Low",
+    "Creatinine_High",
+    "height190+",
+    "pO2_Low",
+    "BMI35+",
+    "Red Blood Cells_Low"
+  ],
+  "sources": [
+    "lab_results",
+    "lab_results",
+    "demographics",
+    "lab_results",
+    "demographics",
+    "lab_results"
+  ],
+  "ppv": 0.8771929824561403,
+  "sensitivity": 0.12315270935960591
+}
