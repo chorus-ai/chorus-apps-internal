@@ -1,0 +1,1590 @@
+[
+  {
+    "text": "70 yo F with a history of CAD, s/p remote CABG, 2 DES in place, AAA,\n   severe PVD, known systolic CHF who presents with chest pain, shortness\n   of breath, transferred from OSH with acute respiratory failure,\n   concerning for ischemic etiology.\n   Pt was admitted to OSH ICU on [**8-5**] from rehab complaining of shortness\n   of breath with substernal chest pain radiating to her back for 1 hour.\n   CP was [**7-7**], and resolved with SL nitro x3.  Her EKG at that time was\n   NSR and unchanged from her baseline.\n   Of note, patient has a history of MVA trauma in [**2160-6-28**], as a\n   result has multiple fractures and is trach-vent dependent.\n   Patient was admitted to OSH ICU. She was ruled out for MI with 3\n   negative cardiac enzymes. CXR showed bilateral pulmonary infilatrates.\n   They were concerned for recurrent aspiration vs. hospital acquired\n   pneumonia vs. pulm edema.\n   During hospitalization, the patient was briefly extubated, but\n   developed recurrent respiratory distress on [**2159-8-20**], and the ventilator\n   was resumed.  BNP 1800.  She was diuresed with good effect.  Echo\n   showed EF 35%, 2+ MR, 1+ TR.  Her plavix for some reason was stopped at\n   rehab. It was resumed at OSH on [**8-18**].\n   She was transfused 1u PRBCs on [**8-20**] for HCT of 26.\n   The patient was transferred to [**Hospital1 19**] for cardiac catheterization.  On\n   transfer vitals Tm 98, BPs 130-180/50-70, HR 70-80, 94% on 65% FiO2.\n   .\n   On arrival to the CCU, patient has some epigastric pain. She denies\n   chest pain or difficulty breathing. She nods her head yes to\n   having a headache. She is non verbal and nods/shakes her head yes/no.\n   Respiratory failure, acute (not ARDS/[**Doctor Last Name 11**])\n   Assessment:\n   Unable to wean patient off vent, bilat infiltrates, sputum cultures +\n   for MRSA @ OSH, low ef 20% with latest 35%\n   Action:\n   Vanco 1000mg IV and lasix 40mg IV  given @ 0800- Chest CT ordered-\n   pulmonary consulted- FIO2 decreased to 50%- echo done.\n   Response:\n   ABG on CPAP [**7-7**] 50% 7.47-48-78-36- O2 sats decreased to 94% from 97%,\n   diuresing well from lasix- (-) 1400cc since 12am- Chest CT ? infectious\n   process vs fluid overload-  additional dose of lasix 20mg IV given @\n   1700.\n   Plan:\n   Aggressive diuresis tonight- con\nt to monitor hemodynamics.\n",
+    "info": [
+      {
+        "num_sents": 2,
+        "start": 30,
+        "end": 33,
+        "concept": "Congestive heart failure",
+        "semtypes": ["dsyn"],
+        "cui": "C0018802",
+        "pos_info": "100/3",
+        "trigger_word": "CHF"
+      },
+      {
+        "num_sents": 2,
+        "start": 52,
+        "end": 62,
+        "concept": "Chest Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0008031",
+        "pos_info": "1532/10;122/10",
+        "trigger_word": "chest pain"
+      },
+      {
+        "num_sents": 14,
+        "start": 3,
+        "end": 12,
+        "concept": "Pneumonia",
+        "trigger_word": "pneumonia"
+      },
+      {
+        "num_sents": 16,
+        "start": 23,
+        "end": 43,
+        "concept": "Respiratory distress",
+        "semtypes": ["sosy"],
+        "cui": "C0476273",
+        "pos_info": "1546/20;984/20",
+        "trigger_word": "respiratory distress"
+      },
+      {
+        "num_sents": 25,
+        "start": 3,
+        "end": 13,
+        "concept": "Chest Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0008031",
+        "pos_info": "1532/10;122/10",
+        "trigger_word": "chest pain"
+      },
+      {
+        "num_sents": 25,
+        "start": 17,
+        "end": 37,
+        "concept": "Dyspnea",
+        "trigger_word": "difficulty breathing"
+      },
+      {
+        "num_sents": 25,
+        "start": 17,
+        "end": 37,
+        "concept": "Respiratory distress",
+        "trigger_word": "difficulty breathing"
+      },
+      {
+        "num_sents": 25,
+        "start": 43,
+        "end": 47,
+        "concept": "Dentatorubral-Pallidoluysian Atrophy",
+        "semtypes": ["dsyn"],
+        "cui": "C0751781",
+        "pos_info": "1637/4;1572/4",
+        "trigger_word": "nods"
+      },
+      {
+        "num_sents": 26,
+        "start": 12,
+        "end": 20,
+        "concept": "Headache",
+        "semtypes": ["sosy"],
+        "cui": "C0018681",
+        "pos_info": "1605/8",
+        "trigger_word": "headache"
+      },
+      {
+        "num_sents": 26,
+        "start": 44,
+        "end": 48,
+        "concept": "Dentatorubral-Pallidoluysian Atrophy",
+        "semtypes": ["dsyn"],
+        "cui": "C0751781",
+        "pos_info": "1637/4;1572/4",
+        "trigger_word": "nods"
+      },
+      {
+        "num_sents": 26,
+        "start": 49,
+        "end": 55,
+        "concept": "Tremor",
+        "semtypes": ["sosy"],
+        "cui": "C0040822",
+        "pos_info": "1642/6",
+        "trigger_word": "shakes"
+      },
+      {
+        "num_sents": 27,
+        "start": 3,
+        "end": 22,
+        "concept": "Respiratory Failure",
+        "semtypes": ["dsyn"],
+        "cui": "C1145670",
+        "pos_info": "1669/19",
+        "trigger_word": "Respiratory failure"
+      }
+    ],
+    "row_id": 486360,
+    "cg_id": 20818,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Physician",
+    "description": "Physician Resident Admission Note",
+    "index": 0,
+    "subject_id": 68135,
+    "hadm_id": 163192
+  },
+  {
+    "text": "HPI:  68 yo M with known esophageal ca and cerebellar mass s/p fall\n   with increase size of cerebellar mass on CT.\n   Pt has had increased difficulty walking over past month.  Fell down on\n   [**1-23**] and found to have enlarged cerebellar mass on CT s/p 3rd\n   ventriculostomy [**1-24**] for decompression.\n   Now s/p resection of left cerebellar met.\n   PMH:Stage III esophageal cancer, R eye prosthesis, HTN, DOE, BPH\n   chronic foley, Diabetes, h/o trach/PEG in [**11/2113**], h/o anemia in\n   [**12/2113**], s/p cholecystectomy, cognitive impairment s/p MVC\n   PSH: trach/PEG in [**11/2113**], open CCY in [**2104**], lap esophagectomy [**2115-1-11**]\n   Extubated yesterday [**2-2**]\n   Altered mental status (not Delirium)\n   Assessment:\n   -          pt is consistently oriented to person.  Oriented to place\n   and time inconsistently.\n   -          Extremely restless throughout shift.  Pt hangs legs over\n   side rails and tries to get OOB\n   -          Pt has two incisions on head one frontal, one occipital\n   -          Pt NPO\n   Action:\n   -          Neuro [**Doctor First Name 458**] removed sutures from frontal incision\n   -          Neuro checks changed to q4h\n   -          Refused speech and swallow this am\n   Response:\n   -          Head incisions are dry and intact, open to air, Sutures\n   removed from frontal incision appears approximated.  Sutures are intact\n   on occipital incision, skin is reddened along suture line.\n   -          Able to encourage pt to eat, pt successfully ate 1 cup of\n   ensure pudding with assistance\n   Plan:\n   -          continue to monitor neuro status\n   -          consistently monitor pt for restlessness and desire to get\n   OOB\n   -          continue to assess incision appearance\n   -          continue to assist pt eating soft foods\n   Tachycardia, Other\n   Assessment:\n   -          pt Tachycardic up to 130s\n   Action:\n   -          given 5mg IV lopressor X 2\n   Response:\n   -          HR decreased to 90s both incidences\n   Plan:\n   -          continue to monitor tachycardia\n",
+    "info": [
+      {
+        "num_sents": 1,
+        "start": 54,
+        "end": 58,
+        "concept": "Mass of body region",
+        "trigger_word": "mass"
+      },
+      {
+        "num_sents": 4,
+        "start": 52,
+        "end": 56,
+        "concept": "Mass of body region",
+        "trigger_word": "mass"
+      },
+      {
+        "num_sents": 7,
+        "start": 54,
+        "end": 57,
+        "concept": "Hypertensive disease",
+        "trigger_word": "HTN"
+      },
+      {
+        "num_sents": 7,
+        "start": 59,
+        "end": 62,
+        "concept": "Dyspnea on exertion",
+        "trigger_word": "DOE"
+      },
+      {
+        "num_sents": 8,
+        "start": 18,
+        "end": 26,
+        "concept": "Diabetes Mellitus",
+        "trigger_word": "Diabetes"
+      },
+      {
+        "num_sents": 8,
+        "start": 64,
+        "end": 70,
+        "concept": "Anemia",
+        "trigger_word": "anemia"
+      },
+      {
+        "num_sents": 12,
+        "start": 3,
+        "end": 24,
+        "concept": "Abnormal mental state",
+        "trigger_word": "Altered mental status"
+      },
+      {
+        "num_sents": 12,
+        "start": 30,
+        "end": 38,
+        "concept": "Delirium",
+        "trigger_word": "Delirium"
+      },
+      {
+        "num_sents": 16,
+        "start": 24,
+        "end": 32,
+        "concept": "Agitation",
+        "trigger_word": "restless"
+      },
+      {
+        "num_sents": 16,
+        "start": 24,
+        "end": 32,
+        "concept": "Restlessness",
+        "trigger_word": "restless"
+      },
+      {
+        "num_sents": 32,
+        "start": 42,
+        "end": 54,
+        "concept": "Agitation",
+        "trigger_word": "restlessness"
+      },
+      {
+        "num_sents": 32,
+        "start": 42,
+        "end": 54,
+        "concept": "Restlessness",
+        "trigger_word": "restlessness"
+      }
+    ],
+    "row_id": 366668,
+    "cg_id": 15014,
+    "caregiver": {
+      "label": "PCT",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Transfer Note",
+    "index": 1,
+    "subject_id": 21706,
+    "hadm_id": 108890
+  },
+  {
+    "text": "[**Age over 90 **] yo F with CAD s/p CABG in [**2096**] and [**Hospital 11316**] transfered from [**Hospital1 608**] for\n   sepsis and CA w/u. The patient reports that she was treated for PNA\n   with abx and then thoracentesis two weeks ago.  Pt rpts difficulty\n   urinating and recent visit to renal MD. PCP recommended going to [**Hospital1 1074**]\n   .\n    At [**Hospital3 611**], pt was noted to be in ARF with Cr of 2.5.  She was\n   also noted to have leukocytosis. CT abdomen was performed and was\n   notable for ascites and diffuse nodular changes in periotoneal cavity\n   and on omentum suggesting carcinomatosis.  The stomach is herniated\n   into chest cavity.  Left kideny had 1.5 mm lower pole and 5.5 exophytic\n   cyst as well as 1mm nonobtracting calculus.  Right kidney had no\n   evidence of obstruction.  CT of lungs was significant for collapsed\n   left lung with left chest cavity filled with fluid, significant\n   compression and collapse of the right lower lobe with large right\n   pleural effusion.\n   She was also noted to be hypotensive to SBP of 80/50 after CT scan and\n   was bolused with fluids.  started on Vanc and Zosyn for presumed sepsis\n   and transferred to [**Hospital1 19**] for further care.\n   .\n   In the ED initial vitals were HR 67 BP 79/60 RR 23 and O2 sat: 97% on\n   3L NC.  Femoral line placed and levophed started. Admitted to [**Hospital Unit Name 1**] for\n   likely sepsis.\n   Neuro: alert and orientedx3, not a good historian on medical history.\n   Afebrile, c/o abdominal pain in ED was given Maalox w/ good effect.\n   Resp: LS diminished, O2 sat 90s on 4L NC. c/o SOB w/ exertion. O2 sat\n   dropped to 80s while sleeping and changed to FM @6L, O2 sat 95%.\n   CV: arrived on levophed gtt, 0.12mcg, BP 80s-90s. HR 60s and AV paced.\n   1L NS bolus given w/ moderate effect.\n   GI/GU: foley placed and draining small amount of yellow urine, minimal\n   increase with blous. +BS, no stool this shift.  Renal consult if no\n   improvement in UO and Creat.\n   Access: R femoral TL\n   Plan: colonoscopy and transvaginal US when stable to evaluate\n   carcinomatosis. Repeat CT scans, films did not come w/ pt form OSH.\n   Probable thoracentesis. Cont weaning levophed gtt.\n",
+    "info": [
+      {
+        "num_sents": 2,
+        "start": 3,
+        "end": 9,
+        "concept": "Sepsis",
+        "semtypes": ["dsyn"],
+        "cui": "C0243026",
+        "pos_info": "1412/6;1162/6;125/6",
+        "trigger_word": "sepsis"
+      },
+      {
+        "num_sents": 2,
+        "start": 3,
+        "end": 9,
+        "concept": "Septicemia",
+        "semtypes": ["dsyn"],
+        "cui": "C0036690",
+        "pos_info": "1412/6;1162/6;125/6",
+        "trigger_word": "sepsis"
+      },
+      {
+        "num_sents": 6,
+        "start": 50,
+        "end": 53,
+        "concept": "Rheumatic Fever",
+        "semtypes": ["dsyn"],
+        "cui": "C0035436",
+        "pos_info": "407/3",
+        "trigger_word": "ARF"
+      },
+      {
+        "num_sents": 15,
+        "start": 3,
+        "end": 19,
+        "concept": "Pleural effusion disorder",
+        "semtypes": ["dsyn"],
+        "cui": "C0032227",
+        "pos_info": "1002/16",
+        "trigger_word": "pleural effusion"
+      },
+      {
+        "num_sents": 17,
+        "start": 68,
+        "end": 74,
+        "concept": "Sepsis",
+        "semtypes": ["dsyn"],
+        "cui": "C0243026",
+        "pos_info": "1412/6;1162/6;125/6",
+        "trigger_word": "sepsi"
+      },
+      {
+        "num_sents": 17,
+        "start": 68,
+        "end": 74,
+        "concept": "Septicemia",
+        "semtypes": ["dsyn"],
+        "cui": "C0036690",
+        "pos_info": "1412/6;1162/6;125/6",
+        "trigger_word": "sepsi"
+      },
+      {
+        "num_sents": 22,
+        "start": 10,
+        "end": 16,
+        "concept": "Sepsis",
+        "semtypes": ["dsyn"],
+        "cui": "C0243026",
+        "pos_info": "1412/6;1162/6;125/6",
+        "trigger_word": "sepsis"
+      },
+      {
+        "num_sents": 22,
+        "start": 10,
+        "end": 16,
+        "concept": "Septicemia",
+        "semtypes": ["dsyn"],
+        "cui": "C0036690",
+        "pos_info": "1412/6;1162/6;125/6",
+        "trigger_word": "sepsis"
+      },
+      {
+        "num_sents": 24,
+        "start": 17,
+        "end": 31,
+        "concept": "Abdominal Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0000737",
+        "pos_info": "1510/14",
+        "trigger_word": "abdominal pain"
+      },
+      {
+        "num_sents": 25,
+        "start": 49,
+        "end": 52,
+        "concept": "Dyspnea",
+        "semtypes": ["sosy"],
+        "cui": "C0013404",
+        "pos_info": "1613/3",
+        "trigger_word": "SOB"
+      },
+      {
+        "num_sents": 28,
+        "start": 6,
+        "end": 8,
+        "concept": "Nuclear non-senile cataract",
+        "semtypes": ["dsyn"],
+        "cui": "C1112705",
+        "pos_info": "1785/2",
+        "trigger_word": "NS"
+      }
+    ],
+    "row_id": 497683,
+    "cg_id": 16009,
+    "caregiver": {
+      "label": "Nurs",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Progress Note",
+    "index": 2,
+    "subject_id": 95555,
+    "hadm_id": 103704
+  },
+  {
+    "text": "48 y/o female admitted from OSH after ingesting ~100 percocets, valium,\n   and methadone over 4 days.  Stated that she has lost 32lbs in  past\n   week. Denied SI, HI, or AH/VH. Stated feeling depressed (husband died a\n   few years ago).  Serum acetaminophen 31.7.  Acetylcysteine gtt started\n   at OSH. PIV x2 placed at OSH. 1 PIV placed in ER. In ER, given 2L NS\n   and continued on acetylseistine gtt. Upon arrival to MICU, arrousable\n   to voice. Follows some commands.  Slow to answer questions. Ox1\n   (person). MAE weakly on bed. Turning self in bed. Denied pain.\n   Poisoning / Overdose, Acetaminophen (Tylenol, APAP)\n   Assessment:\n   IN ER AST 1880, ALT [**2194**], INR 2.2, K 5.1, Mg 1.7, phos 1.1 and\n   acetaminophen 31.7.  Lethargic and confused.\n   Action:\n   Acetylcysteine gtt continued (third dose).  NS 500 cc bolus given and\n   two of three L given @ 150cc/hr. Given 2gm magnesium IV.  Given 2pkt\n   neutra phos. Labs monitored. UOP monitored.\n   Response:\n   Repeat labs AST 1403, ALT 1728, Tbili 2.9. UOP>80cc/hr.\n   Plan:\n   Continue acetylcysteine gtt until acetaminophen serum level\n   undetectable. Monitor mental status. Monitor labs/lytes. Given 3^rd L\n   of NS.\n   Hematemesis (upper GI bleed, UGIB)\n   Assessment:\n   Vomited ~200cc of\ncoffee ground\n emesis. Denied nausea. HCT 36(38). No\n   BM. +BS.\n   Action:\n   NGtube placed and levagged.\n   Response:\n   Plan:\n   Altered mental status\n   Assessment:\n   Action:\n   Response:\n   Plan:\n",
+    "info": [
+      {
+        "num_sents": 3,
+        "start": 49,
+        "end": 58,
+        "concept": "Depressed mood",
+        "semtypes": ["mobd"],
+        "cui": "C0344315",
+        "pos_info": "193/9",
+        "trigger_word": "depressed"
+      },
+      {
+        "num_sents": 5,
+        "start": 69,
+        "end": 71,
+        "concept": "Nuclear non-senile cataract",
+        "semtypes": ["dsyn"],
+        "cui": "C1112705",
+        "pos_info": "819/2;362/2",
+        "trigger_word": "N"
+      },
+      {
+        "num_sents": 8,
+        "start": 13,
+        "end": 16,
+        "concept": "MYOCLONIC-ATONIC EPILEPSY",
+        "semtypes": ["dsyn"],
+        "cui": "C4085238",
+        "pos_info": "518/3",
+        "trigger_word": "MAE"
+      },
+      {
+        "num_sents": 8,
+        "start": 60,
+        "end": 64,
+        "concept": "Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0030193",
+        "pos_info": "565/4",
+        "trigger_word": "pain"
+      },
+      {
+        "num_sents": 12,
+        "start": 24,
+        "end": 33,
+        "concept": "Lethargy",
+        "semtypes": ["sosy"],
+        "cui": "C0023380",
+        "pos_info": "737/9",
+        "trigger_word": "Lethargic"
+      },
+      {
+        "num_sents": 12,
+        "start": 38,
+        "end": 46,
+        "concept": "Confusion",
+        "semtypes": ["mobd"],
+        "cui": "C0009676",
+        "pos_info": "751/8",
+        "trigger_word": "confused"
+      },
+      {
+        "num_sents": 14,
+        "start": 47,
+        "end": 49,
+        "concept": "Nuclear non-senile cataract",
+        "semtypes": ["dsyn"],
+        "cui": "C1112705",
+        "pos_info": "819/2;362/2",
+        "trigger_word": "NS"
+      },
+      {
+        "num_sents": 22,
+        "start": 6,
+        "end": 8,
+        "concept": "Nuclear non-senile cataract",
+        "semtypes": ["dsyn"],
+        "cui": "C1112705",
+        "pos_info": "819/2;362/2",
+        "trigger_word": "NS"
+      },
+      {
+        "num_sents": 25,
+        "start": 3,
+        "end": 10,
+        "concept": "Vomiting",
+        "semtypes": ["sosy"],
+        "cui": "C0042963",
+        "pos_info": "1247/7",
+        "trigger_word": "Vomited"
+      },
+      {
+        "num_sents": 27,
+        "start": 1,
+        "end": 7,
+        "concept": "Vomiting",
+        "trigger_word": "emesis"
+      },
+      {
+        "num_sents": 27,
+        "start": 16,
+        "end": 22,
+        "concept": "Nausea",
+        "semtypes": ["sosy"],
+        "cui": "C0027497",
+        "pos_info": "1295/6",
+        "trigger_word": "nausea"
+      },
+      {
+        "num_sents": 33,
+        "start": 3,
+        "end": 24,
+        "concept": "Abnormal mental state",
+        "semtypes": ["mobd"],
+        "cui": "C0278061",
+        "pos_info": "1397/21",
+        "trigger_word": "Altered mental statu"
+      }
+    ],
+    "row_id": 722694,
+    "cg_id": 16643,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Progress Note",
+    "index": 3,
+    "subject_id": 85516,
+    "hadm_id": 112947
+  },
+  {
+    "text": "TITLE: The pt is an 80 yo man with multiple medical problems including\n   prostate ca with mets to the spine. He recently was admitted for a\n   ventral hernia repair and was eventually discharged to HRC. On [**9-28**]\n   the pt presented from rehab with fevers, hypotension, and an altered\n   mental status all c/w sepsis due to MRSA bacteremia.\n   His course in the MICU has been complicated by persistent fevers and\n   hypoxemia as well as an impaired mental status.\n   Line infection (Central or arterial)\n   Assessment:\n   ID called this evening to inform team that the pts LUE AC PICC line has\n   recent positive blood cultures.   However the pt has remained\n   hemodynamically stable and afebrile all shift.  Of note, pts WBCC has\n   risen from 15 this AM to 18 this afternoon.\n   Action:\n   Pts  PICC to be d/c\ned by IV RN shortly.  LUE radial a-line d/c\n   earlier today per ID recs.\n   Response:\n   Pt does not appear septic @ this time.\n   Plan:\n   D/C PICC shortly.  Obtain PIV (IV RN to look shortly).\n   Hypoxemia\n   Assessment:\n   Pt received/maintained on 50% hi flow O2 mask with sats in mid/high\n   90\ns.  Of note, pt desats to mid 80\ns fairly quickly when on RA.\n   Action:\n   Pt OOB to chair and sat upright.  Pt freq coached to cough/deep breath\n   to optimize resp fxn.\n   Response:\n   Pt doing okay on current support.\n   Plan:\n   Cont to follow resp fxn/VS closely, attempt to wean FiO2 down if tol.\n   Alteration in Tissue Perfusion\n   Assessment:\n   Pt with unstageable pressure ulcer on coccyx, Skin care RN consult\n   completed today.\n   Action:\n   Per Skin care RN, please do not utilize dsg\ns to this site that are\n   adhesive.  Aquacell/Softsorb/paper tape dsg affixed to site/pt\n   positioned on his side and maintained on First Step Kinair mattress.\n   Response:\n   Will cont to assess.\n   Plan:\n   Skin care RN to re-consult on Monday [**10-8**]^rd to assess progress.\n   Altered mental status (not Delirium)\n   Assessment:\n   The pt is [**Name (NI) 1669**] times one/two.  Pt d/c\ned both a foley and an NGT today,\n   despite soft wrist restraints maintained thoughout shift.  Dtr\n   indicates that the pt has d/c\ned multiple health care devices in the\n   past.\n   Action:\n   No psychoactive meds provided to pt.  Pt freq re-oriented to\n   person/place/time/care rationale all shift to assist with nl\n   cognition.  Verbal and non-verbal support also provided.\n   Response:\n   Pt appears to be coping poorly.\n   Plan:\n   Dtr visited today and kept up to date with POC/pt status and encouraged\n   to visit more freq to assist with nl cognition/emotional\n   coping/support.\n",
+    "info": [
+      {
+        "num_sents": 4,
+        "start": 36,
+        "end": 42,
+        "concept": "Fever",
+        "trigger_word": "fevers"
+      },
+      {
+        "num_sents": 5,
+        "start": 25,
+        "end": 31,
+        "concept": "Sepsis",
+        "trigger_word": "sepsis"
+      },
+      {
+        "num_sents": 5,
+        "start": 25,
+        "end": 31,
+        "concept": "Septicemia",
+        "trigger_word": "sepsis"
+      },
+      {
+        "num_sents": 5,
+        "start": 44,
+        "end": 54,
+        "concept": "Bacteremia",
+        "trigger_word": "bacteremia"
+      },
+      {
+        "num_sents": 8,
+        "start": 8,
+        "end": 17,
+        "concept": "Communicable Diseases",
+        "trigger_word": "infection"
+      },
+      {
+        "num_sents": 10,
+        "start": 3,
+        "end": 5,
+        "concept": "Communicable Diseases",
+        "trigger_word": "ID"
+      },
+      {
+        "num_sents": 10,
+        "start": 58,
+        "end": 60,
+        "concept": "Actinic cheilitis",
+        "trigger_word": "AC"
+      },
+      {
+        "num_sents": 17,
+        "start": 21,
+        "end": 23,
+        "concept": "Communicable Diseases",
+        "trigger_word": "ID"
+      },
+      {
+        "num_sents": 29,
+        "start": 56,
+        "end": 61,
+        "concept": "Coughing",
+        "trigger_word": "cough"
+      },
+      {
+        "num_sents": 29,
+        "start": 62,
+        "end": 73,
+        "concept": "Breathing abnormally deep",
+        "trigger_word": "deep breat"
+      },
+      {
+        "num_sents": 48,
+        "start": 3,
+        "end": 24,
+        "concept": "Abnormal mental state",
+        "trigger_word": "Altered mental status"
+      },
+      {
+        "num_sents": 48,
+        "start": 30,
+        "end": 38,
+        "concept": "Delirium",
+        "trigger_word": "Delirium"
+      }
+    ],
+    "row_id": 422131,
+    "cg_id": 19689,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Progress Note",
+    "index": 4,
+    "subject_id": 52296,
+    "hadm_id": 112991
+  },
+  {
+    "text": "67y/o M found down at the bottom of approximately [**7-24**] stairs. Fall was\n   unwitnessed. GCS10 at scene and agitated. When paramedics arrived on\n   scene he was awake and noted to be incontinent of stool and\n   aggressively restless. He was transported to an OSH for management.\n   Upon arrival to the OSH he was found to have a GCS of 10 and became\n   increasingly combative, requiring intubation. He was intubated at OSH\n   and transferred to [**Hospital1 1**] for further management and evaluation.\n   Head CT: diffuse SAH, small bilateral SDH, R IPH, left\n   occipital/parital subgaleal hematoma, basilar skull fx and multiple\n   facial fractures including right orbital roof fx through right sinus\n   and zygomatic arch fracture. Optho evaluated patient, no further\n   intervention needed.\n   Head CTA:  negative for aneurysm.\n   CTLS FILMS: C-spine radiographically cleared however collar intact,\n   awaiting final reads of TLS. +DJD\n   PMH: HTN, DM\n   MEDS: family is unaware of med or dosage however states he takes an\n   antihypertensive and oral [**Doctor Last Name 23**] for DM\n   SOCIAL: Pt came from [**Location (un) 5264**] in [**2089**]. He is followed at [**Hospital3 11644**]\n   Medical Center. Family denies ETOH, drugs or smoking. He lives with his\n   wife [**Name (NI) 5650**] [**Name (NI) 11248**] [**Telephone/Fax (1) 11645**] and they have no children\n   Trauma, s/p unwitnessed fall\n   Assessment:\n   Pt admitted from ED intubated and off sedation. C-collar and logroll\n   precautions maintained. Upon admission to unit pt noted for eye opening\n   and moving all extremities. Neuro exam done in both English and\n   Cantonese (per family pt does understand both). Throughout shift pupils\n   [**3-22**] and briskly reactive, strong cough and gag, +corneals. Opens eyes\n   spontaneously when off sedation >5minutes however does not track or\n   follow any commands. MAE\ns equally, attempts to sit up in bed and\n   pulling at clothing and catheter. Hematoma noted to right eye and left\n   ear bloody. Multiple small areas of ecchymosis throughout body. VSS. Pt\n   febrile to 101.5. Orally intubated on CMV, lung sounds with rhonchi\n   throughout and suctioned for moderate amounts of blood tinged\n   secretions, OGT with dark red bloody drainage.\n   Action:\n   Neuro checks q1hour, sedated on Propofol gtt and intermittent Fentanyl,\n   arterial line placed, Dilantin load given in ed and finished on unit\n   now ordered 100mg tid, c-collar and logroll maintained until final\n   reads or clinical clearance, optho cleared w/ proptosis - nl IOP\n   Response:\n   Pt remains with above noted exam however seems to be waking up more\n   throughout night and this morning still not following commands\n   Plan:\n   Continue to monitor neuro status, awaiting read of TLS films, repeat\n   head CT (time to be determined), meds as ordered, maintain safety with\n   soft limb restraints and frequent re-orientation\n   Pain control (acute pain, chronic pain)\n   Assessment:\n   Pt noted for grimacing and hyperdynamic with nursing care. Multiple\n   facial fractures and ICH. Unable to nod yes or no to pain however\n   appearing uncomfortable with care\n   Action:\n   Fentanyl given PRN\n   Response:\n   Pt appearing more comfortable after administration of Fentanyl, VSS\n   Plan:\n   Continue to monitor for pain and medicate as needed\n",
+    "info": [
+      {
+        "num_sents": 2,
+        "start": 35,
+        "end": 43,
+        "concept": "Agitation",
+        "semtypes": ["sosy"],
+        "cui": "C0085631",
+        "pos_info": "230/8;114/8",
+        "trigger_word": "agitated"
+      },
+      {
+        "num_sents": 4,
+        "start": 16,
+        "end": 24,
+        "concept": "Agitation",
+        "trigger_word": "restless"
+      },
+      {
+        "num_sents": 4,
+        "start": 16,
+        "end": 24,
+        "concept": "Restlessness",
+        "semtypes": ["sosy"],
+        "cui": "C3887611",
+        "pos_info": "230/8",
+        "trigger_word": "restless"
+      },
+      {
+        "num_sents": 6,
+        "start": 16,
+        "end": 25,
+        "concept": "combative",
+        "semtypes": ["mobd"],
+        "cui": "C0241845",
+        "pos_info": "372/9",
+        "trigger_word": "combative"
+      },
+      {
+        "num_sents": 16,
+        "start": 8,
+        "end": 11,
+        "concept": "Hypertensive disease",
+        "semtypes": ["dsyn"],
+        "cui": "C0020538",
+        "pos_info": "954/3",
+        "trigger_word": "HTN"
+      },
+      {
+        "num_sents": 16,
+        "start": 13,
+        "end": 15,
+        "concept": "MYOTONIC DYSTROPHY 1",
+        "semtypes": ["dsyn"],
+        "cui": "C3250443",
+        "pos_info": "[959/2],[1092/2]",
+        "trigger_word": "D"
+      },
+      {
+        "num_sents": 18,
+        "start": 59,
+        "end": 61,
+        "concept": "MYOTONIC DYSTROPHY 1",
+        "semtypes": ["dsyn"],
+        "cui": "C3250443",
+        "pos_info": "[959/2],[1092/2]",
+        "trigger_word": "D"
+      },
+      {
+        "num_sents": 28,
+        "start": 43,
+        "end": 48,
+        "concept": "Coughing",
+        "semtypes": ["sosy"],
+        "cui": "C0010200",
+        "pos_info": "1760/5",
+        "trigger_word": "cough"
+      },
+      {
+        "num_sents": 30,
+        "start": 24,
+        "end": 27,
+        "concept": "MYOCLONIC-ATONIC EPILEPSY",
+        "semtypes": ["dsyn"],
+        "cui": "C4085238",
+        "pos_info": "1892/3",
+        "trigger_word": "MA"
+      },
+      {
+        "num_sents": 34,
+        "start": 3,
+        "end": 10,
+        "concept": "Fever",
+        "semtypes": ["sosy"],
+        "cui": "C0015967",
+        "pos_info": "2089/7",
+        "trigger_word": "febrile"
+      },
+      {
+        "num_sents": 49,
+        "start": 17,
+        "end": 27,
+        "concept": "Acute onset pain",
+        "semtypes": ["sosy"],
+        "cui": "C0184567",
+        "pos_info": "2942/10",
+        "trigger_word": "acute pain"
+      },
+      {
+        "num_sents": 49,
+        "start": 29,
+        "end": 41,
+        "concept": "Chronic pain",
+        "semtypes": ["sosy"],
+        "cui": "C0150055",
+        "pos_info": "2954/12",
+        "trigger_word": "chronic pain"
+      },
+      {
+        "num_sents": 51,
+        "start": 16,
+        "end": 25,
+        "concept": "Grimaces",
+        "semtypes": ["sosy"],
+        "cui": "C0239779",
+        "pos_info": "2999/9",
+        "trigger_word": "grimacing"
+      },
+      {
+        "num_sents": 52,
+        "start": 39,
+        "end": 42,
+        "concept": "Dentatorubral-Pallidoluysian Atrophy",
+        "semtypes": ["dsyn"],
+        "cui": "C0751781",
+        "pos_info": "3093/3",
+        "trigger_word": "nod"
+      },
+      {
+        "num_sents": 59,
+        "start": 27,
+        "end": 31,
+        "concept": "Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0030193",
+        "pos_info": "3313/4",
+        "trigger_word": "pain"
+      }
+    ],
+    "row_id": 628090,
+    "cg_id": 14576,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Progress Note",
+    "index": 5,
+    "subject_id": 69711,
+    "hadm_id": 135668
+  },
+  {
+    "text": "Tachycardia, Other\n   Assessment:\n   -          Sinus tach to 130s, particularly when agitated.\n   -          Maintained BP during tachycardic episodes\n   Action:\n   -          5 IVP lopressor administered\n   -          Standing dose lopressor administered\n   -          Attempted to calm patient down\n administered haldol 1 mg\n   X1; increased fent gtt when patient c/o pain\n   Response:\n   -          5 IV lopressor didn\nt touch tachycardia\n   -          PO lopressor standing dose appears to be keeping patient\n   rate in 80s-90s\n   -          Haldol worked with fair success\n patient appears more calm;\n   fentanyl gtt back to 100 after patient calm and sleeping X several\n   hours\n   Plan:\n   -          Continue beta blocker\n   -          Continue to treat patient\ns anxiety and pain\n   Subdural hemorrhage (SDH)\n   Assessment:\n   -          Patient arousable on fent gtt\n   -          Intermittently following commands\n   -          MAEs\n strong in upper extremities; lift/fall back or\n   withdrawal to pain in other extremities\n   Action:\n          - Neuro checks Q2\n   Response:\n          - Remains arousable, agitated at times; mouthing words\n   occasionally\n   Plan:\n   -          Continue neuro checks Q2\n   Fever, unknown origin (FUO, Hyperthermia, Pyrexia)\n   Assessment:\n   - Spiked to 101.8\n   Action:\n   -          Urine cultured and blood cultured\n   -          Tylenol 650 mg admin\n   -          Aztreonam and Vanc administered\n   Response:\n   - Continues to be febrile but improving\n   Plan:\n   -          Monitor temp, WBC, other s/s infection\n   -          Continue abx therapy\n   -          Follow up cultures\n   Respiratory failure, chronic\n   Assessment:\n   -          Patient on [**11-24**] in start of shift\n   -          Suctioning moderate amount of thin tan/yellow secretions\n   -          De-satted to 92%\n   Action:\n   -          Resp increased PEEP to 10 from 8\n   -          Suctioned patient\n   Response:\n   - Sats improved to 97-98%\n   Plan:\n   -          Continue to monitor, wean vent if tolerated.\n",
+    "info": [
+      {
+        "num_sents": 3,
+        "start": 52,
+        "end": 60,
+        "concept": "Agitation",
+        "semtypes": ["sosy"],
+        "cui": "C0085631",
+        "pos_info": "1120/8;87/8",
+        "trigger_word": "agitated"
+      },
+      {
+        "num_sents": 10,
+        "start": 43,
+        "end": 47,
+        "concept": "Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0030193",
+        "pos_info": "1011/4",
+        "trigger_word": "pai"
+      },
+      {
+        "num_sents": 23,
+        "start": 2,
+        "end": 9,
+        "concept": "Anxiety",
+        "semtypes": ["mobd"],
+        "cui": "C0003467",
+        "pos_info": "774/7",
+        "trigger_word": "anxiety"
+      },
+      {
+        "num_sents": 23,
+        "start": 2,
+        "end": 9,
+        "concept": "Anxiety Disorders",
+        "semtypes": ["mobd"],
+        "cui": "C0003469",
+        "pos_info": "774/7",
+        "trigger_word": "anxiety"
+      },
+      {
+        "num_sents": 23,
+        "start": 14,
+        "end": 18,
+        "concept": "Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0030193",
+        "pos_info": "1011/4",
+        "trigger_word": "pai"
+      },
+      {
+        "num_sents": 28,
+        "start": 14,
+        "end": 18,
+        "concept": "MYOCLONIC-ATONIC EPILEPSY",
+        "semtypes": ["dsyn"],
+        "cui": "C4085238",
+        "pos_info": "941/4",
+        "trigger_word": "MAE"
+      },
+      {
+        "num_sents": 30,
+        "start": 3,
+        "end": 13,
+        "concept": "Withdrawal (dysfunction)",
+        "semtypes": ["mobd"],
+        "cui": "C2825032",
+        "pos_info": "997/10",
+        "trigger_word": "withdrawal"
+      },
+      {
+        "num_sents": 30,
+        "start": 17,
+        "end": 21,
+        "concept": "Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0030193",
+        "pos_info": "1011/4",
+        "trigger_word": "pain"
+      },
+      {
+        "num_sents": 34,
+        "start": 31,
+        "end": 39,
+        "concept": "Agitation",
+        "semtypes": ["sosy"],
+        "cui": "C0085631",
+        "pos_info": "1120/8;87/8",
+        "trigger_word": "agitated"
+      },
+      {
+        "num_sents": 38,
+        "start": 3,
+        "end": 8,
+        "concept": "Fever",
+        "trigger_word": "Fever"
+      },
+      {
+        "num_sents": 38,
+        "start": 26,
+        "end": 29,
+        "concept": "Fever of Unknown Origin",
+        "semtypes": ["sosy"],
+        "cui": "C0015970",
+        "pos_info": "1244/3",
+        "trigger_word": "FUO"
+      },
+      {
+        "num_sents": 46,
+        "start": 21,
+        "end": 28,
+        "concept": "Fever",
+        "trigger_word": "febrile"
+      },
+      {
+        "num_sents": 48,
+        "start": 43,
+        "end": 52,
+        "concept": "Communicable Diseases",
+        "semtypes": ["dsyn"],
+        "cui": "C0009450",
+        "pos_info": "1556/9",
+        "trigger_word": "infectio"
+      },
+      {
+        "num_sents": 51,
+        "start": 3,
+        "end": 22,
+        "concept": "Respiratory Failure",
+        "semtypes": ["dsyn"],
+        "cui": "C1145670",
+        "pos_info": "1637/19",
+        "trigger_word": "Respiratory failure"
+      }
+    ],
+    "row_id": 642599,
+    "cg_id": 18602,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Progress Note",
+    "index": 6,
+    "subject_id": 68589,
+    "hadm_id": 152895
+  },
+  {
+    "text": "33 yo male with h/o large B cell lymphoma, s/p allogenic SCT  [**2166**], c/b\n   severe GVHD of the skin and oral mucosa requring TPN for nutrition.\n   recent admit last month with pneumococcal sepsis, presents from\n   [**Hospital1 82**] with 1 day of fever to 102.5, N/V/abd pain.  Put on vanco,\n   then [**Last Name (un) 430**].  Noted to be hypoxemic --> sats 94% on NRB.  Transferred to\n   [**Hospital1 54**].  T 103 rectally here.  Sats 80% on RA, 94-95% on NRB.  SBPs\n   trasniently to 70 --> SBP to 120s with 2L IVF.  No pressors required.\n   Lactate 2.9.  RIJ placed in ED.  Multifocal infiltrates on CXR.\n   Levoflox, 1mg of Dilaudid given in ED. Pt transferred to MICU for\n   further management.\n   [**2170-5-22**]- Pt started to desat into 80\ns and placed on bipap.  Sats back\n   up to 90\ns but then dropped to high 80\ns a few hours later intuabated\n   at 0100..\n   [**5-22**] Bronched for thick secretions\n   [**5-26**] extubated\n   Pneumonia, other\n   Assessment:\n   Extubated [**5-26**], on FT 40%, LSC diminished at bases, O2 sat >95%\n   Action:\n   Encourage C and DB\n   Response:\n   Pt able to loose secretions, needs help with yankeur.\n   Plan:\n   Cont w/ humidified O2 to help loosen secretions, wean to NC in am.\n   Pain control (acute pain, chronic pain)\n   Assessment:\n   c/o back pain\n   Action:\n   Reposition, dilaudid 1mg IVx2 w/ minimal effect. Fent 50mcgx1 given w/\n   min effect. Morphine 2mg + ativan 0.5mg given w/ good effect.\n   Response:\n   Pt resting comfortably.\n   Plan:\n   Cont pain management w/ morphine and ativan. ?OOB to chair in am\n   Neuro:  a&ox3. afebrile. c/o back pain relieved w/ morphine.\n   Resp: LSC, diminished at bases. Weak cough able to cough up secretions,\n   No c/o SOB.\n   CV: Bp stable, 120s-140s. NSR. +7L for LOS. ST 130s-140s when coughing.\n   CVP 11-12/4-5 after diuresis.\n   GI/GU: TPN, RISS w/ standing dose, +BS, no stool, foley patent and\n   draining adequate urine. 20 of lasix given w/ good effect. No OGT/NGT\n   r/t mucositis/GVHD. c/o N/V, zofran given.\n",
+    "info": [
+      {
+        "num_sents": 4,
+        "start": 36,
+        "end": 41,
+        "concept": "Fever",
+        "semtypes": "[sosy]",
+        "cui": "C0015967",
+        "pos_info": "253/5",
+        "trigger_word": "fever"
+      },
+      {
+        "num_sents": 4,
+        "start": 60,
+        "end": 64,
+        "concept": "Pain",
+        "semtypes": "[sosy]",
+        "cui": "C0030193",
+        "pos_info": "277/4",
+        "trigger_word": "pain"
+      },
+      {
+        "num_sents": 19,
+        "start": 3,
+        "end": 12,
+        "concept": "Pneumonia",
+        "semtypes": "[dsyn]",
+        "cui": "C0032285",
+        "pos_info": "946/9",
+        "trigger_word": "Pneumonia"
+      },
+      {
+        "num_sents": 28,
+        "start": 17,
+        "end": 27,
+        "concept": "Acute onset pain",
+        "semtypes": "[sosy]",
+        "cui": "C0184567",
+        "pos_info": "1250/10",
+        "trigger_word": "acute pain"
+      },
+      {
+        "num_sents": 28,
+        "start": 29,
+        "end": 41,
+        "concept": "Chronic pain",
+        "semtypes": "[sosy]",
+        "cui": "C0150055",
+        "pos_info": "1262/12",
+        "trigger_word": "chronic pain"
+      },
+      {
+        "num_sents": 30,
+        "start": 7,
+        "end": 16,
+        "concept": "Back Pain",
+        "semtypes": "[sosy]",
+        "cui": "C0004604",
+        "pos_info": "1607/9;1298/9",
+        "trigger_word": "back pai"
+      },
+      {
+        "num_sents": 38,
+        "start": 32,
+        "end": 41,
+        "concept": "Back Pain",
+        "semtypes": "[sosy]",
+        "cui": "C0004604",
+        "pos_info": "1607/9;1298/9",
+        "trigger_word": "back pain"
+      },
+      {
+        "num_sents": 39,
+        "start": 35,
+        "end": 39,
+        "concept": "Weakness",
+        "semtypes": "[sosy]",
+        "cui": "C3714552",
+        "pos_info": "1674/4",
+        "trigger_word": "Weak"
+      },
+      {
+        "num_sents": 39,
+        "start": 40,
+        "end": 45,
+        "concept": "Coughing",
+        "semtypes": "[sosy]",
+        "cui": "C0010200",
+        "pos_info": "1794/8;[1679/5],[1693/5];[1679/5],[1693/5]",
+        "trigger_word": "cough"
+      },
+      {
+        "num_sents": 40,
+        "start": 10,
+        "end": 13,
+        "concept": "Dyspnea",
+        "semtypes": "[sosy]",
+        "cui": "C0013404",
+        "pos_info": "1724/3",
+        "trigger_word": "SOB"
+      },
+      {
+        "num_sents": 41,
+        "start": 65,
+        "end": 73,
+        "concept": "Coughing",
+        "trigger_word": "coughing"
+      }
+    ],
+    "row_id": 329563,
+    "cg_id": 16009,
+    "caregiver": {
+      "label": "Nurs",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Progress Note",
+    "index": 7,
+    "subject_id": 28933,
+    "hadm_id": 118513
+  },
+  {
+    "text": "Mr. [**Known lastname 6949**] is a 51 year-old man with a history of chronic hypercapneic\n   respiratory failure s/p trach, COPD, and morbid obesity who presented\n   from [**Hospital **] Rehab with hypotension  to 70\ns,altered mental  status and\n   is admitted to the MICU for further management.\n   He was trached on [**2178-8-13**] and last discharged on [**2178-9-18**] for\n   hypercapneic respiratory failure which was thought to be secondary to a\n   cuff leak, though he was also treated for resistant psuedomonas VAP\n   during this admission.  He went to [**Hospital **] rehab and completed a course\n   of tobramycin (last dose ?[**2178-9-19**]).  He also had blood cx that grew\n   coag negative staph and was started on vanc on [**9-27**].  He had a\n   leukocytosis, with a WBC count of 16 that trended down to 6 on the day\n   of admission.  A urine cx grew ESBL klebsiella on [**9-30**] but he was not\n   started on antibiotics for this for unclear reasons.  During this time,\n   his metoprolol was also increased from 12.5 mg po tid to 25 mg po tid\n   on [**9-27**] for improved a. fib heart rate control.\n   .\n   On the day of admission, he was found to have a BP of 85/65 -> 60/palp\n   from a baseline in the low 100s systolic after debridement of a right\n   flank wound.  He was thought to be bacteremic and given approximately\n   1L IVF bolus with no response.  He was then transferred to [**Hospital1 1**] for\n   further management.\n   .\n   On arrival, VS were 97.8 84 80/47 24 100% on unknown vent settings.  He\n   was thought to be septic vs having beta blocker toxicity (last\n   metoprolol given at 2 p.m.) and was given zosyn, 800cc L IVF, and\n   glucagon, with improvement in SBP to 120 transiently after the\n   glucagon.  Toxicology was consulted and felt that beta blocker toxicity\n   was unlikely given absence of bradycardia.\n   .\n   A right radial a-line and left femoral line were placed for access.  A\n   CXR was performed and demonstrated infiltrate vs overload.  IVFs were\n   held after the CXR, and he was started on levophed.  Per report, a\n   bedside ECHO was also performed to eval for tamponade but was limited\n   secondary to body habitus.\n   .\n   On the floor, he was minimally responsive to verbal stimuli and began\n   having rhythmic, tooth clattering motions at the chin.  He was given 1\n   mg IV ativan x 2 with resolution.\n   Respiratory failure, chronic\n   Assessment:\n   Pt chronicle on vent, cont  AC , LS rhoncis, sat 96%,suctin moderate\n   amount yellow thick secretion,\n   Action:\n   Multiple vent changes done to keep PCO2 70, several ABG sent. Sputum\n   sent to cx.\n   Response:\n   Currently on AC  40%/550/RR24/peep 5 please see metavision for ABG\n   Plan:\n   Cont follow ABG,sat.\n   Altered mental status (not Delirium)\n   Assessment:\n   Upon arrival to unit pt response to stumul, did not follow commands,\n   but has gaze to left side,pt has 2episodes of  ? seizures, shaking jaw\n   for ~1min.\n   Action:\n   Pt  received Ativan1 mg x2. head and chest Ct done\n   Response:\n   Good response to Ativan\n   Plan:\n   Follow result of CT, follow signs of seizures\n   Sepsis without organ dysfunction\n   Assessment:\n   Pt cont levophed0.05mcg/kg/min.BP remains on low 100\ns with Map>60, pt\n   hypothermic 95.4-95.6. from rehab growing staph coag neg in blood and\n   klebsiela in urine.\n   Action:\n   Unable to wean levophed, BP dropped to 77-84.put on bear hugger, start\n   on vanco and meropenem\n   Response:\n   Cont levophed, BP remains on 100\ns, temp up to 96.2\n   Plan:\n   Wean levophed, follow temp,cont ABX\n   Hypotension (not Shock)\n   Assessment:\n   Pt on levophed from ED d/t hypotension to 70\ns, unable to give fluids\n   d/.t ?pulmonary edema on CXRAY. Acute hypotension is likely related to\n   sepsis given coag neg staph in blood cultures and ESBL klebsiella in\n   urine culture, which was not yet treated.  Pneumonia also possible\n   source.\n   Action:\n   Unable to wean levophed, BP dropped to 70=-80\n   Response:\n   Cont levoped, bp on low 100\ns, MAP>60\n   Plan:\n   Wean levophed\n   Impaired Skin Integrity\n   Assessment:\n   Pt has stage III ulcer on R flank, was debrided. Rash with erythematous\n   patches:  concerning for urticaria though has received beta-lactams\n   before without reaction.\n   Action:\n   Cx sent and wet to dry dressing put. Given bendaryl 50mg IV\n   Response:\n   Rash improved.\n   Plan:\n   Pt need wound care consult\n   Per with midline, unk [image002.jpg] ni=own date was placed, needs to\n   pul out by IV  RN\n",
+    "info": [
+      {
+        "num_sents": 2,
+        "start": 3,
+        "end": 22,
+        "concept": "Respiratory Failure",
+        "semtypes": ["dsyn"],
+        "cui": "C1145670",
+        "pos_info": "2367/19;394/19",
+        "trigger_word": "respiratory failure"
+      },
+      {
+        "num_sents": 2,
+        "start": 34,
+        "end": 38,
+        "concept": "Chronic Obstructive Airway Disease",
+        "semtypes": ["dsyn"],
+        "cui": "C0024117",
+        "pos_info": "125/4",
+        "trigger_word": "COPD"
+      },
+      {
+        "num_sents": 2,
+        "start": 34,
+        "end": 38,
+        "concept": "Chronic obstructive pulmonary disease of horses",
+        "semtypes": ["dsyn"],
+        "cui": "C3714496",
+        "pos_info": "125/4",
+        "trigger_word": "COPD"
+      },
+      {
+        "num_sents": 4,
+        "start": 2,
+        "end": 16,
+        "concept": "Abnormal mental state",
+        "trigger_word": "altered mental"
+      },
+      {
+        "num_sents": 7,
+        "start": 16,
+        "end": 35,
+        "concept": "Respiratory Failure",
+        "semtypes": ["dsyn"],
+        "cui": "C1145670",
+        "pos_info": "2367/19;394/19",
+        "trigger_word": "respiratory failure"
+      },
+      {
+        "num_sents": 20,
+        "start": 38,
+        "end": 48,
+        "concept": "Bacteremia",
+        "semtypes": ["dsyn"],
+        "cui": "C0004610",
+        "pos_info": "1306/10",
+        "trigger_word": "bacteremic"
+      },
+      {
+        "num_sents": 40,
+        "start": 3,
+        "end": 22,
+        "concept": "Respiratory Failure",
+        "semtypes": ["dsyn"],
+        "cui": "C1145670",
+        "pos_info": "2367/19;394/19",
+        "trigger_word": "Respiratory failure"
+      },
+      {
+        "num_sents": 42,
+        "start": 31,
+        "end": 33,
+        "concept": "Actinic cheilitis",
+        "semtypes": ["dsyn"],
+        "cui": "C0267026",
+        "pos_info": "2442/2",
+        "trigger_word": "AC"
+      },
+      {
+        "num_sents": 51,
+        "start": 3,
+        "end": 24,
+        "concept": "Abnormal mental state",
+        "trigger_word": "Altered mental status"
+      },
+      {
+        "num_sents": 51,
+        "start": 30,
+        "end": 38,
+        "concept": "Delirium",
+        "semtypes": ["mobd"],
+        "cui": "C0011206",
+        "pos_info": "2761/8",
+        "trigger_word": "Delirium"
+      },
+      {
+        "num_sents": 54,
+        "start": 52,
+        "end": 60,
+        "concept": "Seizures",
+        "semtypes": ["sosy"],
+        "cui": "C0036572",
+        "pos_info": "3100/8;2910/8",
+        "trigger_word": "seizures"
+      },
+      {
+        "num_sents": 54,
+        "start": 62,
+        "end": 69,
+        "concept": "Tremor",
+        "semtypes": ["sosy"],
+        "cui": "C0040822",
+        "pos_info": "2920/7",
+        "trigger_word": "shaking"
+      },
+      {
+        "num_sents": 61,
+        "start": 40,
+        "end": 48,
+        "concept": "Seizures",
+        "semtypes": ["sosy"],
+        "cui": "C0036572",
+        "pos_info": "3100/8;2910/8",
+        "trigger_word": "seizure"
+      },
+      {
+        "num_sents": 62,
+        "start": 3,
+        "end": 9,
+        "concept": "Sepsis",
+        "semtypes": ["dsyn"],
+        "cui": "C0243026",
+        "pos_info": "3112/6",
+        "trigger_word": "Sepsis"
+      },
+      {
+        "num_sents": 62,
+        "start": 3,
+        "end": 9,
+        "concept": "Septicemia",
+        "semtypes": ["dsyn"],
+        "cui": "C0036690",
+        "pos_info": "3112/6",
+        "trigger_word": "Sepsis"
+      },
+      {
+        "num_sents": 62,
+        "start": 18,
+        "end": 35,
+        "concept": "Single organ dysfunction",
+        "semtypes": ["sosy"],
+        "cui": "C0349410",
+        "pos_info": "3127/17",
+        "trigger_word": "organ dysfunctio"
+      },
+      {
+        "num_sents": 82,
+        "start": 46,
+        "end": 55,
+        "concept": "Pneumonia",
+        "semtypes": ["dsyn"],
+        "cui": "C0032285",
+        "pos_info": "3864/9",
+        "trigger_word": "Pneumonia"
+      },
+      {
+        "num_sents": 99,
+        "start": 3,
+        "end": 7,
+        "concept": "Exanthema",
+        "semtypes": ["sosy"],
+        "cui": "C0015230",
+        "pos_info": "4345/4",
+        "trigger_word": "Rash"
+      }
+    ],
+    "row_id": 591700,
+    "cg_id": 16818,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Physician",
+    "description": "Physician Resident Admission Note",
+    "index": 8,
+    "subject_id": 67906,
+    "hadm_id": 103986
+  },
+  {
+    "text": "This is a 53 year old female with a hx of alcoholism and binge drinking\n   since her teenage years who presents with liver failure. She initially\n   presented to [**Hospital1 **] from [**10-31**] to [**11-4**] with jaundice, and found to have a\n   Bili of 30 and an INR of 2.3. During that admission she also developed\n   mild ARF, Cr. to 1.4, but it improved to 1.1 at the time of discharge.\n   She was also noted to have a leukocytosis of 16.7 but only small\n   ascites on ultrasound, not tapped. She was evaluated for other forms of\n   liver disease which was negative, including negative hepatitis viral\n   serologies, negative [**Doctor First Name **], and a ceruloplasmin of 29. It was thought to\n   be alcoholic hepatitis and she was started on 40mg PO steroids starting\n   [**11-1**]. She was seen in follow up by Dr. [**Last Name (STitle) 4138**], GI, and she was\n   feeling \"miserable\" with decreased PO intake. On labs drawn then, her\n   bili had worsened to 41 and her creatinine was 2.2 with a BUN of 47.\n   She also had a worsened WBC count to 29K. She was readmitted to [**Hospital1 **],\n   given IVF with no improvement in her renal function and poor [**Hospital1 **]. She\n   is transferred to [**Hospital1 19**] for further evaluation and treatment of\n   hepatorenal syndrome. She underwent an abdominal ultrasound prior to\n   transfer with marking for paracentesis but did not get a paracentesis.\n   .\n   Paracentesis  was done on [**2155-11-15**]. At that time 3L of fluid was\n   removed. The fluid was + for SBP.\n   On [**11-16**] she was transferred to the floor. Today she was transferred\n   back to MICU 6 [**1-4**] lethargy and SOB.\n   On admission the MICU 6 her RR 25-30. HR 120\ns  SR.  EKG was done. I\n   was told she had ekg changes. b/p 117/57.  Potassium level 2.9. KCL\n   40meq 500ml was running. The plan for tonight is for her to have a CT\n   of her ABD  [**1-4**] ascites, and than to have a paracentesis tonight.\n   .H/O altered mental status (not Delirium)\n   Assessment:\n   Patient a/ox2, but also confused. Calling out\n please help\n, talking\n   in her sleep. She made multiple attempts to pull out her foley, piv ,\n   ect. She is encehalopathic [**1-4**] hepatic failure.\n   Action:\n   Soft limb restraints were applied. Ativen 1mg iv given x2.\n   Response:\n   When the restraints are off, she will attempt to pull lines out.\n   Plan:\n   She has prn  lactulouse, rifaximin. I will given her a dose of\n   lactulouse.\n   Renal failure/hepatic failure:\n   Assessment:\n   Patient [**Name (NI) **] is greater than 50ml/hr. her urine is dark [**Location (un) **] in color.\n   She also has hepatic failure [**1-4**] alcoholic hepatitis. Her LFT are high.\n   Her abdomen is large round, and at times she c/o pain. She has two old\n   sites where she has had a paracentesis.  One of the sites is draining\n   yellow fluid. The other site is draining blood in a mod amount. The\n   drainage. Also when she had the paracentesis  on [**11-15**]. The fluid was\n   sent for testing.\n   Action:\n   She went for a abdominal ct.  I placed a collection bag over the\n   paricentesis site, that was draining yellow fluid. A DSD was placed\n   over the site which was draining blood. CBC was drawn. The CT was\n   negative for bleeding, but she has ascites.\n   Response:\n   She is still ozzing from both old paracentesis sites.\n   Plan:\n   She is going the has a paracentesis tomorrow. Also she is on vanco and\n   zosyn for SBP.\n   Respiratory:\n   Assessment:\n   Lung sounds are clear bilat. The lower right lobe has crackles. O2 sat\n   96% on 3l. Ascites noted. Abd is large round.\n   Action:\n   CXR done.\n   Response:\n   No new orders\n   Plan:\n   Paracentesis tomorrow.\n   05:00\n",
+    "info": [
+      {
+        "num_sents": 3,
+        "start": 69,
+        "end": 77,
+        "concept": "Icterus",
+        "trigger_word": "jaundice"
+      },
+      {
+        "num_sents": 5,
+        "start": 8,
+        "end": 11,
+        "concept": "Rheumatic Fever",
+        "trigger_word": "ARF"
+      },
+      {
+        "num_sents": 12,
+        "start": 12,
+        "end": 21,
+        "concept": "Depressed mood",
+        "trigger_word": "miserable"
+      },
+      {
+        "num_sents": 23,
+        "start": 28,
+        "end": 36,
+        "concept": "Lethargy",
+        "trigger_word": "lethargy"
+      },
+      {
+        "num_sents": 23,
+        "start": 41,
+        "end": 44,
+        "concept": "Dyspnea",
+        "trigger_word": "SOB"
+      },
+      {
+        "num_sents": 29,
+        "start": 8,
+        "end": 29,
+        "concept": "Abnormal mental state",
+        "trigger_word": "altered mental status"
+      },
+      {
+        "num_sents": 29,
+        "start": 35,
+        "end": 43,
+        "concept": "Delirium",
+        "trigger_word": "Delirium"
+      },
+      {
+        "num_sents": 31,
+        "start": 27,
+        "end": 35,
+        "concept": "Confusion",
+        "trigger_word": "confused"
+      },
+      {
+        "num_sents": 43,
+        "start": 3,
+        "end": 16,
+        "concept": "Kidney Failure",
+        "trigger_word": "Renal failure"
+      },
+      {
+        "num_sents": 47,
+        "start": 52,
+        "end": 56,
+        "concept": "Pain",
+        "trigger_word": "pain"
+      },
+      {
+        "num_sents": 54,
+        "start": 56,
+        "end": 59,
+        "concept": "Sex Differentiation Disorders",
+        "trigger_word": "DSD"
+      }
+    ],
+    "row_id": 430551,
+    "cg_id": 20115,
+    "caregiver": {
+      "label": "RN",
+      "description": "Read Only"
+    },
+    "category": "Physician",
+    "description": "Physician Resident Admission Note",
+    "index": 9,
+    "subject_id": 80645,
+    "hadm_id": 110437
+  },
+  {
+    "text": "60 y/o M  w/ an extensive PMH including R Hip hemiarthroplasty,\n   diverticulitis, Renal transplant\n01, who presented to ED complaining\n   of worsening SOB x 2 days.  In the ED his vitals were significant for a\n   NBP 193/113, and profound insp/exp wheezes, he received several\n   abluterol/atrovent nebs, and was transferred to the M/SICU for further\n   management of a COPD exacerbation and hypertension.\n   Hypertension, benign\n   Assessment:\n   SBP 110\ns to 170\ns with HR 110\ns to 120\ns throughout shift. Pt. remains\n   on fentanyl 100mcg/kg and propofol 90mcg/kg for sedation/comfort.\n   Action:\n   Pt. given IV hydralazine q6hr along with drips as noted above. Pt.\n   bolused with 100mcg of fentanyl prior to nsg. care.\n   Response:\n   SBP remained labile throughout shift ranging from 110\ns to 170\n   Remained tachycardic throughout shift.\n   Plan:\n   Continue to monitor patient hemodynamic status closely. Continue with\n   propofol, fentanyl and hydralazine as ordered. If pt. remains\n   hypertensive, may need to increase hydralazine dose.\n   Chronic obstructive pulmonary disease (COPD, Bronchitis, Emphysema)\n   with Acute Exacerbation\n   Assessment:\n   Pt. remains intubated and vented on PSV 40% 15/5 with sats at high 90\n   RR in 10\ns. Breath sounds diminished throughout. Some wheezes noted but\n   clear with nebs. Pt. suctioned for copious amounts of thick green\n   sputum.\n   Action:\n   MDIs given as ordered. Mouth care q4hr and prn, suction as needed. Pt.\n   turned Q2h. Sputum sample collected and sent to lab.\n   Response:\n   Pt. remains stable on current vent settings. Ongoing respiratory\n   assessment.\n   Plan:\n   Continue to monitor resp status, wean vent as tolerated, meds ASDIR,\n   F/U with culture results.\n   Renal failure, acute (Acute renal failure, ARF)\n   Assessment:\n   Creatinine trending down. PM creat- 3.9, BUN 72, K-5.7. UOP about 30 to\n   50cc/hr\n   Action:\n   Renal biopsy done yesterday. All meds renally dosed. Cellcept\n   administered as ordered.  Prograf held d/t level. Will recheck level\n   with am labs as med adjusted to daily level. K-excelate x1 dose\n   given.\n   Response:\n   Pt. remains with elevated BUN/Creat, hyperkalemia.\n   Plan:\n   Continue to monitor renal functions, f/u renal recs. f/u biopsy\n   results. AM prograf level pending.\n",
+    "info": [
+      {
+        "num_sents": 4,
+        "start": 16,
+        "end": 19,
+        "concept": "Dyspnea",
+        "semtypes": ["sosy"],
+        "cui": "C0013404",
+        "pos_info": "153/3",
+        "trigger_word": "SOB"
+      },
+      {
+        "num_sents": 5,
+        "start": 38,
+        "end": 45,
+        "concept": "Wheezing",
+        "semtypes": ["sosy"],
+        "cui": "C0043144",
+        "pos_info": "1294/7;250/7",
+        "trigger_word": "wheezes"
+      },
+      {
+        "num_sents": 7,
+        "start": 41,
+        "end": 53,
+        "concept": "Hypertensive disease",
+        "semtypes": ["dsyn"],
+        "cui": "C0020538",
+        "pos_info": "411/12;394/12",
+        "trigger_word": "hypertension"
+      },
+      {
+        "num_sents": 8,
+        "start": 3,
+        "end": 15,
+        "concept": "Hypertensive disease",
+        "semtypes": ["dsyn"],
+        "cui": "C0020538",
+        "pos_info": "411/12;394/12",
+        "trigger_word": "Hypertension"
+      },
+      {
+        "num_sents": 27,
+        "start": 3,
+        "end": 40,
+        "concept": "Chronic Obstructive Airway Disease",
+        "trigger_word": "Chronic obstructive pulmonary disease"
+      },
+      {
+        "num_sents": 27,
+        "start": 42,
+        "end": 46,
+        "concept": "Chronic obstructive pulmonary disease of horses",
+        "semtypes": ["dsyn"],
+        "cui": "C3714496",
+        "pos_info": "1093/4",
+        "trigger_word": "COPD"
+      },
+      {
+        "num_sents": 32,
+        "start": 45,
+        "end": 52,
+        "concept": "Wheezing",
+        "semtypes": ["sosy"],
+        "cui": "C0043144",
+        "pos_info": "1294/7;250/7",
+        "trigger_word": "wheezes"
+      },
+      {
+        "num_sents": 36,
+        "start": 3,
+        "end": 7,
+        "concept": "MAJOR AFFECTIVE DISORDER 2",
+        "semtypes": ["mobd"],
+        "cui": "C1839839",
+        "pos_info": "1406/4",
+        "trigger_word": "MDIs"
+      },
+      {
+        "num_sents": 44,
+        "start": 3,
+        "end": 16,
+        "concept": "Kidney Failure",
+        "semtypes": ["dsyn"],
+        "cui": "C0035078",
+        "pos_info": "1742/13",
+        "trigger_word": "Renal failure"
+      },
+      {
+        "num_sents": 44,
+        "start": 25,
+        "end": 44,
+        "concept": "Pre-renal acute kidney injury",
+        "semtypes": ["dsyn"],
+        "cui": "C3854173",
+        "pos_info": "1764/19",
+        "trigger_word": "Acute renal failure"
+      },
+      {
+        "num_sents": 44,
+        "start": 46,
+        "end": 49,
+        "concept": "Rheumatic Fever",
+        "semtypes": ["dsyn"],
+        "cui": "C0035436",
+        "pos_info": "1785/3",
+        "trigger_word": "ARF"
+      }
+    ],
+    "row_id": 673718,
+    "cg_id": 20706,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Nursing",
+    "description": "Nursing Progress Note",
+    "index": 10,
+    "subject_id": 81475,
+    "hadm_id": 101662
+  },
+  {
+    "text": "HPI:\n   89F transfereed from OSH with a diagnosis of free air on CT scan in the\n   setting of abdominal pain.  She states she has had off and on abdominal\n   pain for the past week and was seen at [**Hospital3 **] 2 days prior to\n   admisison where she was found to have mild cardiac enzyme elevation,\n   and she was admitted there for the past few days.  She was also having\n   abdominal discomfort, all over but focused in the RLQ, and had a CT\n   scan that she states was normal.  She was admitted for cardiac work-up,\n   which was essentially negativem and discharged home this morning\n   feeling well.  When she got home at 11am however, she noticed a severe\n   increase in her RLQ pain that became much more diffuse, [**9-30**], pain\n   with any movement, nausea, no vomiting.  No fevers, +chills.  She\n   returned to [**Hospital3 **] where at CT scan showed a significant amount of\n   free air and extravasation of contrast in ther RLQ.\n   Chief complaint:\n   Abdominal pain\n   PMHx:\n   PMH: PVD - non-healing L 3rd toe ulcer, 1v runoff (peroneal)\n   HTN Hypercholesterolemia bronchitis arthritis glaucoma anxiety\n   chronic back pain  LT [**Name (NI) 10168**] PTA on [**2179-3-22**]\n   .\n   PSH:  remote appy, multiple [**Name (NI) **] PTA/stents\n   .\n   Pulmonary edema\n   Assessment:\n   Patient rhonchi throughout lung fields  suctioning thick tan secretions\n   Action:\n   Patient ventilator settings  weaned from 5/ 10 to [**4-28**]\n   Response:\n   Patient tolerating new settings most of shift\n   Plan:\n   Continue with current plan of care notify team of any changes provide\n   comfort and support as needed.\n   .H/O abdominal pain (including abdominal tenderness)\n   Assessment:\n   Patient vented and sedated abd soft tolerating tube feeding at goal\n   though nasal jejunal tube. Heart rate 70-80\ns no ectopy in 1^st degree\n   block systolic b/p 120\ns-140\ns over 50\ns jp to bulb suction abd\n   incision left open to air foley patent draining clear yellow urine.\n   Action:\n   Patient stooling small to medium amounts of  loose brown stool abd soft\n   + flatus TPN dc\n   Response:\n   Patient  condition remains unchanged\n   Plan:\n   Continue to monitor notify  team if condition changes provide comfort\n   and support as needed.\n   Family meeting to discuss ?  tracheostomy  family will make decision\n   tomorrow.\n",
+    "info": [
+      {
+        "num_sents": 3,
+        "start": 14,
+        "end": 28,
+        "concept": "Abdominal Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0000737",
+        "pos_info": "1631/14;968/14;146/9,159/4;95/14",
+        "trigger_word": "abdominal pain"
+      },
+      {
+        "num_sents": 4,
+        "start": 3,
+        "end": 7,
+        "concept": "Pain",
+        "trigger_word": "pain"
+      },
+      {
+        "num_sents": 11,
+        "start": 71,
+        "end": 75,
+        "concept": "Pain",
+        "trigger_word": "pai"
+      },
+      {
+        "num_sents": 12,
+        "start": 22,
+        "end": 28,
+        "concept": "Nausea",
+        "semtypes": ["sosy"],
+        "cui": "C0027497",
+        "pos_info": "763/6",
+        "trigger_word": "nausea"
+      },
+      {
+        "num_sents": 12,
+        "start": 33,
+        "end": 41,
+        "concept": "Vomiting",
+        "semtypes": ["sosy"],
+        "cui": "C0042963",
+        "pos_info": "774/8",
+        "trigger_word": "vomiting"
+      },
+      {
+        "num_sents": 12,
+        "start": 47,
+        "end": 53,
+        "concept": "Fever",
+        "semtypes": ["sosy"],
+        "cui": "C0015967",
+        "pos_info": "788/6",
+        "trigger_word": "fevers"
+      },
+      {
+        "num_sents": 12,
+        "start": 56,
+        "end": 62,
+        "concept": "Chills",
+        "semtypes": ["sosy"],
+        "cui": "C0085593",
+        "pos_info": "797/6",
+        "trigger_word": "chills"
+      },
+      {
+        "num_sents": 16,
+        "start": 3,
+        "end": 17,
+        "concept": "Abdominal Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0000737",
+        "pos_info": "1631/14;968/14;146/9,159/4;95/14",
+        "trigger_word": "Abdominal pai"
+      },
+      {
+        "num_sents": 19,
+        "start": 3,
+        "end": 6,
+        "concept": "Hypertensive disease",
+        "semtypes": ["dsyn"],
+        "cui": "C0020538",
+        "pos_info": "1059/3",
+        "trigger_word": "HTN"
+      },
+      {
+        "num_sents": 19,
+        "start": 58,
+        "end": 65,
+        "concept": "Anxiety",
+        "semtypes": ["mobd"],
+        "cui": "C0003467",
+        "pos_info": "1114/7",
+        "trigger_word": "anxiet"
+      },
+      {
+        "num_sents": 19,
+        "start": 58,
+        "end": 65,
+        "concept": "Anxiety Disorders",
+        "semtypes": ["mobd"],
+        "cui": "C0003469",
+        "pos_info": "1114/7",
+        "trigger_word": "anxiet"
+      },
+      {
+        "num_sents": 34,
+        "start": 8,
+        "end": 22,
+        "concept": "Abdominal Pain",
+        "semtypes": ["sosy"],
+        "cui": "C0000737",
+        "pos_info": "1631/14;968/14;146/9,159/4;95/14",
+        "trigger_word": "abdominal pain"
+      },
+      {
+        "num_sents": 34,
+        "start": 34,
+        "end": 54,
+        "concept": "Abdominal tenderness",
+        "semtypes": ["sosy"],
+        "cui": "C0232498",
+        "pos_info": "1657/20",
+        "trigger_word": "abdominal tenderness"
+      },
+      {
+        "num_sents": 46,
+        "start": 5,
+        "end": 11,
+        "concept": "Flatulence",
+        "semtypes": ["sosy"],
+        "cui": "C0016204",
+        "pos_info": "2068/6",
+        "trigger_word": "flatus"
+      },
+      {
+        "num_sents": 50,
+        "start": 39,
+        "end": 48,
+        "concept": "Disease",
+        "semtypes": ["dsyn"],
+        "cui": "C0012634",
+        "pos_info": "2183/9",
+        "trigger_word": "condition"
+      }
+    ],
+    "row_id": 710972,
+    "cg_id": 14657,
+    "caregiver": {
+      "label": "RN",
+      "description": "RN"
+    },
+    "category": "Physician",
+    "description": "Intensivist Note",
+    "index": 11,
+    "subject_id": 62835,
+    "hadm_id": 168091
+  }
+]

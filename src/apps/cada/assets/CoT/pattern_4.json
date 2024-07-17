@@ -1,0 +1,23 @@
+{
+  "id": 4,
+  "tokens": [
+    "minute_volume_Low",
+    "minute_volume_High",
+    "inspired_O2_fraction_set_High",
+    "repiratory_rate_High",
+    "Urea Nitrogen_High",
+    "pO2_Low",
+    "glucose_High"
+  ],
+  "sources": [
+    "ventilation_settings_and_measurements",
+    "ventilation_settings_and_measurements",
+    "ventilation_settings_and_measurements",
+    "ventilation_settings_and_measurements",
+    "lab_results",
+    "lab_results",
+    "lab_results"
+  ],
+  "ppv": 1.0,
+  "sensitivity": 0.14285714285714285
+}

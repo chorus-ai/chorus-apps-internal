@@ -1,0 +1,19 @@
+{
+  "id": 10,
+  "tokens": [
+    "respiratory_rate_High->respiratory_rate_High",
+    "Race other than White/Black/Asian/Hispanic",
+    "pO2_Low",
+    "BMI35+",
+    "hematocrit_Low"
+  ],
+  "sources": [
+    "ventilation_settings_and_measurements",
+    "demographics",
+    "lab_results",
+    "demographics",
+    "lab_results"
+  ],
+  "ppv": 0.8679245283018868,
+  "sensitivity": 0.11330049261083744
+}

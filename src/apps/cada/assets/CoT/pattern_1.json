@@ -1,0 +1,23 @@
+{
+  "id": 1,
+  "tokens": [
+    "ph_Low",
+    "white blood cell count_High",
+    "Urea Nitrogen_High",
+    "PT_High",
+    "pO2_Low",
+    "Male",
+    "hematocrit_Low"
+  ],
+  "sources": [
+    "lab_results",
+    "lab_results",
+    "lab_results",
+    "lab_results",
+    "lab_results",
+    "demographics",
+    "lab_results"
+  ],
+  "ppv": 1.0,
+  "sensitivity": 0.14285714285714285
+}
