@@ -1,7 +1,7 @@
 # Table of contents
 
 * [CHoRUS Apps](README.md)
-* [About](about.md)
+* [Features](features.md)
 * [API references](api-references/README.md)
   * [Users](api-references/users/README.md)
     * [Feature](api-references/users/feature.md)
