@@ -1,7 +1,2 @@
----
-icon: house-chimney-user
----
+# Quick start
 
-# CHoRUS Apps
-
-CHoRUS internally built web applications. For now it is private repo due to sensitive configuration details.
