@@ -3,6 +3,9 @@
 ## Getting started
 
 * [Quick start](README.md)
+* [API vs. Raw Data Access](getting-started/api-vs.-raw-data-access.md)
+* [Why Annotate?](getting-started/why-annotate.md)
+* [Marketplace Benefits](getting-started/marketplace-benefits.md)
 
 ## Apps
 
