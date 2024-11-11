@@ -10,8 +10,12 @@
       "description": "Local development server"
     },
     {
+      "url": "http://10.112.133.7:8080/api",
+      "description": "Azure development server"
+    },
+    {
       "url": "https://nursingdatascience.emory.edu/api",
-      "description": "Production server"
+      "description": "AWS production server"
     }
   ],
   "tags": [
@@ -217,7 +221,7 @@
         }
       }
     },
-    "/user": {
+    "/users": {
       "get": {
         "tags": [
           "User"
@@ -254,7 +258,35 @@
         }
       }
     },
-    "/user/{uid}": {
+    "/users/feature/{fid}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "getAllUsersByFeatureId",
+        "summary": "Get all users by feature id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fid",
+            "description": "feature id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{uid}": {
       "get": {
         "tags": [
           "User"
@@ -311,7 +343,7 @@
         }
       }
     },
-    "/user/resetPassword": {
+    "/users/resetPassword": {
       "post": {
         "tags": [
           "User"
@@ -350,7 +382,7 @@
         }
       }
     },
-    "/user/search": {
+    "/users/search": {
       "post": {
         "tags": [
           "User"
@@ -411,7 +443,7 @@
         }
       }
     },
-    "/feature": {
+    "/features": {
       "get": {
         "tags": [
           "Feature"
@@ -450,7 +482,7 @@
         }
       }
     },
-    "/feature/{fid}": {
+    "/features/{fid}": {
       "get": {
         "summary": "Get feature by feature id",
         "tags": [
@@ -535,7 +567,7 @@
         }
       }
     },
-    "/feature/{fid}/users": {
+    "/features/{fid}/users": {
       "get": {
         "summary": "Get specific feature users",
         "tags": [
@@ -589,7 +621,7 @@
         }
       }
     },
-    "/feature/{fid}/users/{uid}": {
+    "/features/{fid}/users/{uid}": {
       "get": {
         "tags": [
           "Feature"
@@ -711,7 +743,7 @@
         }
       }
     },
-    "/bucket": {
+    "/buckets": {
       "get": {
         "tags": [
           "Bucket"
@@ -729,7 +761,7 @@
         }
       }
     },
-    "/bucket/{path}": {
+    "/buckets/{path}": {
       "get": {
         "tags": [
           "Bucket"
@@ -757,7 +789,7 @@
         }
       }
     },
-    "/cada/project": {
+    "/cada/projects": {
       "get": {
         "tags": [
           "cadaProject"
@@ -795,7 +827,7 @@
         }
       }
     },
-    "/cada/project/{pid}": {
+    "/cada/projects/{pid}": {
       "get": {
         "tags": [
           "cadaProject"
@@ -878,7 +910,7 @@
         }
       }
     },
-    "/cada/project/users/{uid}": {
+    "/cada/projects/users/{uid}": {
       "get": {
         "tags": [
           "cadaProject"
@@ -906,7 +938,7 @@
         }
       }
     },
-    "/cada/project/{pid}/users": {
+    "/cada/projects/{pid}/users": {
       "get": {
         "description": "",
         "tags": [
@@ -935,7 +967,7 @@
         }
       }
     },
-    "/cada/project/{pid}/users/{uid}": {
+    "/cada/projects/{pid}/users/{uid}": {
       "get": {
         "tags": [
           "cadaProject"
@@ -1116,7 +1148,7 @@
         }
       }
     },
-    "/cada/event": {
+    "/cada/events": {
       "get": {
         "tags": [
           "cadaEvent"
@@ -1255,7 +1287,7 @@
         }
       }
     },
-    "/cada/event/count": {
+    "/cada/events/count": {
       "get": {
         "tags": [
           "cadaEvent"
@@ -1292,7 +1324,7 @@
         }
       }
     },
-    "/cada/event/assignments": {
+    "/cada/events/assignments": {
       "get": {
         "tags": [
           "cadaEvent"
@@ -1453,7 +1485,7 @@
         }
       }
     },
-    "/cada/event/assignmentsCount": {
+    "/cada/events/assignmentsCount": {
       "get": {
         "tags": [
           "cadaEvent"
@@ -1490,7 +1522,7 @@
         }
       }
     },
-    "/cada/event/annotationValue": {
+    "/cada/events/annotationValue": {
       "post": {
         "tags": [
           "cadaEvent"
@@ -1511,7 +1543,7 @@
         }
       }
     },
-    "/cada/event/adjudicationValue": {
+    "/cada/events/adjudicationValue": {
       "post": {
         "tags": [
           "cadaEvent"
@@ -1532,7 +1564,7 @@
         }
       }
     },
-    "/cada/event/annotators": {
+    "/cada/events/annotators": {
       "post": {
         "tags": [
           "cadaEvent"
@@ -1563,7 +1595,7 @@
         }
       }
     },
-    "/cada/event/adjudicators": {
+    "/cada/events/adjudicators": {
       "post": {
         "tags": [
           "cadaEvent"
@@ -1594,7 +1626,7 @@
         }
       }
     },
-    "/cada/file": {
+    "/cada/files": {
       "get": {
         "tags": [
           "cadaFile"
@@ -1651,7 +1683,7 @@
         }
       }
     },
-    "/cada/file/adibin": {
+    "/cada/files/adibin": {
       "get": {
         "tags": [
           "cadaFile"
@@ -1679,7 +1711,7 @@
         }
       }
     },
-    "/cada/file/pdf": {
+    "/cada/files/pdf": {
       "get": {
         "tags": [
           "cadaFile"
@@ -1707,7 +1739,7 @@
         }
       }
     },
-    "/cada/file/json": {
+    "/cada/files/json": {
       "get": {
         "tags": [
           "cadaFile"
@@ -2096,11 +2128,7 @@
             "description": "sorting order",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "type": "array"
             }
           }
         ],
@@ -2114,163 +2142,21 @@
         }
       }
     },
-    "/omop/person/{pid}": {
+    "/omop/person/concept/{cid}": {
       "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "getPersonById",
-        "summary": "Get person by id",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pid",
-            "description": "person id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/person/ids": {
-      "post": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "getPersonByIds",
-        "summary": "Get person by ids",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "pids": {
-                    "type": "array"
-                  }
-                },
-                "example": {
-                  "pids": [50075, 152730, 153722, 209792]
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/person/search": {
-      "post": {
         "tags": [
           "OMOP"
         ],
         "operationId": "getPeopleByConceptId",
         "summary": "Get people by concept id",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "gender_concept_ids": {
-                    "type": "array"
-                  },
-                  "race_concept_ids": {
-                    "type": "array"
-                  },
-                  "ethnicity_concept_ids": {
-                    "type": "array"
-                  }
-                },
-                "example": {
-                  "gender_concept_ids": [8507],
-                  "race_concept_ids": [8516],
-                  "ethnicity_concept_id": [38003564]
-                }
-              }
-            }
-          }
-        },
         "parameters": [
           {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
+            "in": "path",
+            "name": "cid",
+            "description": "concept id",
+            "required": true,
             "schema": {
               "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
             }
           }
         ],
@@ -2287,46 +2173,32 @@
         }
       }
     },
-    "/omop/visit/detail": {
+    "/omop/observation_period": {
+      "get": {
+        "tags": [
+          "OMOP"
+        ],
+        "operationId": "getAllomopObservationPeriod",
+        "summary": "Get all omopObservationPeriod",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/omop/visitDetail": {
       "get": {
         "tags": [
           "OMOP"
         ],
         "operationId": "getAllVisitDetail",
         "summary": "Get all visitDetail",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -2337,114 +2209,14 @@
         }
       }
     },
-    "/omop/visit/detail/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchVisitDetail",
-        "summary": "Search omopVisitDetail",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/visit/occurrence": {
+    "/omop/visitOccurrence": {
       "get": {
         "tags": [
           "OMOP"
         ],
         "operationId": "getAllVisitOccurrence",
         "summary": "Get all visitOccurrence",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -2455,114 +2227,14 @@
         }
       }
     },
-    "/omop/visit/occurrence/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchVisitOccurrence",
-        "summary": "Search omopVisitOccurrence",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/occurrence/condition": {
+    "/omop/conditionOccurrence": {
       "get": {
         "tags": [
           "OMOP"
         ],
         "operationId": "getAllconditionOccurrence",
         "summary": "Get all omopConditionOccurrence",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -2573,232 +2245,14 @@
         }
       }
     },
-    "/omop/occurrence/condition/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchConditionOccurrence",
-        "summary": "Search omopConditionOccurrence",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/occurrence/procedure": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "getAllProcedureOccurrence",
-        "summary": "Get all omopProcedureOccurrence",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/occurrence/procedure/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchProcedureOccurrence",
-        "summary": "Search omopProcedureOccurrence",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/exposure/drug": {
+    "/omop/drugExposure": {
       "get": {
         "tags": [
           "OMOP"
         ],
         "operationId": "getAlldrugExposure",
         "summary": "Get all omopDrugExposure",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -2809,182 +2263,14 @@
         }
       }
     },
-    "/omop/exposure/drug/search": {
+    "/omop/procedureOccurrence": {
       "get": {
         "tags": [
           "OMOP"
         ],
-        "operationId": "searchDrugExposure",
-        "summary": "Search omopDrugExposure",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/exposure/device": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "getAllDeviceExposure",
-        "summary": "Get all omopDeviceExposure",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/exposure/device/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchDeviceExposure",
-        "summary": "Search omopDeviceExposure",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
+        "operationId": "getAllprocedureOccurrence",
+        "summary": "Get all omopProcedureOccurrence",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -3002,39 +2288,7 @@
         ],
         "operationId": "getAllmeasurement",
         "summary": "Get all omopMeasurement",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -3045,318 +2299,14 @@
         }
       }
     },
-    "/omop/measurement/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchMeasurement",
-        "summary": "Search omopMeasurement",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/observation": {
+    "/omop/observations": {
       "get": {
         "tags": [
           "OMOP"
         ],
         "operationId": "getAllobservations",
         "summary": "Get all omopObservations",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/observation/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchObservation",
-        "summary": "Search omopObservation",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/observation/period": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "getAllobservationPeriods",
-        "summary": "Get all omopObservationPeriods",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/observation/period/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "getAllomopObservationPeriod",
-        "summary": "Get all omopObservationPeriod",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "person_ids",
-            "description": "persion ids",
-            "required": false,
-            "schema": {
-              "type": "array"
-            }
-          },
-          {
-            "in": "query",
-            "name": "start_date",
-            "description": "start date",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "end_date",
-            "description": "end date",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "concept_ids",
-            "description": "concept ids",
-            "required": false,
-            "schema": {
-              "type": "array"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -3372,109 +2322,9 @@
         "tags": [
           "OMOP"
         ],
-        "operationId": "getAllDeaths",
+        "operationId": "getAlldeath",
         "summary": "Get all omopDeath",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/omop/death/search": {
-      "get": {
-        "tags": [
-          "OMOP"
-        ],
-        "operationId": "searchDeath",
-        "summary": "Search omopDeath",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "description": "search string",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "current page",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "pageSize",
-            "description": "page size",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortOrder",
-            "description": "sorting order",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "exactMatch",
-            "description": "exact match",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"

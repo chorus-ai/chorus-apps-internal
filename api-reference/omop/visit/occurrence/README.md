@@ -1,5 +1,5 @@
 # Occurrence
 
-{% swagger src="../../../../.gitbook/assets/swagger (1).json" path="/omop/visit/occurrence" method="get" %}
-[swagger (1).json](<../../../../.gitbook/assets/swagger (1).json>)
+{% swagger src="../../../../.gitbook/assets/swagger.json" path="/omop/visit/occurrence" method="get" %}
+[swagger.json](../../../../.gitbook/assets/swagger.json)
 {% endswagger %}

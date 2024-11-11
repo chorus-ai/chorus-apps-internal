@@ -1,5 +1,5 @@
 # Count
 
-{% swagger src="../../../.gitbook/assets/swagger (1).json" path="/cada/event/count" method="get" %}
-[swagger (1).json](<../../../.gitbook/assets/swagger (1).json>)
+{% swagger src="../../../.gitbook/assets/swagger.json" path="/cada/event/count" method="get" %}
+[swagger.json](../../../.gitbook/assets/swagger.json)
 {% endswagger %}
