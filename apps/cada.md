@@ -111,8 +111,8 @@ npm start
 * [x] 16.1.2 Set up the development environent
 * [x] 16.1.3 Set up the production environment on Emory AWS Cloud
 * [x] 16.1.4 Set up the DNS and Firewall Rule Exception with Emory IT
-* [ ] 16.1.1 Configure cloud environment
-* [ ] 16.1.2 Launch Alpha testing
+* [x] 16.1.1 Configure cloud environment
+* [x] 16.1.2 Launch Alpha testing
 * [x] 16.1.3 API documentation and publishing and expand user authentication routes by adding central SSO and password management
 
 </details>
@@ -148,11 +148,11 @@ npm start
 
 * [x] 16.4.1 Initial design is completed for review and discussion by CHoRUS members
 * [x] 16.4.2 A design is finalized for a concrete first CA and DA project, respectively
-* [ ] 16.4.1 User managment (add, remove, find, search, update, assignRole, removeRole, updateRole, searchRole)
-* [ ] 16.4.2 Project managment (add, remove, find, search, update, assignProjectRle, removeProjetRole, updateProjectRole)
-* [ ] 16.4.3 Assignment managment (assign, removeAssignment, updateAssignment, addAssignmentValues)
-* [ ] 16.4.4 File management (add, remove, find, search, update, assignProjectFile, removeProectFile, updateProjectFile)
-* [ ] 16.4.5 Report management (reortByUser, reportByProject, jobQueue)
+* [x] 16.4.1 User management (add, remove, find, search, update, assignRole, removeRole, updateRole, searchRole)
+* [x] 16.4.2 Project management (add, remove, find, search, update, assignProjectRle, removeProjetRole, updateProjectRole)
+* [x] 16.4.3 Assignment management (assign, removeAssignment, updateAssignment, addAssignmentValues)
+* [x] 16.4.4 File management (add, remove, find, search, update, assignProjectFile, removeProjectFile, updateProjectFile)
+* [ ] 16.4.5 Report management (reportByUser, reportByProject, jobQueue)
 
 </details>
 
@@ -190,7 +190,7 @@ npm start
 
 <summary>16.8 Deploy CADA and the two annotation projects to CHoRUS data platform</summary>
 
-* [ ] 16.8.1 CADA is successfully hosted on CHoRUS data platorm
+* [x] 16.8.1 CADA is successfully hosted on CHoRUS data platform
 
 </details>
 
