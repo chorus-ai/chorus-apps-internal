@@ -1,5 +1,7 @@
 # Quick start
 
+<figure><img src=".gitbook/assets/CHoRUS Cloud App Architecture (1) (2).jpg" alt=""><figcaption><p>CHoRUS App Architecture</p></figcaption></figure>
+
 ### Prerequisites
 
 * [ ] Install necessary software
@@ -40,6 +42,8 @@ npm -v    # Checks npm version
 ```
 
 If the versions display successfully, both **Node.js** and **npm** are installed and ready to use!
+
+Then, install remaining libraries: [Redis](https://redis.io/docs/latest/operate/oss\_and\_stack/install/install-redis/install-redis-on-linux/), [PM2](https://www.npmjs.com/package/pm2), [MUI](https://mui.com/material-ui/getting-started/installation/) and [ExpressJs](https://www.npmjs.com/package/express).&#x20;
 
 ### Contributing
 
