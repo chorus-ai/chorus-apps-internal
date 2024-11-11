@@ -53,7 +53,7 @@ Based on the provided description, here's a breakdown of the features for the in
    * Support for widget layout configuration management.
    * Independent development modules to allow parallel work on different features.
 4. **Local Dataset Integration:**
-   * Ability to integrate and work with an equivalent local dataset from Emory University.
+   * Ability to integrate and work with an equivalent local dataset.
    * Compatibility with the CHoRUS data platform and other datasets.
 5. **Version Releases:**
    * Alpha and beta version releases for preliminary testing.
@@ -110,7 +110,7 @@ Based on the provided description, here's a breakdown of the features for the in
 * [x] 15.1.2 Set up the development environment
 * [x] 15.1.3 Set up the production environment on Emory AWS Cloud
 * [x] 15.1.4 Set up the DNS and Firewall Rule Exception with Emory IT
-* [ ] 15.1.1 Configure cloud environment
+* [x] 15.1.1 Configure cloud environment
 * [ ] 15.1.2 Launch Alpha testing and get feedbacks
 * [x] 15.1.3 Document APT with OpenAPI 3.0 Specification and authenticate AP routes
 
@@ -146,7 +146,7 @@ Based on the provided description, here's a breakdown of the features for the in
 * [x] 15.4.1 Design a search logic, implement auto-suggest mechanism and ensure lazy-loading on results
 * [x] 15.4.2 Design and develop UI and corresponding filtering options
 * [x] 15.4.1 Develp front-end UI
-* [ ] 15.4.2 Develp back-end logic
+* [x] 15.4.2 Develp back-end logic
 
 </details>
 
@@ -158,7 +158,7 @@ Based on the provided description, here's a breakdown of the features for the in
 * [x] 15.5.2 Design and develop user roles and features
 * [x] 15.5.3 Design and develp UI according to the user role and features
 * [x] 15.5.1 Quick prototyping and feedback around patient search and resulting patient list
-* [ ] 15.5.2 Patient search with search history preserved
+* [x] 15.5.2 Patient search with search history preserved
 * [ ] 15.5.3 Setup/develop caching logic in Cloud instance
 
 </details>
@@ -182,9 +182,9 @@ Based on the provided description, here's a breakdown of the features for the in
 * [x] 15.7.1 Design and draft various wireframes
 * [ ] 15.7.2 Select the design based on feedback from CHoRUS team
 * [ ] 15.7.3 Design options and selection will be recorded on the JIRA page
-* [ ] 15.7.4 Implement data retrieval APIs
-* [ ] 15.7.5 Implement and release an alpha version
-* [ ] 15.7.6 Implement and release a beta version
+* [x] 15.7.4 Implement data retrieval APIs
+* [x] 15.7.5 Implement and release an alpha version
+* [x] 15.7.6 Implement and release a beta version
 * [ ] 15.7.7 Implement and release 1.0 version
 * [ ] 15.7.8 Maintain and feature expansion
 
@@ -211,7 +211,7 @@ Based on the provided description, here's a breakdown of the features for the in
 
 <summary>15.10 Design and develop medication order/administration module</summary>
 
-* [ ] 15.10.1 Perform data element mapping to follow OMOP Common Data Model convention on drug exposure
+* [x] 15.10.1 Data element mapping to follow OMOP Common Data Model convention on drug exposure
 * [ ] 15.10.2 Perform ETL strategy as more data pouring in
 
 </details>
@@ -220,7 +220,7 @@ Based on the provided description, here's a breakdown of the features for the in
 
 <summary>15.11 Design and develop vital sign module</summary>
 
-* [ ] 15.11.1 Perform data element mapping to follow OMOP Common Data Model convention using measurement object
+* [x] 15.11.1 Data element mapping to follow OMOP Common Data Model convention using measurement object
 * [ ] 15.11.2 Perform ETL strategy as more ata pouringorm ETL strategy as more data pouring in
 
 </details>
@@ -229,7 +229,7 @@ Based on the provided description, here's a breakdown of the features for the in
 
 <summary>15.12 Design and develop physiological waveform patient monitor</summary>
 
-* [ ] 15.12.1 Perform data element mapping to follow OMOP Common Data Model convention using observation object
+* [x] 15.12.1 Data element mapping to follow OMOP Common Data Model convention using observation object
 * [ ] 15.12.2 Perform ETL strategy as more data pouring in
 
 </details>
@@ -239,7 +239,7 @@ Based on the provided description, here's a breakdown of the features for the in
 <summary>15.13 Design and develop image module</summary>
 
 * [ ] 15.13.1 Custom image table will be designed and developed in the OMOP Common Data Mode
-* [ ] 15.13.2 Perform data element mapping to follow OMOP Common data Model convention in the usom image object
+* [ ] 15.13.2 Data element mapping to follow OMOP Common data Model convention in the using image measurement object
 
 </details>
 
