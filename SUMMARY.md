@@ -6,11 +6,17 @@
 * [API vs. Raw Data Access](getting-started/api-vs.-raw-data-access.md)
 * [Why Annotate?](getting-started/why-annotate.md)
 * [Marketplace Benefits](getting-started/marketplace-benefits.md)
+* [App User Profile](getting-started/app-user-profile.md)
 
 ## Apps
 
 * [IVe](apps/ive.md)
-* [CADA](apps/cada.md)
+* [CADA](apps/cada/README.md)
+  * [User](apps/cada/user.md)
+  * [Project](apps/cada/project.md)
+  * [Files](apps/cada/files.md)
+  * [Models](apps/cada/models.md)
+  * [Reports](apps/cada/reports.md)
 * [M2D](apps/m2d.md)
 
 ***
