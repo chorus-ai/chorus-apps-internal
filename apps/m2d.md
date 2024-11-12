@@ -13,3 +13,4 @@ The Model Meets Data (M2D) application is a web platform designed to facilitate 
 
 <figure><img src="../.gitbook/assets/Screenshot 2024-11-05 at 7.21.11 PM.png" alt=""><figcaption><p>Models page</p></figcaption></figure>
 
+<figure><img src="../.gitbook/assets/Screenshot 2024-11-12 at 1.35.10 PM.png" alt=""><figcaption><p>Model Job Queue</p></figcaption></figure>
