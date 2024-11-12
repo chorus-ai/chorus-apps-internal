@@ -49,9 +49,12 @@ Based on the provided description, here's a breakdown of the features for the in
    * Interactive tools to probe and analyze the displayed data.
    * Annotation and note-taking capabilities for users to mark important findings.
    * Share findings with other users
-3. **Widget Development:**
-   * Support for widget layout configuration management.
-   * Independent development modules to allow parallel work on different features.
+3.  **Widget Development:**
+
+    * Support for widget layout configuration management.
+    * Independent development modules to allow parallel work on different features.
+
+    <figure><picture><source srcset="../.gitbook/assets/Untitled design.gif" media="(prefers-color-scheme: dark)"><img src="../.gitbook/assets/Untitled design.gif" alt=""></picture><figcaption></figcaption></figure>
 4. **Local Dataset Integration:**
    * Ability to integrate and work with an equivalent local dataset.
    * Compatibility with the CHoRUS data platform and other datasets.
