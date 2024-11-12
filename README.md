@@ -1,6 +1,6 @@
 # Quick start
 
-<figure><img src=".gitbook/assets/CHoRUS Cloud App Architecture (1) (2).jpg" alt=""><figcaption><p>CHoRUS App Architecture</p></figcaption></figure>
+<figure><img src=".gitbook/assets/CHoRUS Cloud App Architecture (2).jpg" alt=""><figcaption><p>CHoRUS Apps Architecture</p></figcaption></figure>
 
 ### Prerequisites
 
