@@ -135,8 +135,12 @@ export default function ThemeProvider({ children }) {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          borderRadius: 4,
-          backgroundColor: theme.palette.grey[800],
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+          boxShadow: theme.shadows[3],
+          fontSize: 12,
+          borderRadius: theme.shape.borderRadius,
+          border: `1px solid ${theme.palette.divider}`,
         },
         arrow: {
           color: theme.palette.grey[800],

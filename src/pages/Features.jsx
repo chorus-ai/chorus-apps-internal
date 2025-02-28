@@ -35,7 +35,7 @@ export default function Features() {
     if (features === null) {
       axios({
         method: "get",
-        url: `/api/features`,
+        url: `/api/feature`,
       })
         .then((result) => {
           dispatch({ type: "GET_FEATURES", features: result.data });
@@ -50,7 +50,7 @@ export default function Features() {
     const newUser = deepCopy(user)
     axios({
       method: "post",
-      url: `/api/features/${feature.id}/users`,
+      url: `/api/feature/${feature.id}/users`,
       data: {
         username: user.username,
         role: 'Regular',
@@ -65,7 +65,6 @@ export default function Features() {
         dispatch({
           type: "LOGIN",
           user: newUser,
-          isLoggedIn: true,
         });
         navigate(`/${feature.name}`)
       })

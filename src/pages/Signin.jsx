@@ -60,10 +60,10 @@ async function loginGithub(code) {
 // ----------------------------------------------------------------------
 
 export default function Signin() {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [state, setState] = useState({ message: "", isLoading: false });
-  const [checked, setChecked] = useState(localStorage.getItem("chorusapps-remember") ? true : false);
+  const [checked, setChecked] = useState(localStorage.getItem("apps-remember") ? true : false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -72,9 +72,9 @@ export default function Signin() {
     e.preventDefault();
 
     if (checked) {
-      localStorage.setItem("chorusapps-remember", `${username} ${password}`);
+      localStorage.setItem("apps-remember", `${username} ${password}`);
     } else {
-      localStorage.removeItem("chorusapps-remember");
+      localStorage.removeItem("apps-remember");
     }
 
     const user = await loginUser({
@@ -87,12 +87,12 @@ export default function Signin() {
         message: user.message,
       });
     } else {
-      dispatch({ type: "LOGIN", isLoggedIn: true, user: user });
+      dispatch({ type: "LOGIN", user: user });
       // navigate("/" + Object.values(user.featureUsers)[0].app);
-      if (password === "" || password === "HulabApps123456") {
+      if (password === "" || password === "1234") {
         navigate("/resetpassword")
       } else {
-        navigate("/features");
+        navigate("/ive");
       }
     }
   };
@@ -102,7 +102,10 @@ export default function Signin() {
   }
 
   useEffect(() => {
-    clearLocalStorage(["chorusapps-remember"]);
+    clearLocalStorage(["apps-remember"]);
+  }, []);
+
+  useEffect(() => {
     const handleGithubLogin = async (data) => {
       const user = await loginGithub(data);
       if (user.message) {
@@ -111,7 +114,7 @@ export default function Signin() {
           message: user.message,
         });
       } else {
-        dispatch({ type: "LOGIN", isLoggedIn: true, user: user });
+        dispatch({ type: "LOGIN", user: user });
         navigate("/" + Object.values(user.featureUsers)[0].app);
       }
     };
@@ -126,7 +129,7 @@ export default function Signin() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-    const rememberMe = localStorage.getItem("chorusapps-remember");
+    const rememberMe = localStorage.getItem("apps-remember");
 
     if (rememberMe) {
       setUserName(rememberMe.split(' ')[0])
@@ -146,7 +149,7 @@ export default function Signin() {
           ) : (
             <ContentStyle>
               <Typography variant="h4" gutterBottom>
-                Sign in to CHoRUS Apps
+              Sign in to {process.env.REACT_APP_NAME} Apps
               </Typography>
 
               <Typography sx={{ color: "text.secondary", mb: 5 }}>

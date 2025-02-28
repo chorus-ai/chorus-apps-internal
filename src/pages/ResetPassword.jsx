@@ -34,7 +34,7 @@ function ResetPassword({ setUser }) {
 
     axios({
       method: "post",
-      url: `/api/users/resetPassword`,
+      url: `/api/user/resetPassword`,
       data: {
         username,
         password
@@ -49,7 +49,7 @@ function ResetPassword({ setUser }) {
           setMessage(`Successfully reset! Relocating in ${count} seconds...`);
         } else {
           clearInterval(interval);
-          navigate("/features");
+          navigate("/feature");
         }
       }, 1000);
     }).catch(err => {
@@ -168,7 +168,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setUser: (e) => dispatch({ type: "LOGIN", user: e, isLoggedIn: true }),
+  setUser: (e) => dispatch({ type: "LOGIN", user: e }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword)

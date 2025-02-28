@@ -1,6 +1,6 @@
-import * as React from 'react';
 import { useCallback, useState } from "react";
 import {
+  Box,
   Card,
   CardContent,
   Avatar as MuiAvatar,
@@ -11,6 +11,7 @@ import {
   Button,
   Container,
   Stack,
+  Typography,
   Checkbox,
   FormControlLabel,
   Dialog,
@@ -26,52 +27,7 @@ import axios from "axios";
 import { isEqual, object2list } from "../utils/objectFunctions";
 import { useNavigate } from "react-router-dom";
 
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-
 export default function Profile() {
-  const [value, setValue] = React.useState(0);
-
-  const handleTabChange = (event, newValue) => {
-    setValue(newValue);
-  };
   const user = useSelector((state) => state.main.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -109,7 +65,7 @@ export default function Profile() {
     if (!user.avatar || !isEqual(config, JSON.parse(user.avatar))) {
       axios({
         method: "put",
-        url: `/api/users/${user.id}`,
+        url: `/api/user/${user.id}`,
         data: {
           avatar: JSON.stringify(config),
         },
@@ -163,7 +119,6 @@ export default function Profile() {
         component="main"
         sx={{
           flexGrow: 1,
-          mt: 5,
           py: 10,
         }}
       >
@@ -290,24 +245,6 @@ export default function Profile() {
                       <CardActions sx={{ justifyContent: "flex-end" }}>
                         <Button variant="contained">Update</Button>
                       </CardActions>
-                    {/* <Box sx={{ width: '100%' }}>
-                      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleTabChange} aria-label="basic tabs example" >
-                          <Tab label="Item One" {...a11yProps(0)} />
-                          <Tab label="Item Two" {...a11yProps(1)} />
-                          <Tab label="Item Three" {...a11yProps(2)} />
-                        </Tabs>
-                      </Box>
-                      <TabPanel value={value} index={0}>
-                        Item One
-                      </TabPanel>
-                      <TabPanel value={value} index={1}>
-                        Item Two
-                      </TabPanel>
-                      <TabPanel value={value} index={2}>
-                        Item Three
-                      </TabPanel>
-                    </Box> */}
                     </Card>
                   </form>
                 </Grid>

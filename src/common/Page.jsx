@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 const Page = forwardRef(({ children, title = "", meta, ...other }, ref) => (
   <>
     <Helmet>
-      <title>{`${title} | chorus-apps`}</title>
+      <title>{`${title} | ${process.env.REACT_APP_NAME}-apps`}</title>
       {meta}
     </Helmet>
 
