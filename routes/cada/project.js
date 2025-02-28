@@ -6,6 +6,8 @@ const cadaProjectHandler = require("../../handler/cada/project");
 router.get("/", cadaProjectHandler.findAll);
 // Create a cadaProject
 router.post("/", cadaProjectHandler.create);
+// Create a cadaProject Form
+router.post("/form/:pid/:fid", cadaProjectHandler.createProjectForm);
 // Find a cadaProject by id
 router.get("/:pid", cadaProjectHandler.findById);
 // Update a cadaProject by id
