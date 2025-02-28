@@ -64,15 +64,8 @@ const omopConceptModel = (sequelize, DataTypes) => {
       },
       unit_source_concept_id: {
         type: DataTypes.INTEGER
-      },
-      _source_primary_key: {
-        type: DataTypes.STRING(255)
-      },
-      _source_primary_key_source: {
-        type: DataTypes.STRING(255)
       }
     }, {
-      schema: "omopcdm",
       tableName: 'device_exposure',
       timestamps: false,
       freezeTableName: true

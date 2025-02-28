@@ -1,5 +1,5 @@
 
-const omopConceptModel = (sequelize, DataTypes) => {
+const vocabConceptModel = (sequelize, DataTypes) => {
     return sequelize.define('concept', {
       concept_id: {
         type: DataTypes.INTEGER,
@@ -41,11 +41,11 @@ const omopConceptModel = (sequelize, DataTypes) => {
       invalid_reason: {
         type: DataTypes.CHAR(1)
       }
-    }, {
+    }, { 
       tableName: 'concept',
       timestamps: false,
       freezeTableName: true
     });
   };
   
-module.exports = omopConceptModel;
+module.exports = vocabConceptModel;
