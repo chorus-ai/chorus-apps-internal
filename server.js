@@ -6,14 +6,15 @@ const app = express();
 const db = require("./models");
 const routes = require("./routes");
 const swaggerUI = require("swagger-ui-express");
-const swaggerDocument = require(`./swagger.json`);
+const swaggerDocument = require(`./swagger`);
 const createError = require("http-errors");
+require("dotenv").config();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Initialize and sync both databases
+// Initialize and sync all databases
 Promise.all([
   db.sequelize_app.sync(),
   db.sequelize_omop.sync(),
@@ -42,8 +43,8 @@ app.use(function (err, req, res, next) {
   });
 });
 
-const server = app.listen(8080, () => {
-  console.log("Server is up on port 8080");
+const server = app.listen(process.env.APP_PORT, () => {
+  console.log("Server is up on port " + process.env.APP_PORT);
 });
 
 function handleShutdownGracefully() {
