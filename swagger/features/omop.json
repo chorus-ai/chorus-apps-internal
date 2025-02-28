@@ -1,0 +1,3655 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "CHoRUS Equitable AI OMOP API",
+      "version": "1.0.0"
+    },
+    "tags": [
+      {
+        "name": "OMOP",
+        "description": "Contains clinical data related tables."
+      },
+      {
+        "name": "Vocabulary",
+        "description": "Contains all vocabulary related tables."
+      }
+    ],
+    "paths": {
+      "/omop/concepts": {
+        "get": {
+          "tags": [
+            "Vocabulary"
+          ],
+          "operationId": "getAllConcept",
+          "summary": "Get all concept",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "description": "current page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "pageSize",
+              "description": "page size",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "sortOrder",
+              "description": "sorting order",
+              "required": false,
+              "schema": {
+                "type": "array"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/concepts/search": {
+        "get": {
+          "tags": [
+            "Vocabulary"
+          ],
+          "operationId": "searchConcept",
+          "summary": "Search concept",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "name",
+              "description": "search string",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "page",
+              "description": "current page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "pageSize",
+              "description": "page size",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "exactMatch",
+              "description": "exact match",
+              "required": false,
+              "schema": {
+                "type": "boolean"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/person": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "operationId": "getAllPerson",
+          "summary": "Get all person",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "description": "current page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "pageSize",
+              "description": "page size",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "sortOrder",
+              "description": "sorting order",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "ASC",
+                  "DESC"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/person/{pid}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "operationId": "getPersonById",
+          "summary": "Get person by id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "person id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/person/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "operationId": "getPersonByIds",
+          "summary": "Get person by ids",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pids": {
+                      "type": "array"
+                    }
+                  },
+                  "example": {
+                    "pids": [50075, 152730, 153722, 209792]
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "description": "current page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "pageSize",
+              "description": "page size",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "sortOrder",
+              "description": "sorting order",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "ASC",
+                  "DESC"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/person/search": {
+        "post": {
+          "tags": ["OMOP"],
+          "operationId": "searchPeople",
+          "summary": "Search people by multiple criteria",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "gender_concept_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "race_concept_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "ethnicity_concept_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "start_birth_date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "end_birth_date": {
+                      "type": "string",
+                      "format": "date"
+                    }
+                  },
+                  "example": {
+                    "gender_concept_ids": [8532],
+                    "race_concept_ids": [8516],
+                    "ethnicity_concept_ids": [38003563],
+                    "start_birth_date": "1979-01-01",
+                    "end_birth_date": "1980-01-01"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "description": "current page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "pageSize",
+              "description": "page size",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "sortOrder",
+              "description": "sorting order",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": ["ASC", "DESC"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "person_id": { "type": "integer" },
+                        "gender_concept_id": { "type": "integer" },
+                        "race_concept_id": { "type": "integer" },
+                        "ethnicity_concept_id": { "type": "integer" },
+                        "birth_datetime": { "type": "string", "format": "date-time" }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/visit_occurrence": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "operationId": "getAllVisitOccurrence",
+          "summary": "Get all visitOccurrence",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "description": "current page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "pageSize",
+              "description": "Number of results per page, default=20",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "sortOrder",
+              "description": "Sorting order, default=desc",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of visit_occurrence objects."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/visit_occurrence/search": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "operationId": "searchVisitOccurrences",
+          "summary": "Search omopVisitOccurrence",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "description": "Page number, default=1",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "pageSize",
+              "description": "Number of results per page, default=20",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "sortOrder",
+              "description": "Sorting order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "JSON object containing search parameters. If only one ID is provided, equality is assumed; multiple IDs trigger an IN clause.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Start date for the visit range"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "End date for the visit range"
+                    },
+                    "person_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Array of person IDs"
+                    },
+                    "visit_concept_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Array of visit concept IDs"
+                    },
+                    "provider_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Array of provider IDs"
+                    },
+                    "care_site_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Array of care site IDs"
+                    },
+                    "visit_type_concept_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Array of concept IDs for the visit type"
+                    }
+                  },
+                  "example": {
+                    "start_date": "2020-01-01",
+                    "end_date": "2020-12-31",
+                    "person_ids": [101, 102],
+                    "visit_concept_ids": [9201, 9202],
+                    "provider_ids": [555],
+                    "care_site_ids": [999],
+                    "visit_type_concept_ids": [44818518]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of visit occurrences matching the search criteria."
+            },
+            "404": {
+              "description": "No visit occurrences found for the given search parameters."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/death": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "List all Death records",
+          "description": "Retrieves a paginated list of all death records.",
+          "operationId": "listAllDeathRecords",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sorting order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of death records."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/death/person/{person_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get Death record by Person ID",
+          "description": "Retrieves death record(s) for a specific person_id.",
+          "operationId": "getDeathByPersonId",
+          "parameters": [
+            {
+              "name": "person_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for the person",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Death record(s) for the specified person."
+            },
+            "404": {
+              "description": "No death record found for this person_id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/death/person/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get Death records by multiple Person IDs",
+          "description": "Retrieves death records for an array of person_ids.",
+          "operationId": "getDeathByPersonIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing an array of person_ids to fetch death records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "person_ids": [101, 102, 103]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Death records for the given person_ids."
+            },
+            "404": {
+              "description": "No death records found for the given person_ids."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/death/search": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Search for Death records by various attributes",
+          "description": "Allows filtering by person_id, date, cause concept, etc. Single values => '=', arrays => 'IN'.",
+          "operationId": "searchDeathRecords",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing the attributes to filter death records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "person_id": {
+                      "oneOf": [
+                        { "type": "number" },
+                        { "type": "array", "items": { "type": "number" } }
+                      ],
+                      "description": "Single person_id or array of person_ids."
+                    },
+                    "death_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Exact date of death."
+                    },
+                    "death_type_concept_id": {
+                      "oneOf": [
+                        { "type": "number" },
+                        { "type": "array", "items": { "type": "number" } }
+                      ]
+                    },
+                    "cause_concept_id": {
+                      "oneOf": [
+                        { "type": "number" },
+                        { "type": "array", "items": { "type": "number" } }
+                      ]
+                    },
+                    "cause_source_value": {
+                      "oneOf": [
+                        { "type": "string" },
+                        { "type": "array", "items": { "type": "string" } }
+                      ]
+                    }
+                  },
+                  "example": {
+                    "person_id": 101,
+                    "death_date": "2020-01-01",
+                    "death_type_concept_id": 67890,
+                    "cause_concept_id": 12345,
+                    "cause_source_value": "COVID-19"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of death records matching the search criteria."
+            },
+            "404": {
+              "description": "No death records found matching the criteria."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/drug_exposure": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "List all drug exposures",
+          "description": "Retrieves a paginated list of all drug exposures.",
+          "operationId": "listAllDrugExposures",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sorting order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success. Returns a list of drug exposures."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/drug_exposure/person/{person_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get drug exposures by person_id",
+          "description": "Retrieves drug exposures for a specific person.",
+          "operationId": "getDrugExposuresByPersonId",
+          "parameters": [
+            {
+              "name": "person_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for a person",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of drug exposures for the specified person."
+            },
+            "404": {
+              "description": "No drug exposures found for the person."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/drug_exposure/person/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get drug exposures by multiple person IDs",
+          "description": "Retrieves drug exposures for an array of person IDs.",
+          "operationId": "getDrugExposuresByPersonIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "description": "Object with an array of person IDs",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "person_ids": [101, 102, 103]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "List of drug exposures for the given person IDs."
+            },
+            "404": {
+              "description": "No drug exposures found for the given person IDs."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/drug_exposure/visit/{visit_occurrence_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get drug exposures by visit_occurrence_id",
+          "description": "Retrieves drug exposures for a specific visit occurrence.",
+          "operationId": "getDrugExposuresByVisitOccurrenceId",
+          "parameters": [
+            {
+              "name": "visit_occurrence_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for a visit occurrence",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of drug exposures for the given visit_occurrence_id."
+            },
+            "404": {
+              "description": "No drug exposures found for this visit_occurrence_id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/drug_exposure/visit/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get drug exposures by multiple visit_occurrence_ids",
+          "description": "Retrieves drug exposures for an array of visit_occurrence_ids.",
+          "operationId": "getDrugExposuresByVisitOccurrenceIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "description": "Object with an array of visit_occurrence IDs",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "visit_occurrence_ids": [201, 202, 203]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "List of drug exposures for the given visit_occurrence_ids."
+            },
+            "404": {
+              "description": "No drug exposures found for the given IDs."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/drug_exposure/search": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Search for drug exposures by various attributes",
+          "description": "Allows advanced filtering based on date range, person IDs, drug concept IDs, provider IDs, etc.",
+          "operationId": "searchDrugExposures",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing various attributes to filter drug exposures.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_drug_exposure_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Start date for the drug_exposure_start_date range"
+                    },
+                    "end_drug_exposure_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "End date for the drug_exposure_start_date range"
+                    },
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "drug_concept_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "provider_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "drug_type_concept_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "start_drug_exposure_date": "2020-01-01",
+                    "end_drug_exposure_date": "2020-12-31",
+                    "person_ids": [101, 102],
+                    "drug_concept_ids": [5601, 5602],
+                    "provider_ids": [555],
+                    "visit_occurrence_ids": [201],
+                    "drug_type_concept_ids": [38000177]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of drug_exposure records matching the search criteria."
+            },
+            "404": {
+              "description": "No drug exposures matched the search parameters."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/procedure_occurrence": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "List all procedure occurrences",
+          "description": "Retrieves a paginated list of all procedure occurrences in the dataset.",
+          "operationId": "listAllProcedureOccurrences",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sort order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of procedure_occurrence objects."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/procedure_occurrence/person/{person_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get procedure occurrences by person_id",
+          "description": "Retrieves procedure occurrences for a specific person in the dataset.",
+          "operationId": "getProcedureOccurrencesByPersonId",
+          "parameters": [
+            {
+              "name": "person_id",
+              "in": "path",
+              "description": "The unique person identifier",
+              "required": true,
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of procedure occurrences for the given person ID."
+            },
+            "404": {
+              "description": "No procedure occurrences found for this person_id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/procedure_occurrence/person/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get procedure occurrences by multiple person IDs",
+          "description": "Retrieves procedure occurrences for an array of person IDs.",
+          "operationId": "getProcedureOccurrencesByPersonIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "description": "JSON object containing an array of person IDs to retrieve data for.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "person_ids": [101, 102, 103]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of procedure_occurrence objects for the given person_ids."
+            },
+            "404": {
+              "description": "No procedure occurrences found for these person_ids."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/procedure_occurrence/visit/{visit_occurrence_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get procedure occurrences by visit_occurrence_id",
+          "description": "Retrieves procedure occurrences for a specific visit_occurrence_id.",
+          "operationId": "getProcedureOccurrencesByVisitOccurrenceId",
+          "parameters": [
+            {
+              "name": "visit_occurrence_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for a visit occurrence",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of procedure occurrences for the given visit_occurrence_id."
+            },
+            "404": {
+              "description": "No procedure occurrences found for this visit_occurrence_id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/procedure_occurrence/visit/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get procedure occurrences by multiple visit_occurrence_ids",
+          "description": "Retrieves procedure occurrences for an array of visit_occurrence_ids.",
+          "operationId": "getProcedureOccurrencesByVisitOccurrenceIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "description": "JSON object containing an array of visit_occurrence_ids to retrieve data for.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "visit_occurrence_ids": [201, 202, 203]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of procedure_occurrence objects for the given visit_occurrence_ids."
+            },
+            "404": {
+              "description": "No procedure occurrences found for these visit_occurrence_ids."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/procedure_occurrence/search": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Search procedure occurrences by various attributes",
+          "description": "Allows advanced filtering by date range, person IDs, procedure concept IDs, provider IDs, etc.",
+          "operationId": "searchProcedureOccurrences",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing various attributes to filter procedure occurrences.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_procedure_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Start date for the procedure_date range"
+                    },
+                    "end_procedure_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "End date for the procedure_date range"
+                    },
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "procedure_concept_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "provider_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "procedure_type_concept_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "start_procedure_date": "2020-01-01",
+                    "end_procedure_date": "2020-12-31",
+                    "person_ids": [101, 102],
+                    "procedure_concept_ids": [2101, 2102],
+                    "provider_ids": [505],
+                    "visit_occurrence_ids": [201],
+                    "procedure_type_concept_ids": [38000272]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of procedure_occurrence objects matching the given criteria."
+            },
+            "404": {
+              "description": "No procedure occurrences found matching the search parameters."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/condition_occurrence": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "List all condition occurrences",
+          "description": "Retrieves a paginated list of all condition occurrences in the dataset.",
+          "operationId": "listAllConditionOccurrences",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sort order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success. Returns a list of condition_occurrence objects."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/condition_occurrence/person/{person_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get condition occurrences by person_id",
+          "description": "Retrieves condition occurrences for a specific person.",
+          "operationId": "getConditionOccurrencesByPersonId",
+          "parameters": [
+            {
+              "name": "person_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for a person",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sort order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of condition occurrences for the given person_id."
+            },
+            "404": {
+              "description": "No condition occurrences found for this person_id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/condition_occurrence/person/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get condition occurrences by multiple person IDs",
+          "description": "Retrieves condition occurrences for an array of person IDs.",
+          "operationId": "getConditionOccurrencesByPersonIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "description": "Object containing an array of person IDs.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "person_ids": [101, 102, 103]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of condition_occurrence objects for the given person IDs."
+            },
+            "404": {
+              "description": "No condition occurrences found for those person IDs."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/condition_occurrence/visit/{visit_occurrence_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get condition occurrences by visit_occurrence_id",
+          "description": "Retrieves condition occurrences for a specific visit_occurrence_id.",
+          "operationId": "getConditionOccurrencesByVisitOccurrenceId",
+          "parameters": [
+            {
+              "name": "visit_occurrence_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for a visit occurrence",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sort order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of condition occurrences for the given visit_occurrence_id."
+            },
+            "404": {
+              "description": "No condition occurrences found for this visit_occurrence_id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/condition_occurrence/visit/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get condition occurrences by multiple visit_occurrence_ids",
+          "description": "Retrieves condition occurrences for an array of visit_occurrence_ids.",
+          "operationId": "getConditionOccurrencesByVisitOccurrenceIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "description": "Object containing an array of visit_occurrence_ids.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "visit_occurrence_ids": [201, 202, 203]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of condition_occurrence objects for the given visit_occurrence_ids."
+            },
+            "404": {
+              "description": "No condition occurrences found for these visit_occurrence_ids."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/condition_occurrence/search": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Search condition occurrences by various attributes",
+          "description": "Allows advanced filtering by date range, person IDs, concept IDs, provider IDs, etc.",
+          "operationId": "searchConditionOccurrences",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sort order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing search parameters. If only one ID is provided, it is handled as '='. Multiple IDs use an 'IN' clause.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_condition_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Start date for the condition_start_date range"
+                    },
+                    "end_condition_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "End date for the condition_start_date range"
+                    },
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "condition_concept_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "provider_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "condition_type_concept_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "start_condition_date": "2020-01-01",
+                    "end_condition_date": "2020-12-31",
+                    "person_ids": [101, 102],
+                    "condition_concept_ids": [1301, 1302],
+                    "provider_ids": [777],
+                    "visit_occurrence_ids": [201, 202],
+                    "condition_type_concept_ids": [32020]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "A list of condition_occurrence objects matching the search criteria."
+            },
+            "404": {
+              "description": "No condition occurrences found matching the given criteria."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "List all observations",
+          "description": "Retrieves a paginated list of all observations in the dataset.",
+          "operationId": "listAllObservations",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sorting order, default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of observation objects."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation/person/{person_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get observations by Person ID",
+          "description": "Retrieves observations for a specified person_id.",
+          "operationId": "getObservationsByPersonId",
+          "parameters": [
+            {
+              "name": "person_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for a person",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of observations for this person."
+            },
+            "404": {
+              "description": "No observations found for that person."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation/person/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get observations by multiple person_ids",
+          "description": "Retrieves observations for an array of person_ids.",
+          "operationId": "getObservationsByPersonIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing an array of person_ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "person_ids": [101, 102, 103]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "List of observations for the given person_ids."
+            },
+            "404": {
+              "description": "No observations found for these person_ids."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation/visit/{visit_occurrence_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get observations by visit_occurrence_id",
+          "description": "Retrieves observations for a specified visit_occurrence_id.",
+          "operationId": "getObservationsByVisitOccurrenceId",
+          "parameters": [
+            {
+              "name": "visit_occurrence_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for a visit occurrence",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of observations for this visit_occurrence_id."
+            },
+            "404": {
+              "description": "No observations found for that visit_occurrence_id."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation/visit/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get observations by multiple visit_occurrence_ids",
+          "description": "Retrieves observations for an array of visit_occurrence_ids.",
+          "operationId": "getObservationsByVisitOccurrenceIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing an array of visit_occurrence_ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "visit_occurrence_ids": [201, 202, 203]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "List of observations for the given visit_occurrence_ids."
+            },
+            "404": {
+              "description": "No observations found for these visit_occurrence_ids."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation/search": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Search observations by various attributes",
+          "description": "Allows advanced filtering by date range, numeric values, concept IDs, etc.",
+          "operationId": "searchObservations",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object of attributes for advanced observation search",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Start of the date range"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "End of the date range"
+                    },
+                    "value_as_number": {
+                      "type": "number",
+                      "description": "Numeric value to match exactly"
+                    },
+                    "value_as_concept_id": {
+                      "type": "integer",
+                      "description": "Concept ID for a categorical observation value"
+                    },
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "visit_occurrence_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    },
+                    "observation_concept_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "start_date": "2020-01-01",
+                    "end_date": "2020-12-31",
+                    "value_as_number": 5.0,
+                    "person_ids": [101, 102],
+                    "visit_occurrence_ids": [12345, 67890],
+                    "observation_concept_ids": [3004249, 3027110]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "List of observation objects matching the search criteria."
+            },
+            "404": {
+              "description": "No observations matched the search criteria."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation_period": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "List all observation periods",
+          "description": "Retrieves a paginated list of all observation_period records.",
+          "operationId": "listAllObservationPeriods",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number (default=1)",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page (default=20)",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "Sorting order (asc or desc), default=desc",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of all observation_period records."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation_period/person/{person_id}": {
+        "get": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get observation periods by Person ID",
+          "description": "Retrieves observation periods for a specific person_id.",
+          "operationId": "getObservationPeriodsByPersonId",
+          "parameters": [
+            {
+              "name": "person_id",
+              "in": "path",
+              "required": true,
+              "description": "Unique identifier for the person",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number, default=1",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "Number of results per page, default=20",
+              "schema": { "type": "integer" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observation periods for the given person_id."
+            },
+            "404": {
+              "description": "No observation periods found for this person."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation_period/person/ids": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Get observation periods by array of person_ids",
+          "description": "Retrieves observation periods for multiple person IDs.",
+          "operationId": "getObservationPeriodsByPersonIds",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object containing an array of person_ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "person_ids": {
+                      "type": "array",
+                      "items": { "type": "integer" }
+                    }
+                  },
+                  "example": {
+                    "person_ids": [101, 102, 103]
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Observation periods for the given person IDs."
+            },
+            "404": {
+              "description": "No observation periods found for these person IDs."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/omop/observation_period/search": {
+        "post": {
+          "tags": [
+            "OMOP"
+          ],
+          "summary": "Search for observation periods by date range",
+          "description": "Find observation_period records that overlap with the specified date range (inclusive).",
+          "operationId": "searchObservationPeriods",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Page number, default=1"
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "schema": { "type": "integer" },
+              "description": "Number of results per page, default=20"
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+              },
+              "description": "Sorting order, default=desc"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "JSON object with start_date, end_date",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Start of the date range."
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "End of the date range."
+                    }
+                  },
+                  "example": {
+                    "start_date": "2020-01-01",
+                    "end_date": "2021-01-01"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Observation periods overlapping with the provided date range."
+            },
+            "404": {
+              "description": "No observation periods found within that range."
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+        "/omop/visit_detail": {
+        "get": {
+            "tags": ["OMOP"],
+            "summary": "List All Visit Details",
+            "description": "Retrieves all visit details with optional pagination and sorting.",
+            "operationId": "listAllVisitDetails",
+            "parameters": [
+            {
+                "name": "page",
+                "in": "query",
+                "description": "Page number (default=1)",
+                "schema": {
+                "type": "integer"
+                }
+            },
+            {
+                "name": "pageSize",
+                "in": "query",
+                "description": "Number of results per page (default=20)",
+                "schema": {
+                "type": "integer"
+                }
+            },
+            {
+                "name": "sortOrder",
+                "in": "query",
+                "description": "Sorting order (asc or desc), default=desc",
+                "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+                }
+            }
+            ],
+            "responses": {
+            "200": {
+                "description": "A list of visit_detail objects."
+            },
+            "500": {
+                "description": "Internal Server Error"
+            }
+            }
+        }
+        },
+        "/omop/visit_detail/person/{person_id}": {
+        "get": {
+            "tags": ["OMOP"],
+            "summary": "Get Visit Detail by Person ID",
+            "description": "Retrieves visit details for a specified person_id.",
+            "operationId": "getVisitDetailByPersonId",
+            "parameters": [
+            {
+                "name": "person_id",
+                "in": "path",
+                "required": true,
+                "description": "Unique identifier for the person",
+                "schema": {
+                "type": "integer"
+                }
+            },
+            {
+                "name": "page",
+                "in": "query",
+                "schema": {
+                "type": "integer"
+                },
+                "description": "Page number, default=1"
+            },
+            {
+                "name": "pageSize",
+                "in": "query",
+                "schema": {
+                "type": "integer"
+                },
+                "description": "Number of results per page, default=20"
+            },
+            {
+                "name": "sortOrder",
+                "in": "query",
+                "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+                },
+                "description": "Sorting order, default=desc"
+            }
+            ],
+            "responses": {
+            "200": {
+                "description": "A list of visit_detail objects for the given person_id."
+            },
+            "404": {
+                "description": "No visit details found for this person_id."
+            },
+            "500": {
+                "description": "Internal Server Error"
+            }
+            }
+        }
+        },
+        "/omop/visit_detail/person/ids": {
+        "post": {
+            "tags": ["OMOP"],
+            "summary": "Get Visit Details by Array of Person IDs",
+            "description": "Retrieves visit details for multiple persons using an array of person_ids.",
+            "operationId": "getVisitDetailsByPersonIds",
+            "parameters": [
+            {
+                "name": "page",
+                "in": "query",
+                "schema": {
+                "type": "integer"
+                },
+                "description": "Page number, default=1"
+            },
+            {
+                "name": "pageSize",
+                "in": "query",
+                "schema": {
+                "type": "integer"
+                },
+                "description": "Number of results per page, default=20"
+            },
+            {
+                "name": "sortOrder",
+                "in": "query",
+                "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+                },
+                "description": "Sorting order, default=desc"
+            }
+            ],
+            "requestBody": {
+            "required": true,
+            "description": "Array of person_ids to retrieve corresponding visit details.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "person_ids": {
+                        "type": "array",
+                        "items": { "type": "integer" }
+                    }
+                    },
+                    "example": {
+                    "person_ids": [101, 102, 103]
+                    }
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "A list of visit_detail objects for the given person_ids."
+            },
+            "404": {
+                "description": "No visit details found for these person_ids."
+            },
+            "500": {
+                "description": "Internal Server Error"
+            }
+            }
+        }
+        },
+        "/omop/visit_detail/visit/{visit_occurrence_id}": {
+        "get": {
+            "tags": ["OMOP"],
+            "summary": "Get Visit Detail by Visit Occurrence ID",
+            "description": "Retrieves visit details for a specified visit_occurrence_id.",
+            "operationId": "getVisitDetailByVisitOccurrenceId",
+            "parameters": [
+            {
+                "name": "visit_occurrence_id",
+                "in": "path",
+                "required": true,
+                "description": "Unique identifier for the visit occurrence",
+                "schema": {
+                "type": "integer"
+                }
+            },
+            {
+                "name": "page",
+                "in": "query",
+                "schema": {
+                "type": "integer"
+                },
+                "description": "Page number, default=1"
+            },
+            {
+                "name": "pageSize",
+                "in": "query",
+                "schema": {
+                "type": "integer"
+                },
+                "description": "Number of results per page, default=20"
+            },
+            {
+                "name": "sortOrder",
+                "in": "query",
+                "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+                },
+                "description": "Sorting order, default=desc"
+            }
+            ],
+            "responses": {
+            "200": {
+                "description": "A list of visit_detail objects for the given visit_occurrence_id."
+            },
+            "404": {
+                "description": "No visit details found for this visit_occurrence_id."
+            },
+            "500": {
+                "description": "Internal Server Error"
+            }
+            }
+        }
+        },
+        "/omop/visit_detail/visit/ids": {
+        "post": {
+            "tags": ["OMOP"],
+            "summary": "Get Visit Details by Array of Visit Occurrence IDs",
+            "description": "Retrieves visit details for multiple visit_occurrence_id values.",
+            "operationId": "getVisitDetailsByVisitOccurrenceIds",
+            "parameters": [
+            {
+                "name": "page",
+                "in": "query",
+                "schema": { "type": "integer" },
+                "description": "Page number, default=1"
+            },
+            {
+                "name": "pageSize",
+                "in": "query",
+                "schema": { "type": "integer" },
+                "description": "Number of results per page, default=20"
+            },
+            {
+                "name": "sortOrder",
+                "in": "query",
+                "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+                },
+                "description": "Sorting order, default=desc"
+            }
+            ],
+            "requestBody": {
+            "required": true,
+            "description": "Array of visit_occurrence_ids to retrieve corresponding visit details.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "visit_occurrence_ids": {
+                        "type": "array",
+                        "items": { "type": "integer" }
+                    }
+                    },
+                    "example": {
+                    "visit_occurrence_ids": [201, 202, 203]
+                    }
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "A list of visit_detail objects for the given visit_occurrence_ids."
+            },
+            "404": {
+                "description": "No visit details found for these visit_occurrence_ids."
+            },
+            "500": {
+                "description": "Internal Server Error"
+            }
+            }
+        }
+        },
+        "/omop/visit_detail/search": {
+        "post": {
+            "tags": ["OMOP"],
+            "summary": "Search Visit Details by Attributes",
+            "description": "Searches visit details by various attributes (e.g. date range, person IDs, visit detail type concept IDs).",
+            "operationId": "searchVisitDetails",
+            "parameters": [
+            {
+                "name": "page",
+                "in": "query",
+                "schema": { "type": "integer" },
+                "description": "Page number, default=1"
+            },
+            {
+                "name": "pageSize",
+                "in": "query",
+                "schema": { "type": "integer" },
+                "description": "Number of results per page, default=20"
+            },
+            {
+                "name": "sortOrder",
+                "in": "query",
+                "schema": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+                },
+                "description": "Sorting order, default=desc"
+            }
+            ],
+            "requestBody": {
+            "required": true,
+            "description": "JSON object containing attributes to filter visit details by. If only one ID is provided, equality is used; multiple IDs triggers an IN clause.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "start_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Start of the date range"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "End of the date range"
+                    },
+                    "person_ids": {
+                        "type": "array",
+                        "items": { "type": "integer" }
+                    },
+                    "visit_occurrence_ids": {
+                        "type": "array",
+                        "items": { "type": "integer" }
+                    },
+                    "visit_detail_type_concept_ids": {
+                        "type": "array",
+                        "items": { "type": "integer" }
+                    }
+                    },
+                    "example": {
+                    "start_date": "2020-01-01",
+                    "end_date": "2020-12-31",
+                    "person_ids": [101, 102],
+                    "visit_occurrence_ids": [12345, 67890],
+                    "visit_detail_type_concept_ids": [38004453, 38004454]
+                    }
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "A list of visit_detail objects matching the search criteria."
+            },
+            "404": {
+                "description": "No visit details found matching the given criteria."
+            },
+            "500": {
+                "description": "Internal Server Error"
+            }
+            }
+        }
+        }
+    },
+    "components": {
+      "schemas": {
+        "omopPerson": {
+          "type": "object",
+          "properties": {
+            "person_id": {
+              "type": "integer"
+            },
+            "gender_concept_id": {
+              "type": "integer"
+            },
+            "year_of_birth": {
+              "type": "integer"
+            },
+            "month_of_birth": {
+              "type": "integer",
+              "nullable": true
+            },
+            "day_of_birth": {
+              "type": "integer",
+              "nullable": true
+            },
+            "birth_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "race_concept_id": {
+              "type": "integer"
+            },
+            "ethnicity_concept_id": {
+              "type": "integer"
+            },
+            "location_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "care_site_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "person_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "gender_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "gender_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "race_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "race_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "ethnicity_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "ethnicity_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          "required": [
+            "person_id",
+            "gender_concept_id",
+            "year_of_birth",
+            "race_concept_id",
+            "ethnicity_concept_id"
+          ]
+        },
+        "omopObservationPeriod": {
+          "type": "object",
+          "properties": {
+            "observation_period_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "observation_period_start_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "observation_period_end_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "period_type_concept_id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "observation_period_id",
+            "person_id",
+            "observation_period_start_date",
+            "observation_period_end_date",
+            "period_type_concept_id"
+          ]
+        },
+        "omopVisitDetail": {
+          "type": "object",
+          "properties": {
+            "visit_detail_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "visit_detail_concept_id": {
+              "type": "integer"
+            },
+            "visit_detail_start_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "visit_detail_start_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "visit_detail_end_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "visit_detail_end_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "visit_detail_type_concept_id": {
+              "type": "integer"
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "care_site_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_detail_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "visit_detail_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "admitted_from_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "admitted_from_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "discharged_to_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "discharged_to_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "preceding_visit_detail_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "parent_visit_detail_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_occurrence_id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "visit_detail_id",
+            "person_id",
+            "visit_detail_concept_id",
+            "visit_detail_start_date",
+            "visit_detail_end_date",
+            "visit_detail_type_concept_id",
+            "visit_occurrence_id"
+          ]
+        },
+        "omopVisitOccurrence": {
+          "type": "object",
+          "properties": {
+            "visit_occurrence_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "visit_concept_id": {
+              "type": "integer"
+            },
+            "visit_start_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "visit_start_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "visit_end_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "visit_end_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "visit_type_concept_id": {
+              "type": "integer"
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "care_site_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "visit_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "admitted_from_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "admitted_from_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "discharged_to_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "discharged_to_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "preceding_visit_occurrence_id": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          "required": [
+            "visit_occurrence_id",
+            "person_id",
+            "visit_concept_id",
+            "visit_start_date",
+            "visit_end_date",
+            "visit_type_concept_id"
+          ]
+        },
+        "omopConditionOccurrence": {
+          "type": "object",
+          "properties": {
+            "condition_occurrence_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "condition_concept_id": {
+              "type": "integer"
+            },
+            "condition_start_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "condition_start_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "condition_end_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": true
+            },
+            "condition_end_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "condition_type_concept_id": {
+              "type": "integer"
+            },
+            "condition_status_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "stop_reason": {
+              "type": "string",
+              "maxLength": 20,
+              "nullable": true
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_occurrence_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_detail_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "condition_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "condition_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "condition_status_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            }
+          },
+          "required": [
+            "condition_occurrence_id",
+            "person_id",
+            "condition_concept_id",
+            "condition_start_date",
+            "condition_type_concept_id"
+          ]
+        },
+        "omopDrugExposure": {
+          "type": "object",
+          "properties": {
+            "drug_exposure_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "drug_concept_id": {
+              "type": "integer"
+            },
+            "drug_exposure_start_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "drug_exposure_start_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "drug_exposure_end_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "drug_exposure_end_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "verbatim_end_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": true
+            },
+            "drug_type_concept_id": {
+              "type": "integer"
+            },
+            "stop_reason": {
+              "type": "string",
+              "maxLength": 20,
+              "nullable": true
+            },
+            "refills": {
+              "type": "integer",
+              "nullable": true
+            },
+            "quantity": {
+              "type": "number",
+              "nullable": true
+            },
+            "days_supply": {
+              "type": "integer",
+              "nullable": true
+            },
+            "sig": {
+              "type": "string",
+              "nullable": true
+            },
+            "route_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "lot_number": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_occurrence_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_detail_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "drug_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "drug_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "route_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "dose_unit_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            }
+          },
+          "required": [
+            "drug_exposure_id",
+            "person_id",
+            "drug_concept_id",
+            "drug_exposure_start_date",
+            "drug_exposure_end_date",
+            "drug_type_concept_id"
+          ]
+        },
+        "omopProcedureOccurrence": {
+          "type": "object",
+          "properties": {
+            "procedure_occurrence_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "procedure_concept_id": {
+              "type": "integer"
+            },
+            "procedure_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "procedure_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "procedure_end_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": true
+            },
+            "procedure_end_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "procedure_type_concept_id": {
+              "type": "integer"
+            },
+            "modifier_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "quantity": {
+              "type": "integer",
+              "nullable": true
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_occurrence_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_detail_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "procedure_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "procedure_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "modifier_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            }
+          },
+          "required": [
+            "procedure_occurrence_id",
+            "person_id",
+            "procedure_concept_id",
+            "procedure_date",
+            "procedure_type_concept_id"
+          ]
+        },
+        "omopMeasurement": {
+          "type": "object",
+          "properties": {
+            "measurement_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "measurement_concept_id": {
+              "type": "integer"
+            },
+            "measurement_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "measurement_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "measurement_time": {
+              "type": "string",
+              "maxLength": 10,
+              "nullable": true
+            },
+            "measurement_type_concept_id": {
+              "type": "integer"
+            },
+            "operator_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "value_as_number": {
+              "type": "number",
+              "nullable": true
+            },
+            "value_as_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "unit_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "range_low": {
+              "type": "number",
+              "nullable": true
+            },
+            "range_high": {
+              "type": "number",
+              "nullable": true
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_occurrence_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_detail_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "measurement_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "measurement_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "unit_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "value_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "measurement_event_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "meas_event_field_concept_id": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          "required": [
+            "measurement_id",
+            "person_id",
+            "measurement_concept_id",
+            "measurement_date",
+            "measurement_type_concept_id"
+          ]
+        },
+        "omopObservation": {
+          "type": "object",
+          "properties": {
+            "observation_id": {
+              "type": "integer"
+            },
+            "person_id": {
+              "type": "integer"
+            },
+            "observation_concept_id": {
+              "type": "integer"
+            },
+            "observation_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "observation_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "observation_type_concept_id": {
+              "type": "integer"
+            },
+            "value_as_number": {
+              "type": "number",
+              "nullable": true
+            },
+            "value_as_string": {
+              "type": "string",
+              "maxLength": 60,
+              "nullable": true
+            },
+            "value_as_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "qualifier_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "unit_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "provider_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_occurrence_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "visit_detail_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "observation_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "observation_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "unit_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "qualifier_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "value_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "observation_event_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "obs_event_field_concept_id": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          "required": [
+            "observation_id",
+            "person_id",
+            "observation_concept_id",
+            "observation_date",
+            "observation_type_concept_id"
+          ]
+        },
+        "omopDeath": {
+          "type": "object",
+          "properties": {
+            "person_id": {
+              "type": "integer"
+            },
+            "death_date": {
+              "type": "string",
+              "format": "date",
+              "nullable": false
+            },
+            "death_datetime": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "death_type_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "cause_concept_id": {
+              "type": "integer",
+              "nullable": true
+            },
+            "cause_source_value": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": true
+            },
+            "cause_source_concept_id": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          "required": [
+            "person_id",
+            "death_date"
+          ]
+        }
+      }
+    }
+  }
+  

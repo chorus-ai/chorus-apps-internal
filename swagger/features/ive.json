@@ -1,0 +1,289 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CHoRUS Equitable AI IVe API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "iveSearch",
+      "description": "IVe search management"
+    },
+    {
+      "name": "iveComponent",
+      "description": "IVe component management"
+    },
+    {
+      "name": "iveCohort",
+      "description": "IVe cohort management"
+    }
+  ],
+  "paths": {
+    "/ive/search": {
+      "post": {
+        "tags": [
+          "iveSearch"
+        ],
+        "operationId": "searchPerson",
+        "summary": "Searcyh omopDeath",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "attributes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "statusFilter": {
+                    "type": "string"
+                  },
+                  "exUids": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "searchString": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "number"
+                  }
+                },
+                "example": {
+                  "id": 0,
+                  "attributes": [],
+                  "statusFilter": "",
+                  "exUids": [],
+                  "searchString": "",
+                  "limit": 0
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/ive/component": {
+      "get": {
+        "tags": [
+          "iveComponent"
+        ],
+        "operationId": "findAllComponents",
+        "summary": "Get all components",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "tags": [
+          "iveComponent"
+        ],
+        "operationId": "createComponent",
+        "summary": "Create Component",
+        "parameters": [],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/iveComponent"
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/ive/component/{cid}": {
+      "get": {
+        "tags": [
+          "iveComponent"
+        ],
+        "operationId": "getComponentById",
+        "summary": "Get component by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cid",
+            "description": "component id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "iveComponent"
+        ],
+        "operationId": "updateComponentById",
+        "summary": "Update component detail by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cid",
+            "description": "component id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "iveComponent"
+        ],
+        "operationId": "deleteProject",
+        "summary": "Delete a specific  project ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cid",
+            "description": "component id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/ive/cohort": {
+      "get": {
+        "tags": [
+          "iveCohort"
+        ],
+        "operationId": "getAllCohort",
+        "summary": "Get all cohort",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/ive/cohort/{uid}": {
+      "get": {
+        "tags": [
+          "iveCohort"
+        ],
+        "operationId": "getIveCohortsByUserId",
+        "summary": "Get cohorts by user id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uid",
+            "description": "user id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "iveComponent": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "default": "MyAlarm"
+                },
+                "title": {
+                  "type": "string",
+                  "default": "Neuro Alarm"
+                },
+                "description": {
+                  "type": "string",
+                  "default": "The alarm component"
+                },
+                "attributes": {
+                  "type": "string",
+                  "default": null
+                },
+                "componentType": {
+                  "type": "string",
+                  "description": "Component type",
+                  "enum": [
+                    "alarm",
+                    "waveform",
+                    "vitals",
+                    "demographic"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
