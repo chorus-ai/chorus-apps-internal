@@ -1,4 +1,5 @@
 db = require("../../models");
+const { groupBy } = require("lodash");
 const { Op } = require("sequelize");
 
 const DEFAULT_PAGE_SIZE = 100;
@@ -466,4 +467,24 @@ exports.findAdjudicators = (eIds) => {
     attributes: ["userId"],
     group: ["userId"],
   });
+};
+
+
+exports.findAnnotatorProgress = (pid) => {
+  return db.cadaAnnotation.findAll({
+    include: [
+      {
+        model: db.cadaEvent,
+        where: {
+          cadaProjectId: pid,
+        },
+        required: true,
+      },
+      {
+        model: db.user,
+        attributes: ["id", "firstName", "lastName"],
+      }
+    ],
+    groupBy: ["userId"],
+  })
 };

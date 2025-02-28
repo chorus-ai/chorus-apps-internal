@@ -1,5 +1,6 @@
 db = require("../models");
 const { Op } = require("sequelize");
+const { Sequelize } = require("../models");
 
 /**
  *
@@ -91,9 +92,10 @@ exports.findById = (uid) => {
  */
 exports.findByUsername = (username) => {
   return db.user.findOne({
-    where: {
-      username: username.toLowerCase(),
-    },
+    where: Sequelize.where(
+      Sequelize.fn('lower', Sequelize.col('username')),
+      Sequelize.fn('lower', username)
+    ),
     include: [
       {
         model: db.featureUser,

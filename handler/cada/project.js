@@ -45,6 +45,15 @@ exports.create = (req, res) => {
     });
 };
 
+exports.createProjectForm = async (req, res) => {
+  const { pid, fid } = req.params;
+
+  await cadaProjectServices.createProjectForm(pid, fid);
+
+  res.send({ message: "Created successfully" });
+};
+
+
 exports.findById = (req, res) => {
   const { pid } = req.params;
 

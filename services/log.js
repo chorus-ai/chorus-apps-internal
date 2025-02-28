@@ -64,3 +64,14 @@ exports.findByAction = (action, uid) => {
   }
   return db.log.findAll(search);
 };
+
+/**
+ * 
+ * @param {Object} condition 
+ * @returns 
+ */
+exports.find = (condition) => {
+  return db.log.findAll({
+    where: condition
+  });
+};

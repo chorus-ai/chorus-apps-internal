@@ -217,3 +217,15 @@ exports.findAdjudicators = (req, res) => {
       });
     });
 };
+
+exports.findAnnotatorProgress = (req, res) => {
+  const { pid } = req.params;
+  cadaEventServices
+    .findAnnotatorProgress(pid)
+    .then((result) => res.status(200).json(result))
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message,
+      });
+    });
+};

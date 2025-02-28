@@ -56,3 +56,18 @@ exports.findByAction = (req, res) => {
       });
     });
 };
+
+exports.find = (req, res) => {
+  const { condition } = req.body;
+
+  logService
+    .find(condition)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message,
+      });
+    });
+};
