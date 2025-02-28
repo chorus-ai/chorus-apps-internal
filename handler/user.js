@@ -19,6 +19,27 @@ exports.create = async (req, res) => {
   const { username, email, firstName, lastName, loginType, isBot, fid, role, status } = req.body;
 
   try {
+    // check if user exists
+    const userExists = await userService.findByUsername(username);
+
+    if (userExists) {
+      // check if user is already in the feature
+      if (userExists.dataValues.featureUsers.find(fu => fu.featureId === fid)) {
+        return res.status(400).send({
+          message: "User already exists in the app"
+        });
+      }
+      // if feature doesn't exist
+      await featureService.createFeatureUserRole(
+        fid,
+        userExists.dataValues.id,
+        role,
+        status ?? "Pending"
+      );
+
+      return res.send({ success: 1 });
+    }
+
     const user = await userService
       .create(
         username,
@@ -29,13 +50,15 @@ exports.create = async (req, res) => {
         loginType,
         isBot
       );
+
     await featureService.createFeatureUserRole(
       fid,
       user.dataValues.id,
       role,
       status ?? "Pending"
     );
-    res.send("Successfully created!");
+
+    res.send({ success: 1 });
   } catch (err) {
     res.status(500).send({
       message: err.message,
@@ -79,22 +102,6 @@ exports.findAllByFeatureId = (req, res) => {
     });
 
 };
-
-exports.findUserWithProjectsAndModelsById = (req, res) => {
-  const { uid } = req.params;
-
-  userService
-    .findUserWithProjectsAndModelsbyId(uid)
-    .then((result) => {
-      console.log(result)
-      res.send(result);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message,
-      });
-    });
-}
 
 exports.update = async (req, res) => {
   const { uid } = req.params;

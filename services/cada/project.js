@@ -1,4 +1,4 @@
-db = require("../../models");
+const db = require("../../models");
 const { Op } = require("sequelize");
 
 /**
@@ -50,6 +50,16 @@ exports.create = (
  */
 exports.findById = (pid) => {
   return db.cadaProject.findOne({
+    include: [
+      {
+        model: db.form,
+        required: false,
+        through: {
+          model: db.cadaProjectForm,
+          attributes: [],
+        },
+      },
+    ],
     where: {
       id: pid,
     },
@@ -63,6 +73,16 @@ exports.findById = (pid) => {
  */
 exports.findByIds = (pids) => {
   return db.cadaProject.findAll({
+    include: [
+      {
+        model: db.form,
+        required: false,
+        through: {
+          model: db.cadaProjectForm,
+          attributes: [],
+        }
+      },
+    ],
     where: {
       id: {
         [Op.in]: pids,
@@ -162,6 +182,19 @@ exports.createProjectUserRole = (pid, uid, role) => {
     cadaProjectId: pid,
     userId: uid,
     role: role,
+  });
+};
+
+/**
+ * 
+ * @param {Number} pid 
+ * @param {Number} fid 
+ * @returns 
+ */
+exports.createProjectForm = (pid, fid) => {
+  return db.cadaProjectForm.create({
+    cadaProjectId: pid,
+    formId: fid,
   });
 };
 

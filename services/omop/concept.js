@@ -47,31 +47,14 @@ exports.searchByName = (name, page, pageSize, exactMatch = false) => {
     throw new TypeError('Name must be a string');
   }
 
-  const terms = name.trim().split(/\s+/); // Ensures name is trimmed and split into terms safely
-  const fullName = name.toLowerCase();
+  const searchString = name.toLowerCase().trim();
 
-  const conditions = exactMatch ? { [Op.eq]: fullName } : {
-    [Op.or]: [
-      { [Op.like]: `%${fullName}%` }, // Full name condition for fuzzy search
-      ...terms.map(term => ({ [Op.like]: `%${term.toLowerCase()}%` })) // Conditions for each term
-    ]
-  };
-
-  const orderCondition = exactMatch ? null : Sequelize.literal(
-    `CASE
-      WHEN LOWER(concept_name) = '${fullName}' THEN 1
-      WHEN LOWER(concept_name) LIKE '%${fullName}%' THEN 2
-      ${terms.map(term => `WHEN LOWER(concept_name) LIKE '%${term.toLowerCase()}%' THEN 3`).join(' ')}
-      ELSE 4
-    END`
-  );
+  const conditions = exactMatch ? { [Op.eq]: searchString } : { [Op.like]: `%${searchString}%` };
 
   return db.concept.findAll({
-    order: [[orderCondition || 'concept_id', 'ASC']],
     offset: page >= 1 ? (page - 1) * pageSize : 0,
     limit: pageSize > 0 && pageSize <= 1000 ? pageSize : DEFAULT_PAGE_SIZE,
-    where: {
-      concept_name: conditions
-    }
+    where: { concept_name: conditions }
   });
 };
+
