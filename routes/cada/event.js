@@ -26,4 +26,6 @@ router.post("/annotators", cadaEventHandler.findAnnotators);
 
 router.post("/adjudicators", cadaEventHandler.findAdjudicators);
 
+router.get("/progress/:pid", cadaEventHandler.findAnnotatorProgress);
+
 module.exports = router;

@@ -11,4 +11,6 @@ router.get("/findById/:lid", logHandler.findById);
 
 router.post("/findByAction", logHandler.findByAction);
 
+router.post("/find", logHandler.find);
+
 module.exports = router;

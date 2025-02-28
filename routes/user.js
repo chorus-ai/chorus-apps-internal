@@ -5,7 +5,7 @@ const userHandler = require("../handler/user.js");
 // Get all Users
 router.get("/", userHandler.findAll);
 // Get all feature Users
-router.get("/feature/:fid", userHandler.findAllByFeatureId);
+// router.get("/feature/:fid", userHandler.findAllByFeatureId);
 // Create a User
 router.post("/", userHandler.create);
 // Find a User by id
