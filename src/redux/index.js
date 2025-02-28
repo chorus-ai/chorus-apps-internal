@@ -1,32 +1,26 @@
 import { legacy_createStore as createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import cadaReducer from './cada';
-import iveReducer from './ive';
 import deepCopy from '../utils/deepcopy';
 import { clearLocalStorage } from '../utils/localStorage';
 
 const mainReducer = function (
   state = {
-    isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn")) || false,
-    user: JSON.parse(localStorage.getItem("user")) || null,
+    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
   },
   action
 ) {
   switch (action.type) {
     case "LOGIN": {
-      localStorage.setItem("isLoggedIn", JSON.stringify(action.isLoggedIn))
       localStorage.setItem("user", JSON.stringify(action.user))
       return {
         ...state,
-        isLoggedIn: action.isLoggedIn,
         user: action.user
       };
     }
     case "LOGOUT": {
-      clearLocalStorage(["chorusapps-remember"])
+      clearLocalStorage(["apps-remember"])
       return {
         ...state,
-        isLoggedIn: false,
         user: null
       };
     }
@@ -52,10 +46,29 @@ const mainReducer = function (
   }
 };
 
+const context = require.context('../apps', true, /redux\/index\.js$/);
+const dynamicAppReducers = {};
+
+/**
+ * context.keys() => array of matched files, e.g.:
+ *   ["./cada/redux/index.js", "./m2d/redux/index.js", ...]
+ */
+context.keys().forEach((filePath) => {
+  // Import the reducer module
+  const module = context(filePath);
+  const reducer = module.default || module;
+
+  // Example filePath: "./cada/redux/index.js"
+  // Split on '/' => [".", "cada", "redux", "index.js"]
+  const pathParts = filePath.split('/');
+  const appName = pathParts[1];
+
+  dynamicAppReducers[appName] = reducer;
+});
+
 const rootReducer = combineReducers({
   main: mainReducer,
-  cada: cadaReducer,
-  ive: iveReducer
+  ...dynamicAppReducers,
 });
 
 export default createStore(

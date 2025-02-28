@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // export const getProjects = (setLoading) => async (dispatch) => {
-//   const url = "/api/cada/projects";
+//   const url = "/api/cada/project";
 //   setLoading(true);
 
 //   try {
@@ -36,7 +36,7 @@ import axios from "axios";
 
 
 export const getProjects = () => (dispatch) => {
-  let url = `/api/cada/projects`;
+  let url = `/api/cada/project`;
   console.log(url);
   axios({ method: "get", url })
     .then((response) => {
@@ -57,8 +57,36 @@ export const getProjects = () => (dispatch) => {
     });
 };
 
+export const getUserProjects = (uid) => (dispatch) => {
+  let url = `/api/cada/project/users/${uid}`;
+  console.log(url);
+
+  axios({ method: "get", url })
+    .then((response) => {
+      let proj = {};
+      let roles = [];
+      response.data.map((p) => {
+        proj[p.id] = p;
+        roles = roles.concat(p.cadaProjectUsers);
+      });
+      dispatch({ type: "GET_USER_PROJECTS", userProjects: proj });
+      dispatch({ type: "GET_USER_ROLES", userRoles: roles });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: "UPDATE_ALERT",
+        alert: { message: err, severity: "warning" },
+      });
+      setTimeout(() => {
+        dispatch({ type: "RESET_ALERT" });
+      }, 3000);
+    }
+    );
+}
+
 export const addProject = (payload) => (dispatch) => {
-  let url = `/api/cada/projects`;
+  let url = `/api/cada/project`;
   console.log(url, payload);
   axios({ method: "post", url, data: payload })
     .then((response) => {
@@ -84,7 +112,7 @@ export const addProject = (payload) => (dispatch) => {
 };
 
 export const updateProject = (id, payload) => (dispatch) => {
-  let url = `/api/cada/projects/${id}`;
+  let url = `/api/cada/project/${id}`;
   console.log(url);
   axios({ method: "put", url, data: payload })
     .then((response) => {
@@ -110,7 +138,7 @@ export const updateProject = (id, payload) => (dispatch) => {
 };
 
 export const removeProject = (id) => (dispatch) => {
-  let url = `/api/cada/projects/${id}`;
+  let url = `/api/cada/project/${id}`;
   console.log(url);
   axios({ method: "delete", url })
     .then((response) => {
@@ -136,7 +164,7 @@ export const removeProject = (id) => (dispatch) => {
 };
 
 export const getUsers = (payload) => (dispatch) => {
-  let url = `/api/users/search`;
+  let url = `/api/user/search`;
   console.log(url, payload);
   axios({ method: "post", url, data: payload })
     .then((response) => {
@@ -158,7 +186,7 @@ export const getUsers = (payload) => (dispatch) => {
 };
 
 export const addUser = (payload) => (dispatch) => {
-  let url = `/api/features/1/users`;
+  let url = `/api/feature/1/users`;
   console.log(url, payload);
 
   axios({ method: "post", url, data: payload })
@@ -188,7 +216,7 @@ export const addUser = (payload) => (dispatch) => {
 };
 
 export const updateUser = (payload) => (dispatch) => {
-  let url = `/api/features/1/users`;
+  let url = `/api/feature/1/users`;
   console.log(url, payload);
 
   axios({ method: "post", url, data: payload })
@@ -218,7 +246,7 @@ export const updateUser = (payload) => (dispatch) => {
 };
 
 export const removeUser = (userId) => (dispatch) => {
-  let url = `/api/features/1/users/${userId}`;
+  let url = `/api/feature/1/users/${userId}`;
   console.log(url);
   axios
     .delete(url)
@@ -248,7 +276,7 @@ export const removeUser = (userId) => (dispatch) => {
 };
 
 export const getEventsCount = (projectId) => (dispatch) => {
-  let url = `/api/cada/events/count?pid=${projectId}`;
+  let url = `/api/cada/event/count?pid=${projectId}`;
   console.log(url);
   axios({ method: "get", url })
     .then((response) => {
@@ -271,10 +299,11 @@ export const getEventsCount = (projectId) => (dispatch) => {
 };
 
 export const getBuckets = (path) => (dispatch) => {
-  let url = `/api/buckets/${path}`;
+  let url = `/api/bucket/${path}`;
   console.log(url);
   axios({ method: "get", url })
     .then((response) => {
+      console.log(response)
       dispatch({
         type: "GET_BUCKETS",
         buckets: response.data,
@@ -294,7 +323,7 @@ export const getBuckets = (path) => (dispatch) => {
 };
 
 export const removeProjectUser = (payload) => (dispatch) => {
-  let url = `/api/cada/projects/${payload.cadaProjectId}/users/${payload.userId}?role=${payload.role}`;
+  let url = `/api/cada/project/${payload.cadaProjectId}/users/${payload.userId}?role=${payload.role}`;
   console.log(url);
   axios
     .delete(url)
@@ -324,8 +353,8 @@ export const removeProjectUser = (payload) => (dispatch) => {
     });
 };
 
-export const getAnnotationEvents = (id, userId, sinceId) => (dispatch) => {
-  let url = `/api/cada/events/assignments?pid=${id}&uid=${userId}&completed=0&sinceId=${sinceId}`;
+export const getAnnotationEvents = (id, userId, sinceId, showCompleted = false) => (dispatch) => {
+  let url = `/api/cada/event/assignments?pid=${id}&uid=${userId}${showCompleted ? '' : '&completed=0'}&sinceId=${sinceId}`;
   console.log(url);
 
   axios({ method: "get", url })
@@ -350,10 +379,11 @@ export const getAnnotationEvents = (id, userId, sinceId) => (dispatch) => {
 };
 
 export const getAdjudicationEvents = (projectId) => (dispatch) => {
-  let url = `/api/cada/events?pid=${projectId}&completed=1`;
+  let url = `/api/cada/event?pid=${projectId}&completed=1`;
   console.log(url);
   axios({ method: "get", url })
     .then((response) => {
+      console.log(response.data)
       dispatch({
         type: "GET_ADJ_EVENTS",
         projectId: projectId,
@@ -373,7 +403,7 @@ export const getAdjudicationEvents = (projectId) => (dispatch) => {
 };
 
 export const getAnnotators = (eIds) => (dispatch) => {
-  let url = `/api/cada/events/annotators`;
+  let url = `/api/cada/event/annotators`;
   console.log(url, eIds);
   axios({ method: "post", url, data: eIds })
     .then((response) => {
@@ -396,7 +426,7 @@ export const getAnnotators = (eIds) => (dispatch) => {
 
 export const updateAnnotation =
   (projectId, eventId, completed, annotation) => (dispatch) => {
-    let url = `/api/cada/events/annotationValue`;
+    let url = `/api/cada/event/annotationValue`;
     console.log(url, projectId, eventId, completed, annotation);
     axios({ method: "post", url, data: annotation })
       .then((response) => {
@@ -430,10 +460,45 @@ export const updateAnnotation =
       });
   };
 
+export const getAnnotatorProgress = (pid, excludeIds = []) => (dispatch) => {
+  let url = `/api/cada/event/progress/${pid}`;
+  console.log(url);
+
+  axios({ method: "get", url })
+    .then((response) => {
+      const progress = {};
+      response.data.forEach((p) => {
+        if (!excludeIds.includes(p.user.id)) {
+          if (progress?.[p.userId]) {
+            progress[p.userId].push(p);
+            return;
+          }
+          progress[p.userId] = [p];
+        }
+      });
+
+      dispatch({
+        type: "UPDATE_ANNOTATOR_PROGRESS",
+        projectId: pid,
+        progress: progress,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: "UPDATE_ALERT",
+        alert: { message: err, severity: "warning" },
+      });
+      setTimeout(() => {
+        dispatch({ type: "RESET_ALERT" });
+      }, 3000);
+    }
+    );
+};
+
 export const updateAdjudication =
   (projectId, eventId, userId, completed, adjudication) => (dispatch) => {
-    let url = `/api/cada/events/adjudicationValue`;
-    console.log(url, adjudication);
+    let url = `/api/cada/event/adjudicationValue`;
     axios({ method: "post", url, data: adjudication })
       .then((response) => {
         dispatch({
