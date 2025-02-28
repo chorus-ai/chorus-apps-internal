@@ -1,4 +1,4 @@
-# Getting Started with CHoRUS Apps
+# Getting Started 
 
 ## How to run
 
