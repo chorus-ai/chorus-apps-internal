@@ -135,7 +135,7 @@ function Signup(props) {
               setMessage(`Successfully signed up! Relocating in ${count} seconds...`);
             } else {
               clearInterval(interval);
-              navigate("/features");
+              navigate("/ive");
             }
           }, 1000);
         } else {
