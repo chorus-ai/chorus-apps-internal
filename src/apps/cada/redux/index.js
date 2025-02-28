@@ -4,6 +4,7 @@ const initialState = {
   userProjects: {},
   userRoles: [],
   annotators: {},
+  annotatorProgress: {},
   adjudicators: {},
   files: {},
   ann_events: {},
@@ -143,44 +144,77 @@ export default function cadaReducer(state = initialState, action) {
     }
     case "UPDATE_ANNOTATION": {
       console.log(action);
-      let temp = Object.assign({}, state.ann_events[action.projectId]);
-      let targetObj = {}
+    
+      // Create a deep copy of the annotation events for the specific project
+      let temp = { ...state.ann_events[action.projectId] };
+    
+      // Find and update the annotation object
+      let targetObj = null;
+    
       for (const isCompleted in temp) {
         if (temp.hasOwnProperty(isCompleted)) {
-          const eventObjects = temp[isCompleted];
-          for (const obj of eventObjects) {
+          const eventObjects = temp[isCompleted].map(event => ({ ...event }));
+    
+          for (let i = 0; i < eventObjects.length; i++) {
+            let obj = eventObjects[i]
+    
             if (obj.id === action.eventId) {
-              targetObj = obj; 
-              obj.cadaAnnotations[0].cadaAnnotationValues.push(action.annotation);
+              // Update the object in place
+              targetObj = { ...obj }; // Make a copy of the object to update
+    
+              targetObj.cadaAnnotations = obj.cadaAnnotations.map(annotation => ({
+                ...annotation,
+                cadaAnnotationValues: [
+                  ...annotation.cadaAnnotationValues,
+                  action.annotation,
+                ],
+              }));
+    
+              // Replace the object in the current array
+              eventObjects[i] = targetObj;
+              temp[isCompleted] = eventObjects; // Update the temp object
               break;
             }
           }
         }
       }
-
-      //update the count
-      let annCount = state.ann_events_count[action.projectId];
-      if (action.completed === false ) {
-        annCount[0] = annCount[0] - 1;
-        annCount[1] = annCount[1] + 1;
-      }
-
+    
+      // If the action is not completed, move the object between arrays
+      let annCount = { ...state.ann_events_count[action.projectId] }; 
+    
       if (action.completed === false) {
-        temp[false] =  temp[false].filter((d) => d.id !== action.eventId);
-        temp[true].push(targetObj);
+        annCount[0] = annCount[0] - 1; // Decrement incomplete count
+        annCount[1] = annCount[1] + 1; // Increment complete count
+    
+        // Remove the target object from the `false` array
+        temp[false] = temp[false].filter((d) => d.id !== action.eventId);
+    
+        // Only add to the `true` array if it's not already present there
+        if (!temp[true].some((d) => d.id === action.eventId)) {
+          temp[true] = [...temp[true], targetObj]; 
+        }
       }
-
+    
+        return {
+          ...state,
+          ann_events: {
+            ...state.ann_events,
+            [action.projectId]: temp,
+          },
+          ann_events_count: {
+            ...state.ann_events_count,
+            [action.projectId]: annCount,
+          },
+        };
+    }
+    case "UPDATE_ANNOTATOR_PROGRESS": {
+      console.log(action);
       return {
         ...state,
-        ann_events: {
-          ...state.ann_events,
-          [action.projectId]: temp,
-          ann_events_count:
-          {
-            ...state.ann_events_count,
-            [action.projectId]: annCount
-          }
-        }
+        annotatorProgress: {
+          ...state.annotatorProgress,
+          [action.projectId]: action.progress,
+        },
       };
     }
     case "UPDATE_ADJUDICATION": {
