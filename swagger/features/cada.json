@@ -1,0 +1,1501 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "CHoRUS Equitable AI CADA API",
+      "version": "1.0.0"
+    },
+    "tags": [
+      {
+        "name": "cadaProject",
+        "description": "CADA project management"
+      },
+      {
+        "name": "cadaEvent",
+        "description": "CADA Eevent management"
+      },
+      {
+        "name": "cadaFile",
+        "description": "CADA file management"
+      }
+    ],
+    "paths": {
+      "/cada/project": {
+        "get": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "findAllProjects",
+          "summary": "Get all projects",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "post": {
+          "description": "",
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "createProject",
+          "summary": "Create project",
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/cadaProject"
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/project/{pid}": {
+        "get": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "getProjectById",
+          "summary": "Get project by id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "updateProjectById",
+          "summary": "Update project detail by id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/cadaProject"
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "deleteProject",
+          "summary": "Delete a specific  project ",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/project/users/{uid}": {
+        "get": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "getProjectUserRolesByUserId",
+          "summary": "Get all projectUser by user id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/project/{pid}/users": {
+        "get": {
+          "description": "",
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "getAllProjectUsers",
+          "summary": "Get all projectUsers",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/project/{pid}/users/{uid}": {
+        "get": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "getProjectUser",
+          "summary": "Get all project roles for a specific user",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "path",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "createProjectUser",
+          "summary": "Create new projectUser",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "path",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "role",
+              "description": "project user role",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "annotator",
+                  "adjudicator"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "updateProjectUser",
+          "summary": "Update projectUser by project id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "path",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "role",
+              "description": "project user role",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "annotator",
+                  "adjudicator"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "cadaProject"
+          ],
+          "operationId": "deleteProjectUser",
+          "summary": "Delete a specific user's project role",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "path",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "role",
+              "description": "project user role",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "annotator",
+                  "adjudicator"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event": {
+        "get": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "operationId": "getProjectEventsById",
+          "summary": "Get project events by id",
+          "parameters": [
+            {
+              "name": "pid",
+              "in": "query",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "completed",
+              "in": "query",
+              "description": "completed",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "sinceId",
+              "in": "query",
+              "description": "since id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "page size",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "sort order",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Assign events for project",
+          "operationId": "createEvents",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Array of binfile Ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Delete events",
+          "description": "",
+          "operationId": "deleteEvents",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "eid",
+              "description": "event id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event/count": {
+        "get": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "operationId": "countEvents",
+          "summary": "Count events",
+          "parameters": [
+            {
+              "name": "pid",
+              "in": "query",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "completed",
+              "in": "query",
+              "description": "only annotated events count return if provided ",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event/assignments": {
+        "get": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "operationId": "getUserAssignments",
+          "summary": "Get user's assigned annotation",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "completed",
+              "in": "query",
+              "description": "completed status",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "sinceId",
+              "in": "query",
+              "description": "since id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "page",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "pageSize",
+              "in": "query",
+              "description": "page size",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "description": "sort order",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Assign annotation for user",
+          "operationId": "createAnnotation",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Array of events Ids ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Delete assigned annotation",
+          "description": "",
+          "operationId": "deleteAnnotation",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Array of events Ids ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event/assignmentsCount": {
+        "get": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "operationId": "getUserAssignmentsCount",
+          "summary": "Get user's assigned annotations count",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "pid",
+              "description": "project id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "uid",
+              "description": "user id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event/annotationValue": {
+        "post": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Create annotation value",
+          "operationId": "createAnnotationValue",
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/cadaAnnotationValue"
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event/adjudicationValue": {
+        "post": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Create adjudication value",
+          "operationId": "createAdjudicationValue",
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/cadaAdjudicationValue"
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event/annotators": {
+        "post": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Find annotators by event ids",
+          "operationId": "findAnnotatorsByEventIds",
+          "parameters": [],
+          "requestBody": {
+            "description": "Array of events Ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/event/adjudicators": {
+        "post": {
+          "tags": [
+            "cadaEvent"
+          ],
+          "summary": "Find adjudicators by event ids",
+          "operationId": "findAdjudicatorsByEventIds",
+          "parameters": [],
+          "requestBody": {
+            "description": "Array of events Ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/file/adibin": {
+        "get": {
+          "tags": [
+            "cadaFile"
+          ],
+          "operationId": "processAdibin",
+          "summary": "Process adibin file",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "filename",
+              "description": "file name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/file/pdf": {
+        "get": {
+          "tags": [
+            "cadaFile"
+          ],
+          "operationId": "processPDF",
+          "summary": "Process PDF file",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "filename",
+              "description": "file name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/file/json": {
+        "get": {
+          "tags": [
+            "cadaFile"
+          ],
+          "operationId": "processJSON",
+          "summary": "Process JSON file",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "filename",
+              "description": "file name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/cada/file": {
+      "get": {
+        "tags": ["cadaFile"],
+        "summary": "List all Cada files",
+        "operationId": "listAllCadaFiles",
+        "description": "Retrieves a paginated, sortable list of all Cada files, optionally filtered by a 'search' query string.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number (default=1)"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page (default=20)"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Partial search string for matching the 'path' field."
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of Cada files." },
+          "500": { "description": "Internal Server Error" }
+        }
+      },
+      "post": {
+        "tags": ["Cada File"],
+        "summary": "Create Bulk Cada Files",
+        "operationId": "createBulkCadaFiles",
+        "description": "Saves multiple Cada files to the database.",
+        "requestBody": {
+          "required": true,
+          "description": "Array of Cada file objects to insert.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": { "type": "string" },
+                    "type": { "type": "string" },
+                    "ext": { "type": "string" },
+                    "info": { "type": "string" }
+                  },
+                  "required": ["path", "type", "ext"]
+                },
+                "example": [
+                  {
+                    "path": "/uploads/sample1.pdf",
+                    "type": "document",
+                    "ext": "pdf",
+                    "info": "Sample document file."
+                  },
+                  {
+                    "path": "/uploads/sample2.jpg",
+                    "type": "image",
+                    "ext": "jpg",
+                    "info": "Sample image file."
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "An array of upserted or existing files with their IDs."
+          },
+          "500": { "description": "Internal Server Error" }
+        }
+      },
+      "delete": {
+        "tags": ["Cada File"],
+        "summary": "Delete Bulk Cada Files",
+        "operationId": "deleteBulkCadaFiles",
+        "description": "Deletes multiple Cada files by their IDs.",
+        "requestBody": {
+          "required": true,
+          "description": "JSON object with file_ids array.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": {
+                  "file_ids": [1, 2, 3]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Number of files deleted or success message." },
+          "404": { "description": "No matching files found to delete." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/cada/file/{file_id}": {
+      "get": {
+        "tags": ["cadaFile"],
+        "summary": "Get a Cada File by ID",
+        "operationId": "getCadaFileById",
+        "description": "Retrieves a specific Cada file by its unique ID.",
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique file ID",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Returns the requested Cada file object." },
+          "404": { "description": "File not found." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/cada/file/search": {
+      "post": {
+        "tags": ["cadaFile"],
+        "summary": "Search for Cada Files by path",
+        "operationId": "searchCadaFiles",
+        "description": "Searches for Cada files based on path substring, with pagination & sorting.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing 'path' property to search partial matches.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "path": { "type": "string" }
+                },
+                "example": {
+                  "path": "/uploads/sample"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Returns an array of Cada files matching the path substring." },
+          "404": { "description": "No files found matching path." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    }
+    },
+    "components": {
+      "responses": {
+        "ProjectArray": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/cadaProject"
+                }
+              }
+            }
+          },
+          "description": "List of project object"
+        },
+        "ProjectUserArray": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/cadaProjectUser"
+                }
+              }
+            }
+          },
+          "description": "List of project user object"
+        }
+      },
+      "parameters": {},
+      "examples": {},
+      "requestBodies": {
+        "cadaProjectUser": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string",
+                    "default": "user"
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "default": 0
+                  },
+                  "cadaProjectId": {
+                    "type": "integer",
+                    "default": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cadaProject": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "default": "Afib"
+                  },
+                  "title": {
+                    "type": "string",
+                    "default": "Adult Atrial Fibrillation events"
+                  },
+                  "description": {
+                    "type": "string",
+                    "default": "The Afib project gathers expert reviews of records of physiological signals to determine whether Atrial Fibrillation (AFib) or Atrial Flutter (AFlutter) arrhythmia are present. The annotated records will be useful in learning arrhythmia waveform features and build AFib detection methods."
+                  },
+                  "goal": {
+                    "type": "string",
+                    "default": null
+                  },
+                  "data": {
+                    "type": "string",
+                    "default": null
+                  },
+                  "attributes": {
+                    "type": "string",
+                    "default": null
+                  },
+                  "projectType": {
+                    "type": "string",
+                    "description": "Project type type",
+                    "enum": [
+                      "afib",
+                      "sqi",
+                      "txt",
+                      "nlp"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cadaAnnotationValue": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "default": "Afib"
+                  },
+                  "value": {
+                    "type": "string",
+                    "default": "not sure"
+                  },
+                  "cadaAnnotationId": {
+                    "type": "integer",
+                    "default": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cadaAdjudicationValue": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "default": "Afib"
+                  },
+                  "value": {
+                    "type": "string",
+                    "default": "not sure"
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "default": 0
+                  },
+                  "cadaEventId": {
+                    "type": "integer",
+                    "default": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "schemas": {
+        "cadaProject": {
+          "type": "object",
+          "required": [
+            "id",
+            "name",
+            "title",
+            "projectType"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string",
+              "default": "Afib"
+            },
+            "title": {
+              "type": "string",
+              "default": "Adult Atrial Fibrillation events"
+            },
+            "description": {
+              "type": "string",
+              "default": "The Afib project gathers expert reviews of records of physiological signals to determine whether Atrial Fibrillation (AFib) or Atrial Flutter (AFlutter) arrhythmia are present. The annotated records will be useful in learning arrhythmia waveform features and build AFib detection methods."
+            },
+            "goal": {
+              "type": "string",
+              "default": null
+            },
+            "data": {
+              "type": "string",
+              "default": null
+            },
+            "extrainfo": {
+              "type": "string",
+              "default": null
+            },
+            "attributes": {
+              "type": "string",
+              "default": null
+            },
+            "projectType": {
+              "type": "string",
+              "description": "Project type type",
+              "enum": [
+                "afib",
+                "sqi",
+                "txt",
+                "nlp"
+              ]
+            }
+          }
+        },
+        "cadaProjectUser": {
+          "type": "object",
+          "required": [
+            "id",
+            "role",
+            "userId",
+            "cadaProjectId"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "role": {
+              "type": "string",
+              "description": "role type",
+              "enum": [
+                "annotator",
+                "adjudicator"
+              ]
+            },
+            "userId": {
+              "type": "integer"
+            },
+            "cadaProjectId": {
+              "type": "integer"
+            }
+          }
+        },
+        "cadaEvent": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "info": {
+              "type": "integer"
+            },
+            "cadaFileId": {
+              "type": "integer"
+            },
+            "cadaProjectId": {
+              "type": "integer"
+            }
+          }
+        },
+        "cadaFile": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "path": {
+              "type": "integer"
+            },
+            "info": {
+              "type": "integer"
+            },
+            "userId": {
+              "type": "integer"
+            }
+          }
+        },
+        "cadaBot": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "path": {
+              "type": "integer"
+            },
+            "info": {
+              "type": "integer"
+            },
+            "userId": {
+              "type": "integer"
+            }
+          }
+        },
+        "cadaAnnotation": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "completed": {
+              "type": "boolean"
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "updatedAt": {
+              "type": "string"
+            },
+            "userId": {
+              "type": "integer"
+            },
+            "cadaEventId": {
+              "type": "integer"
+            }
+          }
+        },
+        "cadaAnnotationValue": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "field": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "cadaAnnotationId": {
+              "type": "integer"
+            }
+          }
+        },
+        "cadaAdjudicationValue": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "field": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "annotators": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "userId": {
+              "type": "integer"
+            },
+            "cadaEventId": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
