@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Charts from "./Chart";
-require("../../../utils/canvasjs.min.js");
+require("../../../../../utils/canvasjs.min.js");
 
 export default function Data({
   leadOrder,
@@ -19,26 +19,26 @@ export default function Data({
   useEffect(() => {
     const getData = async () => {
       const result = await axios(
-        `/api/cada/files/adibin?filename=${filename}&offset=0&range=${range}`
+        `/api/cada/file/adibin?filename=${filename}&offset=0&range=${range}`
       );
       setWaveform(result.data);
     };
 
     const getNextData = async () => {
       const result = await axios(
-        `/api/cada/files/adibin?filename=${nextFilename}&offset=0&range=${range}`
+        `/api/cada/file/adibin?filename=${nextFilename}&offset=0&range=${range}`
       );
-      console.log("nextfilename: ", `/api/cada/files/adibin?${nextFilename}`);
+      console.log("nextfilename: ", `/api/cada/file/adibin?${nextFilename}`);
       setNextWaveform(result.data);
     };
 
     const getCompletedData = async () => {
       const result = await axios(
-        `/api/cada/files/adibin?filename=${filename}&offset=0&range=${range}`
+        `/api/cada/file/adibin?filename=${filename}&offset=0&range=${range}`
       );
       console.log(
         "completedfilename: ",
-        `/api/cada/files/adibin?filename=${filename}&offset=0&range=${range}`
+        `/api/cada/file/adibin?filename=${filename}&offset=0&range=${range}`
       );
       setCompetedWaveform(result.data);
     };

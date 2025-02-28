@@ -14,7 +14,7 @@ import {
   TextField,
   IconButton,
 } from "@mui/material";
-import { updateAnnotation } from "../../../../../redux/cada/actions";
+import { updateAnnotation } from "../../../redux/actions";
 import { useDispatch } from "react-redux";
 import { createTheme } from "@mui/material/styles";
 import DataPanel from "./Note";

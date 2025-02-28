@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import LinearProgress from '@mui/material/LinearProgress';
 import PropTypes from 'prop-types';
+import Chip from '@mui/material/Chip';
 
 
 import myImage from '../../assets/default.jpg';
@@ -52,18 +53,18 @@ export default function BasicCard() {
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         Images
+
+        {' '}
+      <Chip label="114" size="small" />
         </Typography>
         <Stack sx={{ width: '100%', color: 'grey.500' , flexGrow:1}} spacing={2}>
       
         <LinearProgressWithLabel value={progress} />
             </Stack>
 
-
     <div>
       <img src={myImage} alt="Example Image" />
     </div>
-
-
 
       </CardContent>
     </Card>

@@ -22,7 +22,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   updateAdjudication,
   getAnnotators,
-} from "../../../../../redux/cada/actions";
+} from "../../../redux/actions";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme();

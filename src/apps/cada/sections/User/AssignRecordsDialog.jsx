@@ -249,10 +249,20 @@ function EnhancedTable({ userId, projectId, handleClose }) {
 
   useEffect(() => {
     const getFiles = async (id) => {
-      console.log(`/api/cada/events?pid=${id}`);
-      const result = await axios(`/api/cada/events?pid=${id}`);
-      console.log(result);
-      setFiles(result.data);
+      console.log(`/api/cada/event?pid=${id}`);
+      const result = await axios(`/api/cada/event?pid=${id}`);
+      setFiles(result.data.sort((a, b) => {
+        const getNumber = (path) => {
+          // Extract the numeric part from the file path
+          const match = path.match(/(\d+)\.json$/);
+          return match ? parseInt(match[1], 10) : 0; // Default to 0 if no match
+        };
+
+        const numA = getNumber(a.cadaFile.path);
+        const numB = getNumber(b.cadaFile.path);
+
+        return numA - numB;
+      }));
     };
 
     if (projectId !== 0) {
@@ -310,9 +320,9 @@ function EnhancedTable({ userId, projectId, handleClose }) {
 
   const handleAssignClick = () => {
     const getFiles = async (selected) => {
-      console.log(`/api/cada/events/assignments?uid=${userId}`);
+      console.log(`/api/cada/event/assignments?uid=${userId}`);
       const result = await axios.post(
-        `/api/cada/events/assignments?uid=${userId}`,
+        `/api/cada/event/assignments?uid=${userId}`,
         selected
       );
       console.log(result);

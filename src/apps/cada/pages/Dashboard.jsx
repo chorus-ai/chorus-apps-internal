@@ -28,7 +28,7 @@ function Assignments() {
     if (projects === null) {
       axios({
         method: "get",
-        url: `/api/cada/projects/users/${user.id}`,
+        url: `/api/cada/project/users/${user.id}`,
       }).then((res) => {
         let proj = {};
         let roles = [];

@@ -1,43 +1,28 @@
-
-
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import React, { useEffect } from "react";
 import {
+  Table,
+  TableBody,
+  TableContainer,
+  TablePagination,
+  TableHead,
+  TableRow,
+  TableCell, 
+  Paper,
+  Icon,
   AppBar,
   Grid,
-  Button,
-  TextField,
-  TablePagination,
-  MenuItem,
-  Tabs,
-  Tab,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-  DialogContentText,
-  Alert,
   InputBase,
   FormControl,
-  Toolbar,
-  Typography,
-  Tooltip,
-  IconButton,
-  Stack,
-  Container
+  Container,
+  Stack
 } from "@mui/material";
-
 
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled, alpha } from "@mui/material/styles";
 import { BiSearchAlt } from "react-icons/bi";
+import { MdOutlineWidthWide, MdFilterList } from "react-icons/md";
 
-const centerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-  };
-  
-
+import axios from "axios";
 
 // ----------------------------------------------------------------------
 
@@ -93,114 +78,175 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
   // hide last border
   '&:last-child td, &:last-child th': {
-    border: 0,
+    border: 'solid 1',
   },
 }));
 
 
-const PersonTable = () => {
-
-
-  const [searchKey, setSearchKey] = React.useState("");
-
- 
-  const measurements = [
-    {
-      measurement_id: 1,
-      person_id: 123,
-      measurement_concept_id: 'Weight',
-      measurement_date: '2023-06-01',
-      measurement_value: '70',
-      measurement_type_concept_id: 'Clinical Measurement',
-      operator_concept_id: 'N/A',
-      unit_concept_id: 'kg',
-      measurement_source_value: 'Device A',
-    },
-    {
-      measurement_id: 2,
-      person_id: 456,
-      measurement_concept_id: 'Height',
-      measurement_date: '2023-06-02',
-      measurement_value: '170',
-      measurement_type_concept_id: 'Clinical Measurement',
-      operator_concept_id: 'N/A',
-      unit_concept_id: 'cm',
-      measurement_source_value: 'Device B',
-    },
-  ];
-
+const MeasurementTable = () => {
+  const [searchKey, setSearchKey] = React.useState('');
+  const [data, setData] = React.useState("");
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(20);
+  const [fullWidth, setFullWidth] = React.useState(false);
 
   const handleSearch = (event) => {
     setSearchKey(event.target.value);
   };
 
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  }
+
+  const handleRowsPerPageChange = (event) => {
+    setPageSize(event.target.value);
+  }
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `/api/omop/person?page=${page}&pageSize=${pageSize}`,
+    }).then((res) => res.data)
+    .then((data) => {
+      setData(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (searchKey === "" || searchKey === 0) {
+      axios({
+        method: "get",
+        url: `/api/omop/measurement?page=${page}&pageSize=${pageSize}`,
+      }).then((res) => res.data)
+      .then((data) => {
+        setData(data);
+      });
+    } else {
+      axios({
+        method: "get",
+        url: `/api/omop/person/concept/${searchKey}`,
+      }).then((res) => res.data)
+      .then((data) => {
+        setData(data);
+      });
+    }
+   
+  }, [page, pageSize, searchKey]);
+
+
+
   return (
-    <div >
-
-<Container maxWidth="xl" >
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <AppBar
-              sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3 }}
-              position="static"
-              color="inherit"
-              elevation={0}
-            >
-              <Grid container spacing={2} alignItems="center">
-                <Grid item xs>
-                  <Search>
-                    <SearchIconWrapper>
-                      <BiSearchAlt />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="Search anything"
-                      value={searchKey}
-                      onChange={handleSearch}
-                      inputProps={{ "aria-label": "search" }}
-                    />
-                  </Search>
-                </Grid>
+    <Container maxWidth={fullWidth ? "fullWidth" : "xl"}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <AppBar
+            sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3, pr: 1 }}
+            position="static"
+            color="inherit"
+            elevation={0}
+          >
+            <Grid container alignItems="center">
+              <Grid item xs>
+                <Search>
+                  <SearchIconWrapper>
+                    <BiSearchAlt />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search with concept"
+                    value={searchKey}
+                    onChange={handleSearch}
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Search>
               </Grid>
-            </AppBar>
-          </Grid>
+              <Grid item>
+                <Stack direction="row" spacing={1}>
+                  <Icon>
+                    <MdFilterList />
+                  </Icon>
+                  <Icon onClick={() => setFullWidth(!fullWidth)}>
+                    <MdOutlineWidthWide />
+                  </Icon>
+                </Stack>
+              </Grid>
+            </Grid>
+          </AppBar>
         </Grid>
+      </Grid>
 
-        <TableContainer component={Paper}>
+      <TableContainer component={Paper}>
         <Table>
-        <TableHead>
-        <StyledTableRow>
-          <StyledTableCell>Measurement ID</StyledTableCell>
-          <StyledTableCell>Person ID</StyledTableCell>
-          <StyledTableCell>Measurement Concept ID</StyledTableCell>
-          <StyledTableCell>Measurement Date</StyledTableCell>
-          <StyledTableCell>Measurement Value</StyledTableCell>
-          <StyledTableCell>Measurement Type Concept ID</StyledTableCell>
-          <StyledTableCell>Operator Concept ID</StyledTableCell>
-          <StyledTableCell>Unit Concept ID</StyledTableCell>
-        </StyledTableRow>
-      </TableHead>
-      <TableBody>
-        {measurements.map((measurement) => (
-          <TableRow key={measurement.measurement_id}>
-            <StyledTableCell>{measurement.measurement_id}</StyledTableCell>
-            <StyledTableCell>{measurement.person_id}</StyledTableCell>
-            <StyledTableCell>{measurement.measurement_concept_id}</StyledTableCell>
-            <StyledTableCell>{measurement.measurement_date}</StyledTableCell>
-            <StyledTableCell>{measurement.measurement_value}</StyledTableCell>
-            <StyledTableCell>{measurement.measurement_type_concept_id}</StyledTableCell>
-            <StyledTableCell>{measurement.operator_concept_id}</StyledTableCell>
-            <StyledTableCell>{measurement.unit_concept_id}</StyledTableCell>
-          </TableRow>
-        ))}
-      </TableBody>
+          <TableHead>
+            <StyledTableRow>
+                <StyledTableCell>measurement_id</StyledTableCell>
+                <StyledTableCell>person_id</StyledTableCell>
+                <StyledTableCell>measurement_concept_id</StyledTableCell>
+                <StyledTableCell>measurement_date</StyledTableCell>
+                <StyledTableCell>measurement_datetime</StyledTableCell>
+                <StyledTableCell>measurement_time</StyledTableCell>
+                <StyledTableCell>measurement_type_concept_id</StyledTableCell>
+                <StyledTableCell>operator_concept_id</StyledTableCell>
+                <StyledTableCell>value_as_number</StyledTableCell>
+                <StyledTableCell>value_as_concept_id</StyledTableCell>
+                <StyledTableCell>unit_concept_id</StyledTableCell>
+                <StyledTableCell>range_low</StyledTableCell>
+                <StyledTableCell>range_high</StyledTableCell>
+                <StyledTableCell>provider_id</StyledTableCell>
+                <StyledTableCell>visit_occurrence_id</StyledTableCell>
+                <StyledTableCell>visit_detail_id</StyledTableCell>
+                <StyledTableCell>measurement_source_value</StyledTableCell>
+                <StyledTableCell>measurement_source_concept_id</StyledTableCell>
+                <StyledTableCell>unit_source_value</StyledTableCell>
+                <StyledTableCell>unit_source_concept_id</StyledTableCell>
+                <StyledTableCell>value_source_value</StyledTableCell>
+                <StyledTableCell>measurement_event_id</StyledTableCell>
+                <StyledTableCell>meas_event_field_concept_id</StyledTableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+          {data &&
+            data.map((row, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell>{row.measurement_id}</StyledTableCell>
+                <StyledTableCell>{row.person_id}</StyledTableCell>
+                <StyledTableCell>{row.measurement_concept_id}</StyledTableCell>
+                <StyledTableCell>{row.measurement_date}</StyledTableCell>
+                <StyledTableCell>{row.measurement_datetime}</StyledTableCell>
+                <StyledTableCell>{row.measurement_time}</StyledTableCell>
+                <StyledTableCell>{row.measurement_type_concept_id}</StyledTableCell>
+                <StyledTableCell>{row.operator_concept_id}</StyledTableCell>
+                <StyledTableCell>{row.value_as_number}</StyledTableCell>
+                <StyledTableCell>{row.value_as_concept_id}</StyledTableCell>
+                <StyledTableCell>{row.unit_concept_id}</StyledTableCell>
+                <StyledTableCell>{row.range_low}</StyledTableCell>
+                <StyledTableCell>{row.range_high}</StyledTableCell>
+                <StyledTableCell>{row.provider_id}</StyledTableCell>
+                <StyledTableCell>{row.visit_occurrence_id}</StyledTableCell>
+                <StyledTableCell>{row.visit_detail_id}</StyledTableCell>
+                <StyledTableCell>{row.measurement_source_value}</StyledTableCell>
+                <StyledTableCell>{row.measurement_source_concept_id}</StyledTableCell>
+                <StyledTableCell>{row.unit_source_value}</StyledTableCell>
+                <StyledTableCell>{row.unit_source_concept_id}</StyledTableCell>
+                <StyledTableCell>{row.value_source_value}</StyledTableCell>
+                <StyledTableCell>{row.measurement_event_id}</StyledTableCell>
+                <StyledTableCell>{row.meas_event_field_concept_id}</StyledTableCell>
+              </StyledTableRow>
+            ))
+          }
+          </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[10, 20, 30]}
+          component="div"
+          count={1000}
+          rowsPerPage={pageSize}
+          page={page}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleRowsPerPageChange}
+        />
       </TableContainer>
-      
-      </Container>
-    </div>
+    </Container>
   );
 };
 
-export default PersonTable;
-
-
+export default MeasurementTable;

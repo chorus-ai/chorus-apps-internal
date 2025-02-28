@@ -35,14 +35,12 @@ import {
   MdRemove,
 } from "react-icons/md";
 import { connect, useSelector } from "react-redux";
-import { getAdjudicationEvents } from "../../../../../../redux/cada/actions";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import useDidMountEffect from "../../../../../../hooks/useDidMountEffect";
 import { visuallyHidden } from "@mui/utils";
 import { percentageColor } from "../../../../utils/adjudication_helper";
 import { createTheme } from "@mui/material/styles";
-import { NoContent } from "../../../../common/NoContent";
 
 const theme = createTheme();
 

@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { MdAutorenew, MdInfo } from "react-icons/md";
 import useDidMountEffect from "../../../../../hooks/useDidMountEffect";
-import { updateAnnotation } from "../../../../../redux/cada/actions";
+import { updateAnnotation } from "../../../redux/actions";
 import { NoContent } from "../../../common/NoContent";
 import { Pages } from "../../../common/Pages";
 import DataPanel from "./Data";

@@ -17,7 +17,7 @@ import useDidMountEffect from "../../../../../hooks/useDidMountEffect";
 import { Download } from "../../../common/Download";
 
 import { connect, useSelector } from "react-redux";
-import { getAnnotationEvents } from "../../../../../redux/cada/actions";
+import { getAnnotationEvents } from "../../../redux/actions";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme();

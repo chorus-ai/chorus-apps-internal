@@ -14,7 +14,7 @@ import AddLabel from "./AddLabelForm";
 import ReviewCard from "./AddProjectReviewCard";
 
 import { connect } from "react-redux";
-import { addProject } from "../../../../redux/cada/actions";
+import { addProject } from "../../redux/actions";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme();

@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  CssBaseline,
-  Typography,
-  Box,
-  Snackbar,
-  Alert,
-} from "@mui/material";
+import { CssBaseline, Typography, Box, Snackbar, Alert } from "@mui/material";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
@@ -76,7 +70,9 @@ export default function CadaLayout() {
                   severity={alert.severity}
                   onClose={handleCloseAlert}
                 >
-                  {alert.message instanceof Error ? alert.message.message : alert.message}
+                  {alert.message instanceof Error
+                    ? alert.message.message
+                    : alert.message}
                 </Alert>
               </div>
             </Snackbar>

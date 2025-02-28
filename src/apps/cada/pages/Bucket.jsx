@@ -5,7 +5,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { connect } from "react-redux";
-import { getBuckets } from "../../../redux/cada/actions";
+import { getBuckets } from "../redux/actions";
 import { MdNavigateNext, MdHome } from "react-icons/md";
 import BucketTable from "../sections/Bucket/BucketTable";
 

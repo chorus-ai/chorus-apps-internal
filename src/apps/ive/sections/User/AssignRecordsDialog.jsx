@@ -249,8 +249,8 @@ function EnhancedTable({ userId, projects, handleClose }) {
 
   useEffect(() => {
     const getFiles = async (id) => {
-      console.log(`/api/cada/events?pid=${id}`);
-      const result = await axios(`/api/cada/events?pid=${id}`);
+      console.log(`/api/cada/event?pid=${id}`);
+      const result = await axios(`/api/cada/event?pid=${id}`);
       console.log(result);
       setFiles(result.data);
     };
@@ -317,9 +317,9 @@ function EnhancedTable({ userId, projects, handleClose }) {
     console.log("projectId: ", projectId);
     console.log("userId: ", userId);
     const getFiles = async (selected) => {
-      console.log(`/api/cada/events/assignments?uid=${userId}`);
+      console.log(`/api/cada/event/assignments?uid=${userId}`);
       const result = await axios.post(
-        `/api/cada/events/assignments?uid=${userId}`,
+        `/api/cada/event/assignments?uid=${userId}`,
         selected
       );
       console.log(result);

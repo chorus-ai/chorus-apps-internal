@@ -1,6 +1,10 @@
 import { Divider, Paper } from '@mui/material';
 import React from 'react';
 import TokenTable from './Table';
+import { IoIosInformationCircle } from "react-icons/io";
+import Tooltip from './Tooltip';
+
+const description = "Tokens can be seen as events. A Co-Occurring Token (COT) is a combo of events occurring “together”. We checked electronic records from patients who had ARDS onsets and identified the COTs. For each patient, we extracted lab test results in a 24-hour window preceding the ARDS onset, and vital signs records and ventilation settings/measurements in a 12-hour window preceding the ARDS onset. With the extracted records and the demographic information, we discovered some combos of events that would present frequently before ARDS onsets, these combos were our COTs. In one sentence, a COT is a combo of events that happen to occur together frequently in a certain time window before ARDS onsets.";
 
 export default function DataPanel({ patterns, selectedTokens }) {
 
@@ -33,25 +37,8 @@ export default function DataPanel({ patterns, selectedTokens }) {
         width: "100%",
       }}
     >
-      {/* <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        spacing={2}
-      >
-        <div>{tokens?.ppv ? `PPV: ${tokens.ppv.toFixed(3)}` : 'Co-occurring tokens'}</div>
-        <div style={{ display: "flex", justifyContent: "space-between", width: "120px" }}>
-          <FilterIcon filter="low" selected={filter === "low"} onClick={() => setFilter(curr => curr === "low" ? "none" : "low")} />
-          <FilterIcon filter="high" selected={filter === "high"} onClick={() => setFilter(curr => curr === "high" ? "none" : "high")} />
-          <FilterIcon filter="info" selected={filter === "info"} onClick={() => setFilter(curr => curr === "info" ? "none" : "info")} />
-          <FilterIcon filter="clear" onClick={() => setFilter("none")} />
-        </div>
-      </Stack> */}
-
-      {/* <Divider sx={{ my: 1 }} /> */}
-
       {/* token table */}
-      <div className="token-table" id="token-table" style={{ display: "flex", overflow: "scroll", scrollbarWidth: "none", msOverflowStyle: "none", width: "100%" }}>
+      <div className="token-table" id="token-table" style={{ display: "flex", overflow: "visible", scrollbarWidth: "none", msOverflowStyle: "none", width: "100%" }}>
         <div className="table">
           <div>Pattern A</div>
           <Divider sx={{ my: 1 }} />
@@ -64,7 +51,11 @@ export default function DataPanel({ patterns, selectedTokens }) {
         </div>
         <Divider orientation='vertical' variant="middle" flexItem />
         <div className="table">
-          <div style={{marginLeft: "16px"}}>Pattern B</div>
+          <div className="pattern-name" style={{ marginLeft: "16px" }}>Pattern B
+            <Tooltip description={description} placement="left" width="400px" style={{ fontSize: "15px" }}>
+              <IoIosInformationCircle style={{ color: "grey" }} />
+            </Tooltip>
+          </div>
           <Divider sx={{ my: 1 }} />
           <TokenTable
             headers={headers}
@@ -86,6 +77,12 @@ export default function DataPanel({ patterns, selectedTokens }) {
             padding: 10px;
             border-radius: 15px;
             transition: 0.3s;
+          }
+
+          .table .pattern-name {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
           }
 
           .table:hover {

@@ -27,7 +27,7 @@ import {
   addUser,
   removeUser,
   removeProjectUser,
-} from "../../../redux/cada/actions";
+} from "../redux/actions";
 import { styled, alpha } from "@mui/material/styles";
 import { BiSearchAlt } from "react-icons/bi";
 import Row from "../sections/User/UserTableRow";
@@ -208,10 +208,10 @@ function User({
           </Grid>
         </Grid>
 
-        <TableContainer component={Paper} sx={{ pt: 2, pl: 2 }}>
-          <Table size="small" aria-label="simple table">
+        <TableContainer component={Paper} sx={{ p: 2}}>
+          <Table size="small" aria-label="simple table" >
             <TableHead>
-              <TableRow>
+              <TableRow >
                 {/* <TableCell></TableCell> */}
                 <TableCell>Name</TableCell>
                 <TableCell>Role</TableCell>

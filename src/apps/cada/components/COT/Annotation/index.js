@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, Button, LinearProgress, Box } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAnnotationEvents, getProjects } from '../../../../../redux/cada/actions';
+import { getAnnotationEvents, getProjects } from '../../../redux/actions';
 import { NoContent } from '../../../common/NoContent';
 import Panel from './Panel';
 import { createTheme } from "@mui/material/styles";
@@ -18,18 +18,6 @@ const useStyles = {
   },
 };
 
-// const getTokenAttr = (token) => {
-//   if (token.toLowerCase().includes("high") || token.toLowerCase().slice(-2) === "_h" || token.includes("+")) {
-//     return "high";
-//   }
-
-//   if (token.toLowerCase().includes("low") || token.toLowerCase().slice(-2) === "_l" || token.includes("-")) {
-//     return "low";
-//   }
-
-//   return "info";
-// }
-
 export default function Annotation({ pid }) {
   const project = useSelector((state) => state.cada.userProjects[pid]);
 
@@ -41,11 +29,6 @@ export default function Annotation({ pid }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const [eIdx, setEIdx] = useState(0);
-  // const [prevPatternIdxRef] = useRef();
-  // const [currTokens, setCurrTokens] = useState({});
-  // const [pair, setPair] = useState({});
-  // const [filter, setFilter] = useState("none"); // filter: none, low or high
-  // const [referenceRanges, setReferenceRanges] = useState({});
 
   const dispatch = useDispatch();
 
@@ -54,30 +37,12 @@ export default function Annotation({ pid }) {
       dispatch(getProjects());
     }
     if (!events) {
-      dispatch(getAnnotationEvents(pid, user.id));
+      dispatch(getAnnotationEvents(pid, user.id, null, true));
     }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, setIsLoading, pid, user]);
 
-  // useEffect(() => {
-  //   const handleKeyDown = (event) => {
-  //     switch (event.keyCode) {
-  //       case 37:
-  //         setEIdx(curr => curr > 0 ? curr - 1 : 0);
-  //         break;
-  //       case 39:
-  //         setEIdx(curr => curr < PAIR_NUM - 1 ? curr + 1 : PAIR_NUM - 1);
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   };
-  //   window.addEventListener('keydown', handleKeyDown);
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyDown);
-  //   }
-  // }, []);
 
   const handlePageChange = (e, page) => {
     setEIdx(page - 1);
@@ -94,27 +59,6 @@ export default function Annotation({ pid }) {
     }
     setEIdx(page - 1);
   }
-
-  // useEffect(() => {
-  //   if (patterns !== {}) {
-  //     if (filter === "none") {
-  //       // setCurrTokens(patterns);
-  //       return;
-  //     }
-  //     const newTokens = {
-  //       tokens: [],
-  //       sources: [],
-  //       ppv: patterns.ppv
-  //     }
-  //     for (let i = 0; i < patterns.tokens.length; i++) {
-  //       if (getTokenAttr(patterns.tokens[i]) === filter) {
-  //         newTokens.tokens.push(patterns.tokens[i]);
-  //         newTokens.sources.push(patterns.sources[i]);
-  //       }
-  //     }
-  //     setCurrTokens(newTokens);
-  //   }
-  // }, [filter, setCurrTokens, patterns]);
 
   if (isLoading) {
     return (

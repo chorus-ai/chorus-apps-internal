@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import React, { useEffect, useState } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import {
-  AiOutlineZoomIn,
-  AiOutlineZoomOut,
-  AiOutlineClose,
-  AiOutlineExport,
-} from "react-icons/ai";
-import { Divider } from "@mui/material";
+import { AiOutlineZoomIn, AiOutlineZoomOut, AiOutlineClose, AiOutlineExport } from 'react-icons/ai';
+import { Divider } from '@mui/material';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 export default function PDFViewer({ file, fileName, category }) {
   const [numPages, setNumPages] = useState(null);
@@ -22,45 +20,39 @@ export default function PDFViewer({ file, fileName, category }) {
       newWindow.location.href = `https://nursingdatascience.emory.edu${file}`;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file]);
+  }, [file])
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
 
   const handleExport = () => {
-    const windowRef = window.open(
-      `https://nursingdatascience.emory.edu${file}`,
-      "_blank"
-    );
+    const windowRef = window.open(`https://nursingdatascience.emory.edu${file}`, "_blank");
     setNewWindow(windowRef);
     handleClose();
-  };
+  }
 
   const handleZoomIn = () => {
-    setScale((curr) => curr + 0.2);
+    setScale(curr => curr + 0.2);
   };
 
   const handleZoomOut = () => {
-    setScale((curr) => curr - 0.2);
+    setScale(curr => curr - 0.2);
   };
 
   const handleClose = () => {
     let scrollBar = 0;
-    const root = document.getElementById("root");
+    const root = document.getElementById('root');
     if (root.scrollHeight > root.clientHeight) {
       scrollBar = 6;
     }
-    const panelBox = document.getElementById("panel-box");
+    const panelBox = document.getElementById('panel-box');
     // get the box's padding
     const style = window.getComputedStyle(panelBox);
-    const padding =
-      parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+    const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
     const resizableBox = document.getElementById("resizableBox");
     resizableBox.style.transition = "0.5s";
-    resizableBox.style.width = `${
-      window.innerWidth - padding - 15 - scrollBar
-    }px`;
+    resizableBox.style.width = `${window.innerWidth - padding - 15 - scrollBar}px`;
     setTimeout(() => {
       resizableBox.style.transition = "0.0s";
     }, 550);
@@ -70,7 +62,7 @@ export default function PDFViewer({ file, fileName, category }) {
     <>
       <div className="pdf-toolbar">
         <div className="title">
-          {category ?? "N/A"} : {fileName}
+          {category ?? 'N/A'} : {fileName}
         </div>
         <div className="action-btns">
           <div className="pdf-btn" onClick={handleClose}>
@@ -88,13 +80,11 @@ export default function PDFViewer({ file, fileName, category }) {
         </div>
       </div>
       <Divider />
-      <div
-        style={{
-          backgroundColor: "white",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <div style={{
+        backgroundColor: 'white',
+        display: 'flex',
+        justifyContent: 'center',
+      }}>
         <Document
           file={file}
           onLoadSuccess={onDocumentLoadSuccess}
@@ -102,14 +92,17 @@ export default function PDFViewer({ file, fileName, category }) {
             height: 100,
           }}
         >
-          {Array.from(new Array(numPages), (el, index) => (
-            <Page
-              key={`page_${index + 1}`}
-              pageNumber={index + 1}
-              renderTextLayer={false}
-              scale={scale}
-            />
-          ))}
+          {Array.from(
+            new Array(numPages),
+            (el, index) => (
+              <Page
+                key={`page_${index + 1}`}
+                pageNumber={index + 1}
+                renderTextLayer={false}
+                scale={scale}
+              />
+            ),
+          )}
         </Document>
       </div>
       <style>
@@ -168,4 +161,4 @@ export default function PDFViewer({ file, fileName, category }) {
       </style>
     </>
   );
-}
+};

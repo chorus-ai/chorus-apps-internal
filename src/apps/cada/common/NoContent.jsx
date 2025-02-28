@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 
 export const NoContent = ({
   text = "No Content",
-  subtext = "Coantact your admin for content",
+  subtext = "Contact your admin for content",
 }) => {
   return (
     <Container

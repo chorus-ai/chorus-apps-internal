@@ -11,7 +11,7 @@ import {
   DialogContentText,
 } from "@mui/material";
 import { connect } from "react-redux";
-import { updateUser } from "../../../../redux/cada/actions";
+import { updateUser } from "../../../cada/redux/actions";
 
 function User({ userData, open, handleClose, updateUser }) {
   const [formData, setFormData] = useState(userData);

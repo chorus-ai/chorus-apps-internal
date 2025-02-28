@@ -9,6 +9,7 @@ import {
   FormControl,
   RadioGroup,
   FormControlLabel,
+  TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from 'react';
 import { createTheme } from "@mui/material/styles";
@@ -17,7 +18,7 @@ import axios from "axios";
 import { patternSort } from "../../../utils/cot_helper";
 import { filterMostRecentByField } from "../../../utils/annotation_helper";
 import { useDispatch } from "react-redux";
-import { updateAnnotation } from "../../../../../redux/cada/actions";
+import { updateAnnotation } from "../../../redux/actions";
 import { isEqual } from "../../../../../utils/objectFunctions";
 
 const theme = createTheme();
@@ -52,6 +53,11 @@ const QUESTIONS = [
     question: "Which pattern is more actionable?",
     expectedResults: CHOICES,
   },
+  {
+    label: "comments",
+    question: "Comments",
+    expectedResults: "text",
+  }
 ];
 
 
@@ -63,23 +69,23 @@ export default function Panel({ user, project, events, eIdx, setEIdx }) {
   const [annotationValues, setAnnotationValues] = useState({});
   const [originalAnnotationValues, setOriginalAnnotationValues] = useState({});
 
-  console.log(patterns)
-
   const dispatch = useDispatch();
 
   const canSave = () => {
-    return Object.values(annotationValues).every(value => value !== null && value !== undefined) && Object.keys(annotationValues).length === QUESTIONS.length && !isEqual(annotationValues, originalAnnotationValues);
-
+    return Object.values(annotationValues).splice(0, 3).every(value => value !== null && value !== undefined) && Object.keys(annotationValues).splice(0, 3).length === QUESTIONS.length - 1 && !isEqual(annotationValues, originalAnnotationValues);
   }
 
   useEffect(() => {
+    setAnnotationValues({});
+    setOriginalAnnotationValues({});
     const filePath = events[eIdx].cadaFile.path;
     axios({
       method: "get",
-      url: `/api/cada/files/json?filename=${encodeURIComponent(filePath)}`,
+      url: `/api/cada/file/json?filename=${encodeURIComponent(filePath)}`,
     }).then(res => {
       setPair(res.data);
       const annotations = filterMostRecentByField(events[eIdx].cadaAnnotations[0].cadaAnnotationValues);
+      console.log(annotations)
       for (let annotationValues of annotations) {
         const value = JSON.parse(annotationValues.value);
         for (const key in value) {
@@ -102,12 +108,11 @@ export default function Panel({ user, project, events, eIdx, setEIdx }) {
         for (const patternName of pair.patterns) {
           const pattern = await axios({
             method: "get",
-            url: `/api/cada/files/json?filename=${encodeURIComponent(patternName)}`,
+            url: `/api/cada/file/json?filename=${encodeURIComponent(patternName)}`,
           });
           patternResults.push(pattern.data);
         }
         const patternSorted = patternSort(patternResults[0], patternResults[1]);
-        console.log(patternSorted)
         setPatterns(patternSorted);
       }
     }
@@ -119,7 +124,7 @@ export default function Panel({ user, project, events, eIdx, setEIdx }) {
     setAnnotationValues(curr => {
       return {
         ...curr,
-        [label]: field,
+        [label]: field === "text" ? e.target.value : field,
       };
     });
   };
@@ -131,7 +136,7 @@ export default function Panel({ user, project, events, eIdx, setEIdx }) {
       dispatch(
         updateAnnotation(project.id, events[eIdx].id, true,
           {
-            field: 0,
+            field: "0",
             value: JSON.stringify(annotationValues),
             cadaAnnotationId: events[eIdx].cadaAnnotations[0].id,
             createdAt: new Date(new Date().toUTCString()).toISOString(),
@@ -244,8 +249,8 @@ export default function Panel({ user, project, events, eIdx, setEIdx }) {
                 gutterBottom
               >
                 {q.question} <br />
-                <FormControl>
-                  <RadioGroup row>
+                <FormControl sx={{width: "100%", maxWidth: "800px", marginTop: "10px"}}>
+                  {Array.isArray(q.expectedResults) && <RadioGroup row>
                     {Array.isArray(q.expectedResults) && q.expectedResults.map((choice, idx) => (
                       <FormControlLabel
                         key={idx}
@@ -262,7 +267,17 @@ export default function Panel({ user, project, events, eIdx, setEIdx }) {
                         componentsProps={{ typography: { fontSize: "0.9rem" } }}
                       />
                     ))}
-                  </RadioGroup>
+                  </RadioGroup>}
+                  {q.expectedResults === "text" &&
+                  <TextField
+                    key={idx}
+                    fullWidth
+                    multiline
+                    minRows={2}
+                    maxRows={5}
+                    value={annotationValues[q.label] || ""}
+                    onChange={handleChange("text", q.label)}
+                  />}
                 </FormControl>
               </Typography>
             </Paper>

@@ -56,7 +56,7 @@ export default function AssignmentCard({ card, user }) {
     const getCount = async () => {
       if (annEventCount === null) {
         const result = await axios(
-          `/api/cada/events/assignmentsCount?pid=${card.id}&uid=${user.userId}`
+          `/api/cada/event/assignmentsCount?pid=${card.id}&uid=${user.userId}`
         );
         dispatch({
           type: "GET_ANN_EVENTS_COUNT",
@@ -72,7 +72,7 @@ export default function AssignmentCard({ card, user }) {
 
     const getAdjCount = async () => {
       const result = await axios(
-        `/api/cada/events/count?pid=${card.id}&completed=true`
+        `/api/cada/event/count?pid=${card.id}&completed=true`
       );
       dispatch({
         type: "GET_ADJ_EVENTS_COUNT",
