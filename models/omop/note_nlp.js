@@ -50,7 +50,6 @@ const omopConceptModel = (sequelize, DataTypes) => {
         type: DataTypes.STRING(2000)
       }
     }, {
-      schema: "omopcdm",
       tableName: 'note_nlp',
       timestamps: false,
       freezeTableName: true

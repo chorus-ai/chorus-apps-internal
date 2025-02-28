@@ -58,12 +58,6 @@ const omopVisitOccurrenceModel = function (sequelize, DataTypes) {
     },
     preceding_visit_occurrence_id: {
       type: DataTypes.INTEGER
-    },
-    _source_primary_key: {
-      type: DataTypes.STRING(255)
-    },
-    _source_primary_key_source: {
-      type: DataTypes.STRING(255)
     }
   }, {
     tableName: 'visit_occurrence',

@@ -54,12 +54,6 @@ const omopConditionOccurrenceModel = function (sequelize, DataTypes) {
     },
     condition_status_source_value: {
       type: DataTypes.STRING(50)
-    },
-    _source_primary_key: {
-      type: DataTypes.STRING(255)
-    },
-    _source_primary_key_source: {
-      type: DataTypes.STRING(255)
     }
   }, {
     tableName: "condition_occurrence",

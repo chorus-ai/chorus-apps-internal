@@ -65,12 +65,6 @@ const omopVisitDetailModel = function (sequelize, DataTypes) {
     visit_occurrence_id: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    _source_primary_key: {
-      type: DataTypes.STRING(255)
-    },
-    _source_primary_key_source: {
-      type: DataTypes.STRING(255)
     }
   }, {
     tableName: 'visit_detail',

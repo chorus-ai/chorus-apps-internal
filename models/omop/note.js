@@ -60,7 +60,6 @@ const omopNoteModel = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       }
     }, {
-      schema: "omopcdm",
       tableName: 'note',
       timestamps: false,
       freezeTableName: true

@@ -76,12 +76,6 @@ const omopDrugExposureModel = function (sequelize, DataTypes) {
     },
     dose_unit_source_value: {
       type: DataTypes.STRING(50)
-    },
-    _source_primary_key: {
-      type: DataTypes.STRING(255)
-    },
-    _source_primary_key_source: {
-      type: DataTypes.STRING(255)
     }
   }, {
     tableName: 'drug_exposure',

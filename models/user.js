@@ -31,7 +31,10 @@ const UserModel = function (sequelize, DataTypes) {
         allowNull: false,
       },
       avatar: DataTypes.TEXT,
-      token: DataTypes.UUID,
+      token: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
       loginType: DataTypes.STRING,
       isBot: {
         type: DataTypes.BOOLEAN,
