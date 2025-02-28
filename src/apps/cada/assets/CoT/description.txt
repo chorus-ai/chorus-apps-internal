@@ -1,7 +1,0 @@
-Using EHR data from 1621 patients who experienced ARDS (defined as pf ratio < 100) during ICU stay, we have mined some 'patterns' that are frequently presented among these patients in a 12h window before their ARDS onsets but are scarcely presented among 885 control patients whose pf ratio is always higher than 300.
-
-A pattern is a combination of events or characteristics, including lab tests, patients' demographic information, intubation settings and measurements. These elements in a pattern are called tokens. 
-
-For example, a pattern can be [Male, age 35-40, urea nitrogen tested high, inspired O2 fraction is set above 0.21].
-
-We present some of the patterns we have mined here to see if they are interpretable to clinicians. We also provide the positive predictive values and sensitivity of these patterns on a test set of 406 ARDS patients and 221 control patients. A pattern with positive predictive value of x% means that x percent of patients in the test set with this pattern presented actually had ARDS within 12h. A pattern with sensitivity x% means that x percent of patients who experienced ARDS had this pattern presented in a 12h window before their onset.

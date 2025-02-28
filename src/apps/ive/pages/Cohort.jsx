@@ -1,51 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  AppBar,
-  Grid,
-  Button,
-  TextField,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Container,
+  TableCell, 
   Paper,
-  TablePagination,
-  MenuItem,
-  Tabs,
-  Tab,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-  DialogContentText,
-  Alert,
+  Icon,
+  AppBar,
+  Grid,
   InputBase,
   FormControl,
-  Toolbar,
-  Typography,
-  Tooltip,
-  IconButton,
+  Container,
   Stack,
+  Button,
+  Card,
+  CardContent,
+  Typography
 } from "@mui/material";
-
-import { connect } from "react-redux";
-import {
-  getUsers,
-  getProjects,
-  addUser,
-  removeUser,
-  removeProjectUser,
-} from "../../../redux/cada/actions";
+import { tableCellClasses } from '@mui/material/TableCell';
 import { styled, alpha } from "@mui/material/styles";
 import { BiSearchAlt } from "react-icons/bi";
-import Row from "../sections/User/UserRow";
-import NewUser from "../sections/User/NewUser";
-import { PlusIcon } from "../common/Icons";
-
-// ----------------------------------------------------------------------
+import { MdOutlineLibraryAdd, MdFilterList } from "react-icons/md";
+import { AiOutlineMore } from "react-icons/ai";
 
 const Search = styled(FormControl)(({ theme }) => ({
   position: "relative",
@@ -74,220 +52,206 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
   },
 }));
 
-// ----------------------------------------------------------------------
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.secondary.light,
+    color: theme.palette.common.white,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 12,
+  },
+}));
 
-function User({
-  users,
-  projects,
-  getUsers,
-  addUser,
-  removeUser,
-  getProjects,
-  removeProjectUser,
-}) {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: alpha(theme.palette.secondary.light, 0.10),
+  },
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+const PersonTable = () => {
   const [searchKey, setSearchKey] = React.useState("");
-  const [values, setValues] = useState({
-    fname: "",
-    lname: "",
-    email: "",
-    loginType: "",
-    role: "",
-    isBot: false,
-  });
+  const [selectedCohort, setSelectedCohort] = useState(null);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-  const handleFormChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const cohorts = [
+    { title: 'Patient with sepsis', tag: ['sepsis', 'infection', 'critical care', 'patient management'] },
+    // Additional cohorts here...
+  ];
 
   const handleSearch = (event) => {
     setSearchKey(event.target.value);
   };
 
-
-  const handleRemoveClick = (id) => {
-    removeUser(id);
+  const showDetails = (cohort) => {
+    setSelectedCohort(cohort);
   };
 
-  const handleRemoveRoleClick = (payload) => {
-    removeProjectUser(payload);
+  const goBack = () => {
+    setSelectedCohort(null);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  // Mock statistics data
+  const mockStats = {
+    totalPersons: 5,
+    totalDeaths: 2,
+    medications: 24,
+    procedures: 40
   };
-
-  useEffect(() => {
-    if (projects.length === 0) {
-      getProjects();
-    }
-  }, [projects]);
-
-  useEffect(() => {
-    if (users.length === 0) {
-      getUsers({ fid: 4 });
-    }
-  }, [users]);
+  const cohortDetails = [
+    { cohort_definition_id: 1, subject_id: 101, cohort_start_date: "2020-01-01", cohort_end_date: "2020-12-31" },
+    { cohort_definition_id: 2, subject_id: 102, cohort_start_date: "2019-05-15", cohort_end_date: "2020-05-14" },
+    { cohort_definition_id: 3, subject_id: 103, cohort_start_date: "2021-07-01", cohort_end_date: "2022-06-30" },
+    { cohort_definition_id: 4, subject_id: 104, cohort_start_date: "2018-03-20", cohort_end_date: "2019-03-19" },
+    { cohort_definition_id: 5, subject_id: 105, cohort_start_date: "2022-01-01", cohort_end_date: "2022-12-31" },
+  ];
 
   return (
-    <div >
-      {open && <NewUser open={open} handleClose={handleClose} />}
-      <AppBar
-        component="div"
-        sx={{ px: 1 }}
-        position="static"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>
-              <Typography color="inherit" variant="h6" component="h1">
-                Users
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Button variant="outlined" color="inherit" size="small">
-                Report
-              </Button>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <AppBar
-        sx={{ pl: 1 }}
-        component="div"
-        position="static"
-        elevation={0}
-      >
-        <Tabs value={value} onChange={handleChange}>
-          <Tab disableRipple label="Overview" />
-        </Tabs>
-      </AppBar>
-      <Container maxWidth="lg" >
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <AppBar
-              sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3 }}
-              position="static"
-              color="inherit"
-              elevation={0}
-            >
-              <Grid container spacing={2} alignItems="center">
-                <Grid item xs>
-                  <Search>
-                    <SearchIconWrapper>
-                      <BiSearchAlt />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="Search anything"
-                      value={searchKey}
-                      onChange={handleSearch}
-                      inputProps={{ "aria-label": "search" }}
-                    />
-                  </Search>
-                </Grid>
-                <Grid item>
-                  <Button
-                    onClick={handleClickOpen}
-                    variant="contained"
-                    color="primary"
-                  >
-                  <PlusIcon/>  user
-                  </Button>
-                </Grid>
-              </Grid>
-            </AppBar>
-          </Grid>
-        </Grid>
+    <div>
+      <Container maxWidth="xl">
+        {selectedCohort ? (
+          <div>
+            <Button onClick={goBack}>Back to Cohort List</Button>
+            <h2>{selectedCohort.title}</h2>
+            <p>Tags: {selectedCohort.tag.join(", ")}</p>
 
-        <TableContainer component={Paper} sx={{ pt: 1 }}>
-          <Table size="small" aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Username</TableCell>
-                <TableCell>LoginType</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Action</TableCell>
-                <TableCell>Detail</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.length > 0 &&
-                users
-                  .filter(
-                    (data) =>
-                      JSON.stringify(data)
-                        .toLowerCase()
-                        .indexOf(searchKey.toLowerCase()) !== -1
-                  )
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <Row
-                      key={row.id}
-                      row={row}
-                      handleRemoveClick={handleRemoveClick}
-                      handleRemoveRoleClick={handleRemoveRoleClick}
-                    />
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">Total Persons</Typography>
+                    <Typography variant="h4">{mockStats.totalPersons}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">Total Deaths</Typography>
+                    <Typography variant="h4">{mockStats.totalDeaths}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">Medications</Typography>
+                    <Typography variant="h4">{mockStats.medications}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">Procedures</Typography>
+                    <Typography variant="h4">{mockStats.procedures}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+            <TableContainer component={Paper} sx={{ mt: 3 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Cohort Definition ID</StyledTableCell>
+                    <StyledTableCell>Subject ID</StyledTableCell>
+                    <StyledTableCell>Cohort Start Date</StyledTableCell>
+                    <StyledTableCell>Cohort End Date</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {cohortDetails.map((detail) => (
+                    <StyledTableRow key={detail.subject_id}>
+                      <StyledTableCell>{detail.cohort_definition_id}</StyledTableCell>
+                      <StyledTableCell>{detail.subject_id}</StyledTableCell>
+                      <StyledTableCell>{detail.cohort_start_date}</StyledTableCell>
+                      <StyledTableCell>{detail.cohort_end_date}</StyledTableCell>
+                    </StyledTableRow>
                   ))}
-            </TableBody>
-          </Table>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 20, 30]}
-            component="div"
-            count={users.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </TableContainer>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        ) : (
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <AppBar
+                sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3, pr: 1 }}
+                position="static"
+                color="inherit"
+                elevation={0}
+              >
+                <Grid container alignItems="center">
+                  <Grid item xs>
+                    <Search>
+                      <SearchIconWrapper>
+                        <BiSearchAlt />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search "
+                        value={searchKey}
+                        onChange={handleSearch}
+                        inputProps={{ "aria-label": "search" }}
+                      />
+                    </Search>
+                  </Grid>
+                  <Grid item> 
+                    <Stack direction="row" spacing={1}>
+                      <Icon><MdFilterList /></Icon>
+                      <Icon><MdOutlineLibraryAdd /></Icon>
+                    </Stack>
+                  </Grid>
+                </Grid>
+              </AppBar>
+            </Grid>
+          </Grid>
+        )}
+
+        {!selectedCohort && (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Cohort ID</StyledTableCell>
+                  <StyledTableCell>Cohort Name</StyledTableCell>
+                  <StyledTableCell>Cohort Description</StyledTableCell>
+                  <StyledTableCell>Tags</StyledTableCell>
+                  <StyledTableCell>Details</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cohorts.map((row, index) => (
+                  <StyledTableRow key={row.title}>
+                    <StyledTableCell>{index + 1}</StyledTableCell>
+                    <StyledTableCell>{row.title}</StyledTableCell>
+                    <StyledTableCell>{row.title}</StyledTableCell>
+                    <StyledTableCell>{row.tag.join(", ")}</StyledTableCell>
+                    <StyledTableCell>
+                      <Icon onClick={() => showDetails(row)}>
+                        <AiOutlineMore />
+                      </Icon>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Container>
     </div>
   );
-}
+};
 
-const mapStateToProps = (state) => ({
-  users: state.cada.users,
-  projects: state.cada.projects,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getUsers: (payload) => dispatch(getUsers(payload)),
-  getProjects: () => dispatch(getProjects()),
-  addUser: (payload) => dispatch(addUser(payload)),
-  removeUser: (id) => dispatch(removeUser(id)),
-  removeProjectUser: (payload) => dispatch(removeProjectUser(payload)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default PersonTable;

@@ -7,34 +7,18 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Tooltip,
-  // IconButton,
 } from "@mui/material";
 import Label from '../../../common/Label';
-// import { AiOutlineCloseCircle } from "react-icons/ai";
-
-// const getTokenColor = (token) => {
-//   if (token.toLowerCase().includes("high") || token.toLowerCase().slice(-2) === "_h" || token.includes("+")) {
-//     return "success";
-//   }
-
-//   if (token.toLowerCase().includes("low") || token.toLowerCase().slice(-2) === "_l" || token.includes("-")) {
-//     return "error";
-//   }
-
-//   return "info";
-// }
+import Tooltip from './Tooltip';
 
 export default function TokenTable({ headers, tokens, otherTokens }) {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ p: 2, width: "100%", backgroundColor: "transparent", overflow: "hidden" }}>
+      <TableContainer component={Paper} sx={{ p: 2, width: "100%", backgroundColor: "transparent", overflow: "visible" }}>
         <Table size="small" aria-label="simple table" style={{ backgroundColor: "transparent" }}>
           <TableHead>
             <TableRow>
-              {/* <TableCell align="center">
-            </TableCell> */}
               {headers.map((header, index) => {
                 return <TableCell key={index} align={header.align}>
                   {header.label}
@@ -61,21 +45,9 @@ export default function TokenTable({ headers, tokens, otherTokens }) {
                           {
                             header.name === 'tokens' ?
                               <Tooltip
-                                title={
-                                  <React.Fragment>
-                                    <div>
-                                      {token.token.length > 20 && <div className="token-name">Token name: {token.token.replace("_", " ")}</div>}
-                                      {
-                                        token.description.trim() ?
-                                          <div className="token-description">Description: {token.description.trim()}</div> :
-                                          <div className="token-description">No info</div>
-                                      }
-                                    </div>
-                                  </React.Fragment>
-                                }
+                                tokenName={token.token.replace("_", " ")}
+                                description={token.description.trim() || "No info"}
                                 placement="right"
-                                arrow
-                                disableInteractive
                               >
                                 <Label
                                   color={otherTokens.tokens.filter(t => t.token === token.token).length > 0 ? 'success' : 'info'}
@@ -110,18 +82,6 @@ export default function TokenTable({ headers, tokens, otherTokens }) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           /> */}
       </TableContainer>
-      <style>
-        {`
-          .token-name {
-            font-weight: bold;
-            font-size: 0.9rem;
-          }
-          .token-description {
-            font-size: 0.9rem;
-            margin-top: 10px;
-          }
-        `}
-      </style>
     </>
   )
 }

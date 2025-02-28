@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import LinearProgress from '@mui/material/LinearProgress';
+import Chip from '@mui/material/Chip';
 import Label from '../../../cada/common/Label';
 // import React, { Component } from 'react';
 // import { LayoutButton } from 'react-viewerbase';
@@ -40,7 +41,9 @@ export default function BasicCard() {
     <Card sx={{ height: "100%", width: "100%" }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Concepts
+          NLP Concepts
+           {' '}
+      <Chip label="24" size="small" />
         </Typography>
         {[
       {
@@ -56,20 +59,6 @@ export default function BasicCard() {
         "concept_index": 7,
         "trigger_word": "CHF",
         "concept": "Congestive heart failure"
-      },
-      {
-        "event_id": 196,
-        "concept_id": 4,
-        "concept_index": 3,
-        "trigger_word": "HTN",
-        "concept": "Hypertensive disease"
-      },
-      {
-        "event_id": 196,
-        "concept_id": 6,
-        "concept_index": 5,
-        "trigger_word": "LBBB",
-        "concept": "Left Bundle-Branch Block"
       },
       {
         "event_id": 196,
@@ -273,7 +262,7 @@ export default function BasicCard() {
     })}
         <Stack sx={{ width: '100%', color: 'grey.500' , flexGrow:1}} spacing={2}>
         
-              <LinearProgress color="success" />
+              {/* <LinearProgress color="success" /> */}
             </Stack>
       </CardContent>
     </Card>

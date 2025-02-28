@@ -15,8 +15,8 @@ import { connect } from "react-redux";
 // ----------------------------------------------------------------------
 
 async function assignProjectRole(projectId, userId, role) {
-  console.log(`api/cada/projects/${projectId}/users/${userId}?role=${role}`);
-  return fetch(`/api/cada/projects/${projectId}/users/${userId}?role=${role}`, {
+  console.log(`api/cada/project/${projectId}/users/${userId}?role=${role}`);
+  return fetch(`/api/cada/project/${projectId}/users/${userId}?role=${role}`, {
     method: "POST",
     mode: "cors", //include this to fetch without body
     headers: {

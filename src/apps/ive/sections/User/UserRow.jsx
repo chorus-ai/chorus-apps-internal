@@ -27,8 +27,8 @@ import EditUser from "./EditUser";
 // ----------------------------------------------------------------------
 
 async function removeProjectRole(projectId, userId, role) {
-  console.log(`/api/cada/projects/${projectId}/users/${userId}?role=${role}`);
-  return fetch(`/api/cada/projects/${projectId}/users/${userId}?role=${role}`, {
+  console.log(`/api/cada/project/${projectId}/users/${userId}?role=${role}`);
+  return fetch(`/api/cada/project/${projectId}/users/${userId}?role=${role}`, {
     method: "DELETE",
     mode: "cors", //include this to fetch without body
     headers: {
@@ -135,7 +135,7 @@ export default function UserRow({ row, handleRemoveClick }) {
     if (userProjectRoles === null) {
       axios({
         method: "get",
-        url: `/api/cada/projects/users/${row.id}`,
+        url: `/api/cada/project/users/${row.id}`,
       }).then((res) => {
         dispatch({
           type: "ADD_PROJECT_USER",
@@ -188,15 +188,6 @@ export default function UserRow({ row, handleRemoveClick }) {
 
       <TableRow>
         <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <MdExpandLess /> : <MdExpandMore />}
-          </IconButton>
-        </TableCell>
-        <TableCell>
           <Stack direction="row" alignItems="center" spacing={2}>
             {row.avatar ? (
               <MuiAvatar>
@@ -222,23 +213,26 @@ export default function UserRow({ row, handleRemoveClick }) {
           {row.featureUsers[0] ? row.featureUsers[0].role : null}
         </TableCell>
         <TableCell>
-          <MdDriveFileRenameOutline
-            fontSize="small"
-            sx={{ cursor: "pointer", color: "info.main" }}
+          <IconButton
+            color="info"
+            size="small"
             onClick={() => setEditUserOpen(!editUserOpen)}
-          />
+          >
+            <MdDriveFileRenameOutline />
+          </IconButton>
           <PopConfirm
             message="Are you sure, delete? "
             onConfirm={handleConfirmDelete}
           >
-            <MdDeleteForever
-              fontSize="small"
-              sx={{ cursor: "pointer", color: "success.main", ml: 1 }}
-            />
+            <IconButton size="small" color="success">
+              <MdDeleteForever />
+            </IconButton>
           </PopConfirm>
         </TableCell>
         <TableCell>
-          <MdMoreVert sx={{ cursor: "pointer", ml: 1, color: "grey" }} />
+          <IconButton size="small" >
+          <MdMoreVert  />
+            </IconButton>
         </TableCell>
       </TableRow>
     </>

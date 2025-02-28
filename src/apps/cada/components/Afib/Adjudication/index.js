@@ -12,7 +12,7 @@ import {
 import useDidMountEffect from "../../../../../hooks/useDidMountEffect";
 import { getAnnotatedEvents } from "../../../utils/adjudication_helper";
 import { connect, useSelector } from "react-redux";
-import { getAdjudicationEvents } from "../../../../../redux/cada/actions";
+import { getAdjudicationEvents } from "../../../redux/actions";
 import { NoContent } from "../../../common/NoContent";
 import { Download } from "../../../common/Download";
 import Overview from "./Overview";

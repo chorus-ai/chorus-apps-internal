@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NoContent } from "../../../common/NoContent";
-import {
-  getAnnotationEvents,
-  getProjects,
-} from "../../../../../redux/cada/actions";
-import {
-  AppBar,
-  Box,
-  Button,
-  LinearProgress,
-  Toolbar,
-  Typography,
-  createTheme,
-} from "@mui/material";
-import Panel from "./Panel";
-import { InputPagination } from "../../../common/InputPagination";
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { NoContent } from '../../../common/NoContent';
+import { getAnnotationEvents, getProjects } from '../../../redux/actions';
+import { AppBar, Box, Button, LinearProgress, Toolbar, Typography, createTheme } from '@mui/material';
+import Panel from './Panel';
+import { InputPagination } from '../../../common/InputPagination';
 
 const theme = createTheme();
 
@@ -33,7 +22,9 @@ const useStyles = {
 export default function Annotation({ pid }) {
   const project = useSelector((state) => state.cada.userProjects[pid]);
 
-  const events = useSelector((state) => state.cada.ann_events[pid] || null);
+  const events = useSelector((state) =>
+    state.cada.ann_events[pid] || null
+  );
 
   const user = useSelector((state) => state.main.user);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,7 +45,7 @@ export default function Annotation({ pid }) {
 
   const handlePageChange = (e, page) => {
     setEIdx(page - 1);
-  };
+  }
 
   const handleInputPage = (page) => {
     if (page > 0 && page <= events.false.length + events.true.length) {
@@ -71,7 +62,7 @@ export default function Annotation({ pid }) {
       setEIdx(events.false.length + events.true.length - 1);
       return;
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -83,51 +74,53 @@ export default function Annotation({ pid }) {
 
   return (
     <>
-      {events && Object.keys(events).length > 0 ? (
-        <div>
-          <AppBar
-            component="div"
-            sx={{ pl: 1 }}
-            position="static"
-            elevation={0}
-          >
-            <Toolbar>
-              <Typography color="inherit" variant="h6" component="h1">
-                {project?.name} Annotation
-              </Typography>
-              <div style={{ flex: "1 1 auto" }} />
-              <Button variant="outlined" color="inherit" size="small">
-                Report
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <Panel
-            project={project}
-            user={user}
-            eIdx={eIdx}
-            setEIdx={setEIdx}
-            events={[...events[true], ...events[false]].sort((a, b) => {
-              if (a.cadaFile.info < b.cadaFile.info) {
-                return -1;
-              }
-              if (a.cadaFile.info > b.cadaFile.info) {
-                return 1;
-              }
-              return a.id - b.id;
-            })}
-          />
-          <Box sx={{ ...useStyles.pages }}>
-            <InputPagination
-              total={events.false.length + events.true.length}
-              page={eIdx + 1}
-              onChange={handlePageChange}
-              onInput={handleInputPage}
+      {
+        events && Object.keys(events).length > 0 ? (
+          <div>
+            <AppBar
+              component="div"
+              sx={{ pl: 1 }}
+              position="static"
+              elevation={0}
+            >
+              <Toolbar>
+                <Typography color="inherit" variant="h6" component="h1">
+                  {project?.name} Annotation
+                </Typography>
+                <div style={{ flex: "1 1 auto" }} />
+                <Button variant="outlined" color="inherit" size="small">
+                  Report
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <Panel
+              project={project}
+              user={user}
+              eIdx={eIdx}
+              setEIdx={setEIdx}
+              events={[...events[true], ...events[false]].sort((a, b) => {
+                if (a.cadaFile.info < b.cadaFile.info) {
+                  return -1;
+                }
+                if (a.cadaFile.info > b.cadaFile.info) {
+                  return 1;
+                }
+                return a.id - b.id;
+              })}
             />
-          </Box>
-        </div>
-      ) : (
-        <NoContent />
-      )}
+            <Box sx={{ ...useStyles.pages }}>
+              <InputPagination
+                total={events.false.length + events.true.length}
+                page={eIdx + 1}
+                onChange={handlePageChange}
+                onInput={handleInputPage}
+              />
+            </Box>
+          </div>
+        ) : (
+          <NoContent />
+        )
+      }
     </>
-  );
+  )
 }

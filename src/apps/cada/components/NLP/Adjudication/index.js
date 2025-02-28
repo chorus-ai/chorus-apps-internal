@@ -17,7 +17,7 @@ import { connect, useSelector } from "react-redux";
 import {
   getAdjudicationEvents,
   updateAdjudication,
-} from "../../../../../redux/cada/actions";
+} from "../../../redux/actions";
 import { useParams } from "react-router-dom";
 import useDidMountEffect from "../../../../../hooks/useDidMountEffect";
 import { visuallyHidden } from "@mui/utils";

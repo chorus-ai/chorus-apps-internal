@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import useDidMountEffect from "../../../../../hooks/useDidMountEffect";
 import { connect, useSelector } from "react-redux";
-import { getAdjudicationEvents } from "../../../../../redux/cada/actions";
+import { getAdjudicationEvents } from "../../../redux/actions";
 import { NoContent } from "../../../common/NoContent";
 import { Download } from "../../../common/Download";
 import Overview from "./Overview";

@@ -10,7 +10,7 @@ import {
   DialogActions,
   DialogTitle,
   DialogContentText,
-} from "@material-ui/core";
+} from "@mui/material";
 import { connect } from "react-redux";
 import { createTheme } from "@mui/material/styles";
 

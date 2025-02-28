@@ -3,7 +3,6 @@ import {
   AppBar,
   Grid,
   Button,
-  TextField,
   Table,
   TableBody,
   TableCell,
@@ -13,22 +12,12 @@ import {
   Container,
   Paper,
   TablePagination,
-  MenuItem,
   Tabs,
   Tab,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-  DialogContentText,
-  Alert,
   InputBase,
   FormControl,
   Toolbar,
   Typography,
-  Tooltip,
-  IconButton,
-  Stack,
 } from "@mui/material";
 
 import { connect } from "react-redux";
@@ -38,7 +27,7 @@ import {
   addUser,
   removeUser,
   removeProjectUser,
-} from "../../../redux/cada/actions";
+} from "../../cada/redux/actions";
 import { styled, alpha } from "@mui/material/styles";
 import { BiSearchAlt } from "react-icons/bi";
 import Row from "../sections/User/UserRow";
@@ -165,8 +154,6 @@ function User({
 
   }, [users]);
 
-  
-
   return (
     <div >
       {open && <NewUser open={open} handleClose={handleClose} />}
@@ -235,11 +222,10 @@ function User({
           </Grid>
         </Grid>
 
-        <TableContainer component={Paper} sx={{ pt: 1 }}>
+        <TableContainer component={Paper} sx={{ p: 2}}>
           <Table size="small" aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell></TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Username</TableCell>
                 <TableCell>LoginType</TableCell>

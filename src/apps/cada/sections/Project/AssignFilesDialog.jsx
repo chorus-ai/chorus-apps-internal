@@ -262,8 +262,8 @@ function EnhancedTable({
 
   useEffect(() => {
     const geiles = async (search) => {
-      console.log(`/api/cada/files?search=${search}`);
-      const result = await axios(`/api/cada/files?search=${search}`);
+      console.log(`/api/cada/file?search=${search}`);
+      const result = await axios(`/api/cada/file?search=${search}`);
       console.log(result);
       setFiles(result.data);
     };
@@ -325,9 +325,9 @@ function EnhancedTable({
     console.log("selected: ", selected);
     console.log("projectId: ", projectId);
     const geiles = async (search) => {
-      console.log(`/api/cada/events?pid=${projectId}`);
+      console.log(`/api/cada/event?pid=${projectId}`);
       const result = await axios.post(
-        `/api/cada/events?pid=${projectId}`,
+        `/api/cada/event?pid=${projectId}`,
         selected
       );
       console.log(result);

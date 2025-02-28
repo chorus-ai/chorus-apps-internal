@@ -136,8 +136,8 @@ export default function Navigator(props) {
               id: "Apps",
               children: [
                 {
-                  id: "IVe",
-                  href: "/ive",
+                  id: "M2D",
+                  href: "/m2d",
                   icon: <MdFolder />,
                 },
               ],

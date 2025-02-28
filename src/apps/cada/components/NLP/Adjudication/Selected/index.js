@@ -25,7 +25,7 @@ import {
 import {
   updateAdjudication,
   getAnnotators,
-} from "../../../../../../redux/cada/actions";
+} from "../../../../redux/actions";
 
 import { teal } from "@mui/material/colors";
 import useDidMountEffect from "../../../../../../hooks/useDidMountEffect";

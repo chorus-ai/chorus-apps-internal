@@ -33,8 +33,8 @@ import Label from "../../common/Label";
 // ----------------------------------------------------------------------
 
 async function removeProjectRole(projectId, userId, role) {
-  console.log(`/api/cada/projects/${projectId}/users/${userId}?role=${role}`);
-  return fetch(`/api/cada/projects/${projectId}/users/${userId}?role=${role}`, {
+  console.log(`/api/cada/project/${projectId}/users/${userId}?role=${role}`);
+  return fetch(`/api/cada/project/${projectId}/users/${userId}?role=${role}`, {
     method: "DELETE",
     mode: "cors", //include this to fetch without body
     headers: {
@@ -133,7 +133,7 @@ function UserRowCollapse({ open, row }) {
     if (userProjectRoles === null) {
       axios({
         method: "get",
-        url: `/api/cada/projects/users/${row.id}`,
+        url: `/api/cada/project/users/${row.id}`,
       }).then((res) => {
         dispatch({
           type: "ADD_PROJECT_USER",
@@ -148,7 +148,7 @@ function UserRowCollapse({ open, row }) {
   //   if (userProjectRoles === null) {
   //     axios({
   //       method: "get",
-  //       url: `/api/cada/projects/users/${row.id}`,
+  //       url: `/api/cada/project/users/${row.id}`,
   //     }).then((res) => {
   //       dispatch({
   //         type: "ADD_PROJECT_USER",

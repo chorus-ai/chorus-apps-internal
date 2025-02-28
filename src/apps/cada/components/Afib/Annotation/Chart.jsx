@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from "react";
-import Canvas from "../../../utils/canvasJS";
+import Canvas from "../../../../../utils/canvasJS";
 
 const Charts = ({
   fastbinWaveforms,

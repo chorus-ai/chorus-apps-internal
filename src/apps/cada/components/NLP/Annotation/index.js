@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Panel from "./Panel";
 import useDidMountEffect from "../../../../../hooks/useDidMountEffect";
-import { getAnnotationEvents } from "../../../../../redux/cada/actions";
+import { getAnnotationEvents } from "../../../redux/actions";
 import { NoContent } from "../../../common/NoContent";
 import { Download } from "../../../common/Download";
 import { useSelector, useDispatch } from "react-redux";

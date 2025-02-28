@@ -15,7 +15,7 @@ import { connect, useSelector } from "react-redux";
 import {
   getAnnotationEvents,
   updateAnnotation,
-} from "../../../../../redux/cada/actions";
+} from "../../../redux/actions";
 import { Typography } from "@mui/material";
 import Chart from "./Data";
 import useDidMountEffect from "../../../../../hooks/useDidMountEffect";

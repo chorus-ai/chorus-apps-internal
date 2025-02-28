@@ -36,7 +36,7 @@ import {
   addProject,
   removeProject,
   updateProject,
-} from "../../../redux/cada/actions";
+} from "../redux/actions";
 
 import { createTheme } from "@mui/material/styles";
 import { PlusIcon } from "../common/Icons";
@@ -191,8 +191,8 @@ const ProjectCard = ({
 
   useEffect(() => {
     const getCount = async (projectId) => {
-      console.log(`/api/cada/events/count?pid=${projectId}`);
-      const result = await axios(`/api/cada/events/count?pid=${projectId}`);
+      console.log(`/api/cada/event/count?pid=${projectId}`);
+      const result = await axios(`/api/cada/event/count?pid=${projectId}`);
       getEventsCount(projectId, result.data);
     };
 
