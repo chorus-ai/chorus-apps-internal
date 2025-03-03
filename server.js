@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 Promise.all([
   db.sequelize_app.sync(),
   db.sequelize_omop.sync(),
+  db.sequelize_vocab.sync(),
 ]).then(() => {
   console.log("Synced db.");
 }).catch((err) => {
