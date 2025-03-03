@@ -9,13 +9,10 @@ const development = {
     dialect: "sqlite",
     storage: "data/omop.sqlite3",
   },
-<<<<<<< HEAD
-=======
   sqlite_vocab: {
     dialect: "sqlite",
     storage: "data/vocab.sqlite3",
   },
->>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
 };
 
 const test = {
@@ -30,11 +27,7 @@ const production = {
     port: process.env.DB_PORT,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-<<<<<<< HEAD
-    database: process.env.DB_DB_NAME,
-=======
     database: process.env.DB_NAME,
->>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
     ssl: true,
     dialectOptions: {
       ssl: {
@@ -52,11 +45,7 @@ const production = {
     port: process.env.DB_PORT,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-<<<<<<< HEAD
-    database: process.env.DB_DB_NAME,
-=======
     database: process.env.DB_NAME,
->>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
     ssl: true,
     dialectOptions: {
       ssl: {
@@ -68,8 +57,6 @@ const production = {
       schema: "omopcdm",  
     }
   },
-<<<<<<< HEAD
-=======
   db_vocab: {
     dialect: "postgres",
     host: process.env.DB_HOSTNAME,
@@ -88,7 +75,6 @@ const production = {
       schema: "vocabulary",  
     }
   },
->>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
 };
 
 module.exports = {
