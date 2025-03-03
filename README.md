@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Quick start
 
 <figure><img src=".gitbook/assets/CHoRUS Cloud App Architecture (3) (1).jpg" alt=""><figcaption><p>CHoRUS Apps Architecture</p></figcaption></figure>
@@ -59,6 +60,9 @@ Then, install remaining libraries: [Redis](https://redis.io/docs/latest/operate/
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the LICENSE file for more details.
 =======
 # Getting Started with CHoRUS Apps
+=======
+# Getting Started 
+>>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
 
 ## How to run
 
@@ -109,4 +113,7 @@ node server
 ```
 
 
+<<<<<<< HEAD
 >>>>>>> Readme added.
+=======
+>>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c

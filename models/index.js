@@ -22,6 +22,12 @@ function loadModels(directory) {
           if (directory.endsWith("omop")) {
             const model = modelDefinition(sequelize_omop, Sequelize.DataTypes);
             db[model.name] = model;
+<<<<<<< HEAD
+=======
+          } else if (directory.endsWith("vocab")) {
+            const model = modelDefinition(sequelize_vocab, Sequelize.DataTypes);
+            db[model.name] = model
+>>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
           } else {
             const model = modelDefinition(sequelize_app, Sequelize.DataTypes);
             db[model.name] = model;
@@ -46,11 +52,19 @@ function loadRelations(directory) {
   });
 }
 
+<<<<<<< HEAD
 let sequelize_app, sequelize_omop;
+=======
+let sequelize_app, sequelize_omop, sequelize_vocab;
+>>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
 if (env === 'development') {
   console.log("Using development environment");
   sequelize_app = new Sequelize(config.development.sqlite_app);
   sequelize_omop = new Sequelize(config.development.sqlite_omop);
+<<<<<<< HEAD
+=======
+  sequelize_vocab = new Sequelize(config.development.sqlite_vocab);
+>>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
 } else if (env === 'test') {
   console.log("Using test environment");
   const configTest = config.test;
@@ -59,6 +73,10 @@ if (env === 'development') {
   console.log("Using production environment");
   sequelize_app = new Sequelize(config.production.db_app);
   sequelize_omop = new Sequelize(config.production.db_omop);
+<<<<<<< HEAD
+=======
+  sequelize_vocab = new Sequelize(config.production.db_vocab);
+>>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
 }
 
 loadModels(__dirname);
@@ -93,6 +111,10 @@ loadRelations(__dirname);
   
 db.sequelize_app = sequelize_app;
 db.sequelize_omop = sequelize_omop;
+<<<<<<< HEAD
+=======
+db.sequelize_vocab = sequelize_vocab;
+>>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
 db.Sequelize = Sequelize;
 
 module.exports = db;
