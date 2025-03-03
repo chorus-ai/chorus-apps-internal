@@ -33,9 +33,6 @@ yarn-error.log*
 /python-scripts/vpp_model/__pycache__
 /python-scripts/siamaf_model/__pycache__
 /python-scripts/data_handlers/__pycache__
-<<<<<<< HEAD
-=======
 config/aws.md
 config/pm2.md
 config/conda.md
->>>>>>> e2f8beaaac133f380c75b3d6edefd575dc1a417c
