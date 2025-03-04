@@ -20,7 +20,7 @@ const loadFeatures = () => {
     },
     servers: [
       {
-        url: "http://"+ process.env.HOST+":"+ process.env.PORT+"/api",
+        url: "http://"+ process.env.APP_HOST+":"+ process.env.APP_PORT+"/api",
         description: "Local development server",
       },
     ],
