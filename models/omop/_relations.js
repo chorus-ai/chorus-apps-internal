@@ -40,4 +40,7 @@ module.exports = (db) => {
   db.measurement.belongsTo(db.person, { foreignKey: 'person_id' });
   db.measurement.belongsTo(db.visit_occurrence, { foreignKey: 'visit_occurrence_id' });
   db.measurement.belongsTo(db.visit_detail, { foreignKey: 'visit_detail_id' });
+
+  db.cohort.belongsTo(db.person, { foreignKey: 'subject_id' });
+  db.cohort.belongsTo(db.cohort_definition, { foreignKey: 'cohort_definition_id' });
 };
