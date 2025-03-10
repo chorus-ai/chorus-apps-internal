@@ -35,6 +35,18 @@ With **good APIs, data flows effortlessly**, enabling researchers, clinicians, a
 
 ***
 
+### **How APIs and IVe’s Visualization Features Work Together**
+
+When APIs and visual interrogation tools like IVe are combined, they create a **powerful ecosystem** for working with clinical data. This approach:
+
+* **Allows clinicians to replay and analyze past cases**, helping them refine diagnosis and treatment strategies.
+* **Enables researchers to test hypotheses** by simulating different clinical conditions using real-world data.
+* **Provides a tool for model validation**, allowing AI-driven predictions to be examined and verified through playback of historical cases.
+
+By incorporating **playback and simulation**, IVe ensures that clinical data isn’t just stored but actively used to improve healthcare decision-making.
+
+***
+
 ### **IntegratedViewer (IVe): Bringing Data to Life with Playback and Simulation**
 
 Even with powerful APIs, raw clinical data can be overwhelming. That’s where **IntegratedViewer (IVe)** comes in. IVe is designed to **help users visually interrogate and explore clinical data** through intuitive interfaces, playback capabilities, and simulation features.
@@ -48,18 +60,6 @@ Even with powerful APIs, raw clinical data can be overwhelming. That’s where *
 ⚡ **Simulation Mode** – Users can test hypotheses by running simulations on previously recorded clinical data, providing deeper insights into patient trajectories and treatment responses.
 
 📌 **User-Friendly Exploration** – IVe removes the technical barrier, enabling both clinicians and researchers to explore data visually without needing programming expertise.
-
-***
-
-### **How APIs and IVe’s Visualization Features Work Together**
-
-When APIs and visual interrogation tools like IVe are combined, they create a **powerful ecosystem** for working with clinical data. This approach:
-
-* **Allows clinicians to replay and analyze past cases**, helping them refine diagnosis and treatment strategies.
-* **Enables researchers to test hypotheses** by simulating different clinical conditions using real-world data.
-* **Provides a tool for model validation**, allowing AI-driven predictions to be examined and verified through playback of historical cases.
-
-By incorporating **playback and simulation**, IVe ensures that clinical data isn’t just stored but actively used to improve healthcare decision-making.
 
 ***
 
