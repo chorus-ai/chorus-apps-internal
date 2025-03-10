@@ -8,6 +8,10 @@
 * [Marketplace Benefits](getting-started/marketplace-benefits.md)
 * [App User Profile](getting-started/app-user-profile.md)
 
+***
+
+* [A Case for IVe](a-case-for-ive.md)
+
 ## Apps
 
 * [IVe](apps/ive.md)
