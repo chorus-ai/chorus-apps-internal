@@ -19,8 +19,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getUsers,
   getProjects,
@@ -33,9 +32,6 @@ import { BiSearchAlt } from "react-icons/bi";
 import Row from "../sections/User/UserRow";
 import NewUser from "../sections/User/NewUser";
 import { PlusIcon } from "../common/Icons";
-import useDidMountEffect from "../../../hooks/useDidMountEffect";
-
-// ----------------------------------------------------------------------
 
 const Search = styled(FormControl)(({ theme }) => ({
   position: "relative",
@@ -64,29 +60,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
   },
 }));
 
-// ----------------------------------------------------------------------
+function User() {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.cada.users);
+  const projects = useSelector((state) => state.cada.projects);
 
-function User({
-  users,
-  projects,
-  getUsers,
-  addUser,
-  removeUser,
-  getProjects,
-  removeProjectUser,
-}) {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [searchKey, setSearchKey] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(0);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchKey, setSearchKey] = useState("");
   const [values, setValues] = useState({
     fname: "",
     lname: "",
@@ -96,125 +85,68 @@ function User({
     isBot: false,
   });
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-  const handleFormChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+  useEffect(() => {
+    if (projects.length === 0) dispatch(getProjects());
+  }, [projects, dispatch]);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  useEffect(() => {
+    if (users.length === 0) dispatch(getUsers({ fid: 2 }));
+  }, [users, dispatch]);
+
+  const handleChange = (_, newValue) => setValue(newValue);
+
+  const handleFormChange = (event) =>
+    setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+
+  const handleChangePage = (_, newPage) => setPage(newPage);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleSearch = (event) => {
-    setSearchKey(event.target.value);
-  };
-
-
-  const handleRemoveClick = (id) => {
-    removeUser(id);
-  };
-
-  const handleRemoveRoleClick = (payload) => {
-    removeProjectUser(payload);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    if (projects.length === 0) {
-      getProjects();
-    }
-  }, [projects]);
-
-  useEffect(() => {
-    if (users.length === 0) {
-      getUsers({ fid: 2 });
-    }
-
-  }, []);
-
-  useDidMountEffect(() => {
-
-
-  }, [users]);
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleSearch = (event) => setSearchKey(event.target.value);
 
   return (
-    <div >
+    <div>
       {open && <NewUser open={open} handleClose={handleClose} />}
 
-      <Container maxWidth="lg" >
-
-      <AppBar
-        component="div"
-        sx={{ backgroundColor: "transparent", color: "ButtonText" }}
-        position="static"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>
-              <Typography color="inherit" variant="h6" component="h2">
-                Users
-              </Typography>
+      <Container maxWidth="xl">
+        <AppBar component="div" sx={{ backgroundColor: "transparent", color: "ButtonText" }} position="static" elevation={0}>
+          <Toolbar>
+            <Grid container alignItems="center" spacing={1}>
+              <Grid item xs>
+                <Typography color="inherit" variant="h6" component="h2">
+                  Users
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <AppBar
-        sx={{  backgroundColor: "transparent", color: "ButtonText" }}
-        component="div"
-        position="static"
-        elevation={0}
-      >
-        <Tabs value={value} onChange={handleChange}>
-          <Tab disableRipple label="Overview" />
-        </Tabs>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
+
+        <AppBar component="div" sx={{ backgroundColor: "transparent", color: "ButtonText" }} position="static" elevation={0}>
+          <Tabs value={value} onChange={handleChange}>
+            <Tab disableRipple label="Overview" />
+          </Tabs>
+        </AppBar>
+
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <AppBar
-              sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3 }}
-              position="static"
-              color="inherit"
-              elevation={0}
-            >
+            <AppBar sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3 }} position="static" color="inherit" elevation={0}>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
                   <Search>
                     <SearchIconWrapper>
                       <BiSearchAlt />
                     </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="Search anything"
-                      value={searchKey}
-                      onChange={handleSearch}
-                      inputProps={{ "aria-label": "search" }}
-                    />
+                    <StyledInputBase placeholder="Search anything" value={searchKey} onChange={handleSearch} inputProps={{ "aria-label": "search" }} />
                   </Search>
                 </Grid>
                 <Grid item>
-                  <Button
-                    onClick={handleClickOpen}
-                    variant="contained"
-                    color="primary"
-                  >
-                  <PlusIcon/>  user
+                  <Button onClick={handleClickOpen} variant="contained" color="primary">
+                    <PlusIcon /> User
                   </Button>
                 </Grid>
               </Grid>
@@ -222,36 +154,25 @@ function User({
           </Grid>
         </Grid>
 
-        <TableContainer component={Paper} sx={{ p: 2}}>
-          <Table size="small" aria-label="simple table">
+        <TableContainer component={Paper} sx={{ p: 2 }}>
+          <Table size="small" aria-label="users table">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Username</TableCell>
-                <TableCell>LoginType</TableCell>
+                <TableCell>Login Type</TableCell>
                 <TableCell>Role</TableCell>
                 <TableCell>Action</TableCell>
                 <TableCell>Detail</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.length > 0 &&
-                users
-                  .filter(
-                    (data) =>
-                      JSON.stringify(data)
-                        .toLowerCase()
-                        .indexOf(searchKey.toLowerCase()) !== -1
-                  )
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <Row
-                      key={row.id}
-                      row={row}
-                      handleRemoveClick={handleRemoveClick}
-                      handleRemoveRoleClick={handleRemoveRoleClick}
-                    />
-                  ))}
+              {users
+                .filter((data) => JSON.stringify(data).toLowerCase().includes(searchKey.toLowerCase()))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <Row key={row.id} row={row} handleRemoveClick={() => dispatch(removeUser(row.id))} handleRemoveRoleClick={(payload) => dispatch(removeProjectUser(payload))} />
+                ))}
             </TableBody>
           </Table>
           <TablePagination
@@ -269,17 +190,4 @@ function User({
   );
 }
 
-const mapStateToProps = (state) => ({
-  users: state.cada.users,
-  projects: state.cada.projects,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getUsers: (payload) => dispatch(getUsers(payload)),
-  getProjects: () => dispatch(getProjects()),
-  addUser: (payload) => dispatch(addUser(payload)),
-  removeUser: (id) => dispatch(removeUser(id)),
-  removeProjectUser: (payload) => dispatch(removeProjectUser(payload)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default User;
