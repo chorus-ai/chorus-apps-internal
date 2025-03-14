@@ -92,7 +92,7 @@ export default function Signin() {
       if (password === "" || password === "1234") {
         navigate("/resetpassword")
       } else {
-        navigate("/ive");
+        navigate("/features");
       }
     }
   };
@@ -149,7 +149,7 @@ export default function Signin() {
           ) : (
             <ContentStyle>
               <Typography variant="h4" gutterBottom>
-              Sign in to {process.env.REACT_APP_NAME} Apps
+                Sign in to {process.env.REACT_APP_NAME} Apps
               </Typography>
 
               <Typography sx={{ color: "text.secondary", mb: 5 }}>
@@ -202,10 +202,10 @@ export default function Signin() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
                   autoFocus
                   value={username}
                   onChange={(e) => setUserName(e.target.value)}
