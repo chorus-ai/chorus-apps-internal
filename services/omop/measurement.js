@@ -1,25 +1,7 @@
 const db = require("../../models");
 const sequelize = require("sequelize");
 const { Op } = sequelize;
-
-const ORDERS = ["ASC", "DESC"];
-const DEFAULT_SORT = [["measurement_id", "DESC"]];
-const DEFAULT_PAGE_SIZE = 20;
-const MAX_PAGE_SIZE = 1000;
-
-
-function getPaginationAndSort(page, pageSize, sortOrder) {
-  const pageNum = parseInt(page, 10) || 1;
-  const size = parseInt(pageSize, 10) || DEFAULT_PAGE_SIZE;
-  const order = ORDERS.includes((sortOrder || "").toUpperCase())
-    ? [[ "measurement_id", sortOrder ]]
-    : DEFAULT_SORT;
-
-  const limit = size > 0 && size <= MAX_PAGE_SIZE ? size : DEFAULT_PAGE_SIZE;
-  const offset = (pageNum - 1) * limit;
-
-  return { order, offset, limit };
-}
+const { getPaginationAndSort } = require("./_helper");
 
 exports.findAll = (page, pageSize, sortOrder) => {
   const { order, offset, limit } = getPaginationAndSort(page, pageSize, sortOrder);
@@ -27,14 +9,7 @@ exports.findAll = (page, pageSize, sortOrder) => {
   return db.measurement.findAll({
     order,
     offset,
-    limit,
-    include: [
-      {
-        model: db.concept,
-        as: "concept",
-        required: false,
-      }
-    ]
+    limit
   });
 };
 
@@ -52,18 +27,9 @@ exports.search = (name, page, pageSize, exactMatch = false) => {
 
   return db.concept.findAll({
     logging: console.log,
+    where: { concept_name: conditions },
     offset,
     limit,
-    where: { concept_name: conditions },
-    include: [
-      {
-        model: db.measurement,
-        required: true,
-        where: {
-          measurement_concept_id: sequelize.col("concept.concept_id"),
-        },
-      },
-    ],
     order
   });
 };
@@ -75,13 +41,7 @@ exports.findByPersonId = (personId, page, pageSize, sortOrder) => {
     where: { person_id: personId },
     order,
     offset,
-    limit,
-    include: [
-      {
-        model: db.concept,
-        as: "concept"
-      }
-    ]
+    limit
   });
 };
 
@@ -98,13 +58,7 @@ exports.findByPersonIds = (personIds, page, pageSize, sortOrder) => {
     },
     order,
     offset,
-    limit,
-    include: [
-      {
-        model: db.concept,
-        as: "concept"
-      }
-    ]
+    limit
   });
 };
 
@@ -115,13 +69,7 @@ exports.findByVisitOccurrenceId = (visitOccurrenceId, page, pageSize, sortOrder)
     where: { visit_occurrence_id: visitOccurrenceId },
     order,
     offset,
-    limit,
-    include: [
-      {
-        model: db.concept,
-        as: "concept"
-      }
-    ]
+    limit
   });
 };
 
@@ -138,13 +86,7 @@ exports.findByVisitOccurrenceIds = (visitOccurrenceIds, page, pageSize, sortOrde
     },
     order,
     offset,
-    limit,
-    include: [
-      {
-        model: db.concept,
-        as: "concept"
-      }
-    ]
+    limit
   });
 };
 
@@ -202,12 +144,6 @@ exports.advancedSearch = (searchParams, page, pageSize, sortOrder) => {
     where: whereClause,
     order,
     offset,
-    limit,
-    include: [
-      {
-        model: db.concept,
-        as: "concept"
-      }
-    ]
+    limit
   });
 };

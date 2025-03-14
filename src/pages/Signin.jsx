@@ -92,7 +92,7 @@ export default function Signin() {
       if (password === "" || password === "1234") {
         navigate("/resetpassword")
       } else {
-        navigate("/features");
+        navigate("/ive");
       }
     }
   };

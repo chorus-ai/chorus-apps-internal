@@ -1,4 +1,4 @@
-const omopConceptServices = require("../../services/omop/concept");
+const omopConceptServices = require("../../services/vocab/concept");
 
 exports.findAll = (req, res) => {
   const { page, pageSize, sortOrder } = req.query;

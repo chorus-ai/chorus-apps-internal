@@ -2846,7 +2846,760 @@
             }
             }
         }
+        },
+        "/omop/note": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "List all notes",
+        "description": "Retrieves a paginated list of all notes in the dataset.",
+        "operationId": "listAllNotes",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of note objects." },
+          "500": { "description": "Internal Server Error" }
         }
+      }
+    },
+    "/omop/note/person/{person_id}": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get notes by Person ID",
+        "description": "Retrieves notes for a specific person_id.",
+        "operationId": "getNotesByPersonId",
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Unique identifier of the person"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": { 
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of notes for the given person_id." },
+          "404": { "description": "No notes found for this person_id." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/note/person/ids": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Get notes by array of Person IDs",
+        "description": "Retrieves notes for multiple person_id values.",
+        "operationId": "getNotesByPersonIds",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing an array of person_ids.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "person_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": {
+                  "person_ids": [101, 102, 103]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of notes for the given person_ids." },
+          "404": { "description": "No notes found for these person_ids." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/note/visit/{visit_occurrence_id}": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get notes by Visit Occurrence ID",
+        "description": "Retrieves notes for a specific visit_occurrence_id.",
+        "operationId": "getNotesByVisitOccurrenceId",
+        "parameters": [
+          {
+            "name": "visit_occurrence_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Unique identifier of the visit occurrence"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": { 
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of notes for the given visit_occurrence_id." },
+          "404": { "description": "No notes found for this visit_occurrence_id." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/note/visit/ids": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Get notes by array of Visit Occurrence IDs",
+        "description": "Retrieves notes for multiple visit_occurrence_id values.",
+        "operationId": "getNotesByVisitOccurrenceIds",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object with an array of visit_occurrence_ids.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "visit_occurrence_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": {
+                  "visit_occurrence_ids": [201, 202, 203]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of notes for the given visit_occurrence_ids." },
+          "404": { "description": "No notes found for these visit_occurrence_ids." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/note/search": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Search notes by attributes",
+        "description": "Searches notes by various attributes such as date range, type concept, language concept, person IDs, visit IDs, etc.",
+        "operationId": "searchNotes",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing search parameters. Single values use equality; arrays use IN.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start of the date range"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End of the date range"
+                  },
+                  "person_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  },
+                  "visit_occurrence_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  },
+                  "note_type_concept_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  },
+                  "language_concept_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": {
+                  "start_date": "2020-01-01",
+                  "end_date": "2020-12-31",
+                  "person_ids": [101, 102],
+                  "visit_occurrence_ids": [12345, 67890],
+                  "note_type_concept_ids": [44814649, 44814650],
+                  "language_concept_ids": [4180186]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of notes that match the search criteria." },
+          "404": { "description": "No notes found matching the given search parameters." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/cohort": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get All Cohorts",
+        "description": "Retrieves all cohort records in the dataset with optional pagination and sorting.",
+        "operationId": "listAllCohorts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination (default: 1)",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of results per page (default: 20)",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sorting order (asc or desc, default: desc)",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of cohort records."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/omop/cohort/{cohort_definition_id}": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get All Subjects in a Cohort",
+        "description": "Retrieves all subjects (cohort rows) belonging to a specific cohort identified by cohort_definition_id, with optional pagination and sorting.",
+        "operationId": "getCohortSubjects",
+        "parameters": [
+          {
+            "name": "cohort_definition_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the cohort definition",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination (default: 1)",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of results per page (default: 20)",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sorting order (asc or desc, default: desc)",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of subjects belonging to the specified cohort definition."
+          },
+          "404": {
+            "description": "No subjects found for the given cohort_definition_id."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/omop/cohort_definition": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "List All Cohort Definitions",
+        "description": "Retrieves all cohort definitions with optional pagination and sorting.",
+        "operationId": "listAllCohortDefinitions",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number, default=1",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of results per page, default=20",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sorting order (asc or desc), default=desc",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of cohort_definition records."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/omop/cohort_definition/{cohort_definition_id}": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get Cohort Definition by ID",
+        "description": "Retrieves a specific cohort definition by its cohort_definition_id.",
+        "operationId": "getCohortDefinitionById",
+        "parameters": [
+          {
+            "name": "cohort_definition_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the cohort definition",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested cohort definition object."
+          },
+          "404": {
+            "description": "No cohort definition found with the given ID."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/omop/cohort_definition/search": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Text Search in Cohort Definitions",
+        "description": "Searches cohort definitions by looking into both name and description fields, with pagination and sorting.",
+        "operationId": "searchCohortDefinitions",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number, default=1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of results per page, default=20"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "description": "Sorting order, default=desc"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing the search query string.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "query": "diabetes"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A list of cohort definitions matching the query."
+          },
+          "404": {
+            "description": "No matching cohort definitions found."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/omop/note_nlp": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "List All Note NLP Entries",
+        "description": "Retrieves all note NLP entries with optional pagination and sorting.",
+        "operationId": "listAllNoteNlpEntries",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default=1)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of results per page (default=20)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sorting order (asc or desc, default=desc)",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of note NLP entries." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/note_nlp/note/{note_id}": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get Note NLP by Note ID",
+        "description": "Retrieves note NLP entries for a specified note_id.",
+        "operationId": "getNoteNlpByNoteId",
+        "parameters": [
+          {
+            "name": "note_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the note",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default=1)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of results per page (default=20)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sorting order (asc or desc, default=desc)",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of note NLP entries for the given note_id." },
+          "404": { "description": "No note NLP entries found for that note_id." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/note_nlp/note/ids": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Get Note NLP by Array of Note IDs",
+        "description": "Retrieves note NLP entries for multiple note IDs.",
+        "operationId": "getNoteNlpByNoteIds",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default=1)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of results per page (default=20)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sorting order (asc or desc, default=desc)",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing an array of note_ids.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "note_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": {
+                  "note_ids": [201, 202, 203]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of note NLP entries for the provided note_ids." },
+          "404": { "description": "No note NLP entries found for the provided note_ids." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/note_nlp/search": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Search Note NLP Entries by Attributes",
+        "description": "Searches note NLP entries by various attributes such as nlp_system, note_nlp_concept_ids, and term_exists.",
+        "operationId": "searchNoteNlpEntries",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default=1)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of results per page (default=20)",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sorting order (asc or desc, default=desc)",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing search parameters.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nlp_system": {
+                    "type": "string",
+                    "description": "The NLP system name."
+                  },
+                  "note_nlp_concept_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" },
+                    "description": "Array of note NLP concept IDs."
+                  },
+                  "term_exists": {
+                    "type": "string",
+                    "description": "Indicates if the term exists (e.g., 'Y' or 'N')."
+                  }
+                },
+                "example": {
+                  "nlp_system": "NLP_Engine_X",
+                  "note_nlp_concept_ids": [12345, 67890],
+                  "term_exists": "Y"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of note NLP entries matching the search criteria." },
+          "404": { "description": "No note NLP entries found matching the search criteria." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    }
     },
     "components": {
       "schemas": {

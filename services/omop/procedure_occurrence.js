@@ -1,28 +1,7 @@
 // services/omop/procedure_occurrence.js
 const db = require("../../models");
-const sequelize = require("sequelize");
-const { Op } = sequelize;
-
-const ORDERS = ["ASC", "DESC"];
-const DEFAULT_SORT = [["procedure_occurrence_id", "DESC"]];
-const DEFAULT_PAGE_SIZE = 20;
-const MAX_PAGE_SIZE = 1000;
-
-/**
- * Helper function for pagination & sorting
- */
-function getPaginationAndSort(page, pageSize, sortOrder) {
-  const pageNum = parseInt(page, 10) || 1;
-  const size = parseInt(pageSize, 10) || DEFAULT_PAGE_SIZE;
-  const order = ORDERS.includes((sortOrder || "").toUpperCase())
-    ? [["procedure_occurrence_id", sortOrder]]
-    : DEFAULT_SORT;
-
-  const limit = size > 0 && size <= MAX_PAGE_SIZE ? size : DEFAULT_PAGE_SIZE;
-  const offset = (pageNum - 1) * limit;
-
-  return { order, offset, limit };
-}
+const { Op } = require("sequelize");
+const { getPaginationAndSort } = require("./_helper");
 
 /**
  * 1. List All Procedure Occurrences
