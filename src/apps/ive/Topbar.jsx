@@ -1,61 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  AppBar,
-  Avatar as MuiAvatar,
-  IconButton,
-  Link,
-  Toolbar,
-  Tooltip,
-  Stack,
+import { 
+  Avatar as MuiAvatar, 
+  Box, 
+  Divider, 
+  IconButton, 
+  Popover, 
+  Stack, 
+  Typography, 
+  AppBar, 
+  Toolbar, 
+  Tooltip, 
+  MenuItem,
+  Link
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Avatar, { genConfig } from "react-nice-avatar";
 import { MdMenu as MenuIcon } from "react-icons/md";
 import { MdNotifications as NotificationsIcon } from "react-icons/md";
-import { MdApps as AppsIcon } from "react-icons/md";
-
-import Avatar, { genConfig } from "react-nice-avatar";
+import { MdApps as Apps } from "react-icons/md";
 
 export default function Topbar(props) {
-  const {drawerWidth, onDrawerToggle } = props;
+  const { onDrawerToggle } = props;
+  const [open, setOpen] = useState(null);
+
+  const handleOpen = (event) => {
+    setOpen(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setOpen(null);
+  };
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.main.user);
 
   if (user) {
     const isAdmin = Object.values(user.featureUsers).some(
       (featureUser) =>
-        featureUser.app === "ive" && featureUser.role === "admin"
+        featureUser.app === "ive"
     );
     return (
-      <AppBar  
-      position="sticky"
-        elevation={0}
-        color="transparent"
-        sx={{
-          width: { lg: `calc(100% - ${drawerWidth}px)` },
-          ml: { lg: `${drawerWidth}px` }
-        }}
-      >
-        <Toolbar >
+      <AppBar color="transparent" position="sticky" elevation={0}>
+        <Toolbar>
           {isAdmin ? (
-            <IconButton 
-              sx={{ mr: 2, display: { lg: "none" } }}
-              color="inherit" 
-              onClick={onDrawerToggle}
-            >
+            <IconButton color="inherit" onClick={onDrawerToggle}>
               <MenuIcon />
             </IconButton>
           ) : (
-            <IconButton  
-              sx={{ mr: 2, display: { lg: "none" } }}
-              color="inherit" 
-              onClick={() => navigate("/ive")}
-            >
-              <AppsIcon />
+            <IconButton color="inherit" onClick={() => navigate("/ive")}>
+              <Apps />
             </IconButton>
           )}
-          <div style={{ flex: "1 1 auto" }} />
+          <Box style={{ flex: "1 1 auto" }} />
           <Stack direction="row" alignItems="center" spacing={1}>
             <Link
               href="/docs"
@@ -77,23 +76,82 @@ export default function Topbar(props) {
                 <NotificationsIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={user.firstName + " " + user.lastName}>
-              {user.avatar ? (
-                <MuiAvatar key={user.id}>
-                  <Avatar
-                    style={{ width: "29px", height: "29px" }}
-                    {...genConfig(JSON.parse(user.avatar))}
-                  />
-                </MuiAvatar>
-              ) : (
-                <MuiAvatar sx={{ bgcolor: "secondary.main" }}>
-                  {user.firstName.charAt(0).toUpperCase() +
-                    user.lastName.charAt(0).toUpperCase()}
-                </MuiAvatar>
-              )}
-            </Tooltip>
+            {user?.avatar ? (
+              <MuiAvatar onClick={handleOpen} key={user?.id}>
+                <Avatar
+                  style={{ width: "29px", height: "29px", cursor: "pointer" }}
+                  {...genConfig(JSON.parse(user?.avatar))}
+                />
+              </MuiAvatar>
+            ) : (
+              <MuiAvatar
+                onClick={handleOpen}
+                sx={{ bgcolor: "secondary.main" }}
+              >
+                {user?.firstName.charAt(0).toUpperCase() +
+                  user?.lastName.charAt(0).toUpperCase()}
+              </MuiAvatar>
+            )}
           </Stack>
         </Toolbar>
+        <Popover
+          open={Boolean(open)}
+          anchorEl={open}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          PaperProps={{
+            sx: {
+              p: 0,
+              mt: 1.5,
+              ml: 0.75,
+              minWidth: 150,
+              "& .MuiMenuItem-root": {
+                typography: "body2",
+                borderRadius: 0.75,
+              },
+            },
+          }}
+        >
+          <Box sx={{ my: 1.5, px: 3 }}>
+            <Typography variant="body1" noWrap>
+              {user?.firstName + " " + user?.lastName}
+            </Typography>
+            <Typography sx={{ color: "text.secondary", fontSize: 14 }} noWrap>
+              {user?.featureUsers[1].role}
+            </Typography>
+          </Box>
+          <Divider sx={{ borderStyle: "dashed" }} />
+          <Stack sx={{ p: 1 }}>
+            {[
+              {
+                label: "Home",
+                href: "/cada",
+              },
+              {
+                label: "Profile",
+                href: "/profile",
+              },
+              {
+                label: "Apps",
+                href: "/features",
+              },
+            ].map((option) => (
+              <MenuItem
+                key={option.label}
+                onClick={() => navigate(option.href)}
+              >
+                {option.label}
+              </MenuItem>
+            ))}
+          </Stack>
+
+          <Divider sx={{ borderStyle: "dashed" }} />
+
+          <MenuItem onClick={() => dispatch({ type: "LOGOUT" })} sx={{ m: 1 }}>
+            Logout
+          </MenuItem>
+        </Popover>
       </AppBar>
     );
   } else return null;

@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-import { useMediaQuery, useTheme } from '@mui/material';
+import { CssBaseline, Typography, Box, Snackbar, Alert } from "@mui/material";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
 // ----------------------------------------------------------------------
 
-const drawerWidth = 250;
+const drawerWidth = 230;
 
 function Copyright() {
   return (
@@ -28,14 +23,10 @@ function Copyright() {
 export default function IVeLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  
-  const theme = useTheme();
-  const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
 
-  const alert = useSelector((state) =>state.cada.alert);
+  const alert = useSelector((state) => state.cada.alert);
 
   const handleDrawerToggle = () => {
-    console.log("here", drawerOpen)
     setDrawerOpen(!drawerOpen);
   };
 
@@ -53,45 +44,41 @@ export default function IVeLayout() {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <Box component="nav" 
-        sx={{ width: { lg: drawerWidth }, flexShrink: { lg: 0 } }}>
-       <Sidebar
-          variant={isLarge ? "permanent" : "temporary"}
+      <Box component="nav">
+        <Sidebar
           sx={{
-            bgColor: "blue",
-            display: {
-              xs: drawerOpen ? "block" : "none",
-              sm: drawerOpen ? "block" : "none",
-              md: drawerOpen ? "block" : "none",
-              lg: "block",
-            },
             "& .MuiDrawer-paper": {
-              width: `${drawerWidth}px`,
+              width: drawerWidth,
             },
           }}
+          variant="temporary"
           open={drawerOpen}
           onClose={handleDrawerToggle}
         />
       </Box>
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <Topbar drawerWidth={drawerWidth} onDrawerToggle={handleDrawerToggle} />
+        <Topbar onDrawerToggle={handleDrawerToggle} />
         <Box component="main" sx={{ flex: 1 }}>
           {alert && (
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            open={alertOpen}
-            autoHideDuration={2000}
-          >
-          <Alert
-              variant="filled"
-              severity={alert.severity} 
-              onClose={handleCloseAlert}
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              open={alertOpen}
+              autoHideDuration={2000}
             >
-              {alert.message}
-            </Alert>
-          </Snackbar>
-        )}
-        
+              <div>
+                <Alert
+                  variant="filled"
+                  severity={alert.severity}
+                  onClose={handleCloseAlert}
+                >
+                  {alert.message instanceof Error
+                    ? alert.message.message
+                    : alert.message}
+                </Alert>
+              </div>
+            </Snackbar>
+          )}
+
           <Outlet />
         </Box>
         <Box component="footer" sx={{ p: 2 }}>

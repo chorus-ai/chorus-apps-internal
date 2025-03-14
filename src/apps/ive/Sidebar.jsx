@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Divider,
   Drawer,
@@ -10,20 +10,18 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
+  ListSubheader
 } from "@mui/material";
 
 import {
   MdHome,
   MdSearch,
   MdPerson,
-  MdSettings,
-  MdLogout,
+  MdSettings
 } from "react-icons/md";
 import { BsLayoutWtf } from "react-icons/bs";
 import { LuGroup } from "react-icons/lu";
-import { FaFileWaveform } from "react-icons/fa6";
-import { FaFileImage } from "react-icons/fa6";
+import { FaFileWaveform, FaFileImage } from "react-icons/fa6";
 import { CiViewTable } from "react-icons/ci";
 
 export default function Navigator(props) {
@@ -31,251 +29,250 @@ export default function Navigator(props) {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.main.user);
 
-  return (
-    <>
-      {user && (
-        <Drawer {...other}>
-          <List disablePadding>
-            <ListItem
+    return (
+      <>
+     {user && <Drawer variant="temporary" {...other}>
+      <List disablePadding>
+        <ListItem
+          sx={{
+            py: 1.3,
+            px: 3,
+            fontSize: 20,
+            color: "#fff",
+          }}
+        >
+          <span>
+            <b style={{ color: "#4fc3f7" }}>I</b>
+            <b>VE</b>
+          </span>
+        </ListItem>
+
+        <ListItem component="a" onClick={() => navigate("/ive")}>
+          <ListItemButton
+            sx={{
+              alignItems: "center",
+              backgroundColor: "rgba(145, 158, 171, 0.16)",
+              borderRadius: 1,
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "space-between",
+              mt: 2,
+              p: "10px",
+              textAlign: "left",
+              ...("/ive" === location.pathname && {
+                backgroundColor: "rgba(255, 255, 255, 0.04)",
+              }),
+              color: "rgba(255, 255, 255, 0.5)",
+              "&:hover, &:focus": {
+                bgcolor: "rgba(255, 255, 255, 0.05)",
+              },
+            }}
+          >
+            <ListItemIcon
+              component="span"
               sx={{
-                py: 1.3,
-                px: 3,
-                fontSize: 20,
-                color: "#fff",
+                alignItems: "center",
+                color: "neutral.400",
+                display: "inline-flex",
+                justifyContent: "center",
+                mr: 2,
+                ...("/ive" === location.pathname && {color: "primary.main" }),
               }}
             >
-              <span>
-                <b style={{ color: "#4fc3f7" }}>I</b>
-                <b>VE</b>
-              </span>
-            </ListItem>
+              <MdHome />
+            </ListItemIcon>
+            <ListItemText
+              component="span"
+              sx={{
+                color: "neutral.400",
+                flexGrow: 1,
+                fontSize: 14,
+                fontWeight: 600,
+                ...("/ive" === location.pathname && { color: "primary.contrastText" }),
+              }}
+            >
+              {"Dashboard"}
+            </ListItemText>
+          </ListItemButton>
+        </ListItem>
 
-            <ListItem component="a" onClick={() => navigate("/ive")}>
-              <ListItemButton
-                sx={{
-                  alignItems: "center",
-                  backgroundColor: "rgba(145, 158, 171, 0.16)",
-                  borderRadius: 1,
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mt: 2,
-                  p: "10px",
-                  textAlign: "left",
-                  ...("/ive" === location.pathname && {
-                    backgroundColor: "rgba(255, 255, 255, 0.04)",
-                  }),
-                  color: "rgba(255, 255, 255, 0.5)",
-                  "&:hover, &:focus": {
-                    bgcolor: "rgba(255, 255, 255, 0.05)",
-                  },
-                }}
+        <Divider sx={{ mt: 2 }} />
+        {[
+          {
+            id: "",
+            children: [
+              {
+                id: "Search",
+                href: "/ive/search",
+                icon: <MdSearch />,
+              },{
+                id: "Cohort",
+                href: "/ive/cohort",
+                icon: <LuGroup />,
+              },{
+                id: "iViewer",
+                href: "/ive/iviewer",
+                icon: <BsLayoutWtf style={{padding: 2}} />,
+              },
+            ],
+          },
+          {
+            id: "Data",
+            children: [
+              {
+                id: "Person",
+                href: "/ive/person",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Death",
+                href: "/ive/death",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Measurement",
+                href: "/ive/measurement",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Observation",
+                href: "/ive/observation",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Visit_occurrence",
+                href: "/ive/visit_occurrence",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Visit_detail",
+                href: "/ive/visit_detail",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Observation_period",
+                href: "/ive/observation_period",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Procedure_occurrence",
+                href: "/ive/procedure_occurrence",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Condition_occurrence",
+                href: "/ive/condition_occurrence",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Device_exposure",
+                href: "/ive/device_exposure",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Drug_exposure",
+                href: "/ive/drug_exposure",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Note",
+                href: "/ive/note",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Note_nlp",
+                href: "/ive/note_nlp",
+                icon: <CiViewTable />,
+              },
+              {
+                id: "Waveform",
+                href: "/ive/waveform",
+                icon: <FaFileWaveform />,
+              },
+              {
+                id: "Image",
+                href: "/ive/image",
+                icon: <FaFileImage />,
+              }
+            ],
+          },{
+            id: "Admin",
+            children: [
+              {
+                id: "Users",
+                href: "/ive/user",
+                icon: <MdPerson />,
+              },{
+                id: "Settings",
+                href: "/ive/settings",
+                icon: <MdSettings />,
+              },
+            ],
+          },
+        ].map(({ id, children }) => (
+          <Box key={id}>
+            <ListSubheader sx={{ pt: 2, px: 4 }}>
+              {id}
+            </ListSubheader>
+            {children.map(({ id: childId, href, icon }) => (
+              <ListItem
+                component="a"
+                onClick={() => navigate(href)}
+                key={childId}
+                sx={{ px: 2, py: 0.1, }}
               >
-                <ListItemIcon
-                  component="span"
+                <ListItemButton
                   sx={{
                     alignItems: "center",
-                    color: "neutral.400",
-                    display: "inline-flex",
-                    justifyContent: "center",
-                    mr: 2,
-                    ...("/ive" === location.pathname && {
-                      color: "primary.main",
+                    borderRadius: 1,
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    px: 2,
+                    py: 0.1,
+                    textAlign: "left",
+                    ...(href === location.pathname && {
+                      backgroundColor: "rgba(255, 255, 255, 0.04)",
                     }),
+                    color: "rgba(255, 255, 255, 0.5)",
+                    "&:hover, &:focus": {
+                      bgcolor: "rgba(255, 255, 255, 0.05)",
+                    },
                   }}
                 >
-                  <MdHome />
-                </ListItemIcon>
-                <ListItemText
-                  component="span"
-                  sx={{
-                    color: "neutral.400",
-                    flexGrow: 1,
-                    fontSize: 14,
-                    fontWeight: 600,
-                    ...("/ive" === location.pathname && {
-                      color: "primary.contrastText",
-                    }),
-                  }}
-                >
-                  {"Dashboard"}
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
-
-            <Divider sx={{ mt: 2 }} />
-            {[
-              {
-                id: "",
-                children: [
-                  {
-                    id: "Search",
-                    href: "/ive/search",
-                    icon: <MdSearch />,
-                  },
-                  {
-                    id: "Cohort",
-                    href: "/ive/cohort",
-                    icon: <LuGroup />,
-                  },
-                  {
-                    id: "iViewer",
-                    href: "/ive/iviewer",
-                    icon: <BsLayoutWtf style={{ padding: 2 }} />,
-                  },
-                ],
-              },
-              {
-                id: "Data",
-                children: [
-                  {
-                    id: "Person",
-                    href: "/ive/person",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Death",
-                    href: "/ive/death",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Observation",
-                    href: "/ive/observation",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Observation_period",
-                    href: "/ive/observation_period",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Visit_occurence",
-                    href: "/ive/visit_occurrence",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Measurement",
-                    href: "/ive/measurement",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Procedure_occurence",
-                    href: "/ive/procedure_occurrence",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Condition_occurence",
-                    href: "/ive/condition_occurrence",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Drug_exposure",
-                    href: "/ive/drug_exposure",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Note",
-                    href: "/ive/note",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Note_nlp",
-                    href: "/ive/note_nlp",
-                    icon: <CiViewTable />,
-                  },
-                  {
-                    id: "Waveform",
-                    href: "/ive/waveform",
-                    icon: <FaFileWaveform />,
-                  },
-                  {
-                    id: "Image",
-                    href: "/ive/image",
-                    icon: <FaFileImage />,
-                  },
-                ],
-              },
-              {
-                id: "Admin",
-                children: [
-                  {
-                    id: "Users",
-                    href: "/ive/user",
-                    icon: <MdPerson />,
-                  },
-                  {
-                    id: "Settings",
-                    href: "/ive/settings",
-                    icon: <MdSettings />,
-                  },
-                ],
-              },
-            ].map(({ id, children }) => (
-              <Box key={id}>
-                <ListSubheader sx={{ pt: 2, px: 4 }}>{id}</ListSubheader>
-                {children.map(({ id: childId, href, icon }) => (
-                  <ListItem
-                    component="a"
-                    onClick={() => navigate(href)}
-                    key={childId}
-                    sx={{ px: 2, py: 0.1 }}
+                  <ListItemIcon
+                    component="span"
+                    sx={{
+                      ...(href === location.pathname && {
+                        color: "primary.main",
+                      }),
+                    }}
                   >
-                    <ListItemButton
-                      sx={{
-                        alignItems: "center",
-                        borderRadius: 1,
-                        display: "flex",
-                        justifyContent: "flex-start",
-                        px: 2,
-                        py: 0.1,
-                        textAlign: "left",
-                        ...(href === location.pathname && {
-                          backgroundColor: "rgba(255, 255, 255, 0.04)",
-                        }),
-                        color: "rgba(255, 255, 255, 0.5)",
-                        "&:hover, &:focus": {
-                          bgcolor: "rgba(255, 255, 255, 0.05)",
-                        },
-                      }}
-                    >
-                      <ListItemIcon
-                        component="span"
-                        sx={{
-                          ...(href === location.pathname && {
-                            color: "primary.main",
-                          }),
-                        }}
-                      >
-                        {icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        component="span"
-                        sx={{
-                          ...(href === location.pathname && {
-                            color: "primary.contrastText",
-                          }),
-                        }}
-                      >
-                        {id === "Data" ? (
-                          <span style={{ fontSize: 12 }}>{childId}</span>
-                        ) : (
-                          <span> {childId}</span>
-                        )}
-                      </ListItemText>
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-
-                <Divider sx={{ mt: 1 }} />
-              </Box>
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    component="span"
+                    sx={{ 
+                      ...(href === location.pathname && {
+                        color: "primary.contrastText",
+                      }),
+                    }}
+                  >
+                     {id==="Data" ? <span style={{fontSize: 12}}>
+                      {childId} 
+                    </span> :  <span> {childId}</span> }
+                    
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
             ))}
-          </List>
-          <Box sx={{ flex: 1 }} />
-        </Drawer>
-      )}
+
+            <Divider sx={{ mt: 1 }} />
+          </Box>
+        ))}
+      </List>
+    </Drawer>}
     </>
-  );
+    );
 }
