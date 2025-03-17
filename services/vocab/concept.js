@@ -1,10 +1,7 @@
 const db = require("../../models");
 const Sequelize = require('sequelize');
 const { Op } = Sequelize;
-
-
-const DEFAULT_SORT_ORDER = [["concept_id", "ASC"]];
-const DEFAULT_PAGE_SIZE = 1000;
+const { getPaginationAndSort } = require("./_helper");
 
 /**
  * 
@@ -14,10 +11,11 @@ const DEFAULT_PAGE_SIZE = 1000;
  * @returns all concepts
  */
 exports.findAll = (page, pageSize, sortOrder) => {
+  const { order, offset, limit } = getPaginationAndSort(page, pageSize, sortOrder);
   return db.concept.findAll({
-    order: sortOrder || DEFAULT_SORT_ORDER,
-    offset: page >= 1 ? (page - 1) * pageSize : 0,
-    limit: pageSize > 0 && pageSize <= 1000 ? pageSize : DEFAULT_PAGE_SIZE,
+    order,
+    offset,
+    limit,
   });
 };
 
@@ -27,11 +25,7 @@ exports.findAll = (page, pageSize, sortOrder) => {
  * @returns the concept with the given id
  */
 exports.findById = (cid) => {
-  return db.concept.findOne({
-    where: {
-      concept_id: cid
-    }
-  });
+  return db.concept.findByPk(cid);
 };
 
 /**
@@ -43,6 +37,8 @@ exports.findById = (cid) => {
  * @returns {Promise} - A promise that resolves with the concepts of the current page.
  */
 exports.searchByName = (name, page, pageSize, exactMatch = false) => {
+  const { order, offset, limit } = getPaginationAndSort(page, pageSize, sortOrder);
+  
   if (typeof name !== 'string') {
     throw new TypeError('Name must be a string');
   }
@@ -52,9 +48,10 @@ exports.searchByName = (name, page, pageSize, exactMatch = false) => {
   const conditions = exactMatch ? { [Op.eq]: searchString } : { [Op.like]: `%${searchString}%` };
 
   return db.concept.findAll({
-    offset: page >= 1 ? (page - 1) * pageSize : 0,
-    limit: pageSize > 0 && pageSize <= 1000 ? pageSize : DEFAULT_PAGE_SIZE,
-    where: { concept_name: conditions }
+    where: { concept_name: conditions },
+    order,
+    offset,
+    limit
   });
 };
 

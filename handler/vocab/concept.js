@@ -1,8 +1,8 @@
-const omopConceptServices = require("../../services/vocab/concept");
+const vocabConceptServices = require("../../services/vocab/concept");
 
 exports.findAll = (req, res) => {
   const { page, pageSize, sortOrder } = req.query;
-  omopConceptServices
+  vocabConceptServices
     .findAll(page, pageSize, sortOrder)
     .then((result) => res.status(200).json(result))
     .catch((err) => {
@@ -16,7 +16,7 @@ exports.findAll = (req, res) => {
 exports.findById = (req, res) => {
   const { cid } = req.params;
 
-  omopConceptServices
+  vocabConceptServices
     .findById(cid)
     .then((result) => {
       if (result)
@@ -33,7 +33,7 @@ exports.findById = (req, res) => {
 exports.searchByName = (req, res) => {
   const { name, page = 1, pageSize = 10, exactMatch = false } = req.query;
 
-  omopConceptServices
+  vocabConceptServices
     .searchByName(name, parseInt(page), parseInt(pageSize), JSON.parse(exactMatch))
     .then((result) => {
       if (result && result.length > 0)

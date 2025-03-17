@@ -15,7 +15,7 @@
       }
     ],
     "paths": {
-      "/omop/concepts": {
+      "/vocab/concept": {
         "get": {
           "tags": [
             "Vocabulary"
@@ -61,7 +61,38 @@
           }
         }
       },
-      "/omop/concepts/search": {
+      "/vocab/concept/{cid}": {
+        "get": {
+          "tags": [
+            "Vocabulary"
+          ],
+          "operationId": "getConceptById",
+          "summary": "Get concept by id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "cid",
+              "description": "concept id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/vocab/concept/search": {
         "get": {
           "tags": [
             "Vocabulary"
@@ -3596,6 +3627,198 @@
         "responses": {
           "200": { "description": "A list of note NLP entries matching the search criteria." },
           "404": { "description": "No note NLP entries found matching the search criteria." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/device_exposure": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "List All Device Exposures",
+        "description": "Retrieves all device exposures with optional pagination and sorting.",
+        "operationId": "listDeviceExposures",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "Page number (default: 1)" },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" }, "description": "Number of results per page (default: 20)" },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] }, "description": "Sorting order (default: desc)" }
+        ],
+        "responses": {
+          "200": { "description": "A list of device exposure records." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/device_exposure/person/{person_id}": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get Device Exposure by Person ID",
+        "description": "Retrieves device exposures for a specified person_id.",
+        "operationId": "getDeviceExposureByPersonId",
+        "parameters": [
+          { "name": "person_id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Unique identifier of the person" },
+          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "Page number (default: 1)" },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" }, "description": "Number of results per page (default: 20)" },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] }, "description": "Sorting order (default: desc)" }
+        ],
+        "responses": {
+          "200": { "description": "A list of device exposure records for the given person_id." },
+          "404": { "description": "No device exposures found for this person_id." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/device_exposure/person/ids": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Get Device Exposures by Array of Person IDs",
+        "description": "Retrieves device exposures for multiple person_ids.",
+        "operationId": "getDeviceExposuresByPersonIds",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "Page number (default: 1)" },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" }, "description": "Number of results per page (default: 20)" },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] }, "description": "Sorting order (default: desc)" }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing an array of person_ids.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "person_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": { "person_ids": [101, 102, 103] }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of device exposure records for the provided person_ids." },
+          "404": { "description": "No device exposures found for the provided person_ids." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/device_exposure/visit/{visit_occurrence_id}": {
+      "get": {
+        "tags": ["OMOP"],
+        "summary": "Get Device Exposure by Visit Occurrence ID",
+        "description": "Retrieves device exposures for a specified visit_occurrence_id.",
+        "operationId": "getDeviceExposureByVisitOccurrenceId",
+        "parameters": [
+          { "name": "visit_occurrence_id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Unique identifier of the visit occurrence" },
+          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "Page number (default: 1)" },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" }, "description": "Number of results per page (default: 20)" },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] }, "description": "Sorting order (default: desc)" }
+        ],
+        "responses": {
+          "200": { "description": "A list of device exposure records for the given visit_occurrence_id." },
+          "404": { "description": "No device exposures found for this visit_occurrence_id." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/device_exposure/visit/ids": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Get Device Exposures by Array of Visit Occurrence IDs",
+        "description": "Retrieves device exposures for multiple visit_occurrence_ids.",
+        "operationId": "getDeviceExposuresByVisitOccurrenceIds",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "Page number (default: 1)" },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" }, "description": "Number of results per page (default: 20)" },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] }, "description": "Sorting order (default: desc)" }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing an array of visit_occurrence_ids.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "visit_occurrence_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": { "visit_occurrence_ids": [201, 202, 203] }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of device exposure records for the provided visit_occurrence_ids." },
+          "404": { "description": "No device exposures found for these visit_occurrence_ids." },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/omop/device_exposure/search": {
+      "post": {
+        "tags": ["OMOP"],
+        "summary": "Search Device Exposures by Attributes",
+        "description": "Searches device exposures by various attributes such as date range, person IDs, visit occurrence IDs, device concept IDs, and device type concept IDs.",
+        "operationId": "searchDeviceExposures",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "Page number (default: 1)" },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" }, "description": "Number of results per page (default: 20)" },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] }, "description": "Sorting order (default: desc)" }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON object containing search attributes.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start of the device exposure start date range"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End of the device exposure start date range"
+                  },
+                  "person_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  },
+                  "visit_occurrence_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  },
+                  "device_concept_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  },
+                  "device_type_concept_ids": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                  }
+                },
+                "example": {
+                  "start_date": "2020-01-01",
+                  "end_date": "2020-12-31",
+                  "person_ids": [101, 102],
+                  "visit_occurrence_ids": [12345, 67890],
+                  "device_concept_ids": [22113344, 22113345],
+                  "device_type_concept_ids": [44814649, 44814650]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "A list of device exposure records matching the search criteria." },
+          "404": { "description": "No device exposures found matching the search criteria." },
           "500": { "description": "Internal Server Error" }
         }
       }
