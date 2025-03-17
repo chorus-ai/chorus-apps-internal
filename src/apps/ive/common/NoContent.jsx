@@ -2,7 +2,7 @@ import React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-export const NoContent = ({ text="No Content", subtext ="Coantact your admin for content"}) => {
+export const NoContent = ({ text="No Content", subtext ="Contact your admin for content"}) => {
   return (
     <Container
       sx={{
