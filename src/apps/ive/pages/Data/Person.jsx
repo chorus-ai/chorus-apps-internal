@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TableContainer,
   TablePagination,
@@ -12,15 +12,18 @@ import {
   Stack, 
   Typography,
   Toolbar,
-  Badge
+  Chip,
+  CircularProgress
 } from "@mui/material";
 
+import { useLocation } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import { BiSearchAlt } from "react-icons/bi";
 import { MdFilterList, MdOutlineViewColumn } from "react-icons/md";
 import axios from "axios";
 import { CommonTable } from "../../common/Table";
 import { NoData } from "../../common/Nodata";
+import { UtilSidebar } from "../../common/UtilSidebar";
 
 // ----------------------------------------------------------------------
 
@@ -57,11 +60,69 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Table = ({table, total}) => {
-  const [searchKey, setSearchKey] = React.useState("");
-  const [data, setData] = React.useState([]);
-  const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(10);
+const Person = ({ table, total }) => {
+  const [searchKey, setSearchKey] = useState("");
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [value, setValue] = useState(0); 
+  const [openFilter, setOpenFilter] = useState(false);
+  const [unCheckedItems, setUnCheckedItems] = useState([]);
+
+  const handleCheckedItem = (item) => {
+    console.log('item: ', item);
+    if (unCheckedItems.includes(item)) {
+      setUnCheckedItems(unCheckedItems.filter((i) => i !== item));
+      return;
+    } 
+    setUnCheckedItems([...unCheckedItems, item]);
+
+  };
+
+  const handleOpenFilter = () => {
+    setOpenFilter(true);
+  };
+
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
+  };
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get("id");
+
+  useEffect(() => {
+    if (id) {
+      setValue(1); // Automatically switch to the "Details" tab if id is present
+      return; // Stop executing because details will be fetched in PersonDetails
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    let url = `/api/omop/${table}?page=${page}&pageSize=${pageSize}`;
+    if (searchKey) {
+      url = `/api/omop/${table}?search=${searchKey}&page=${page}&pageSize=${pageSize}`;
+    }
+
+    axios
+      .get(url)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+        setError("Failed to fetch data. Please try again.");
+      })
+      .finally(() => setIsLoading(false));
+  }, [page, pageSize, table, searchKey, id]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const handleSearch = (event) => {
     setSearchKey(event.target.value);
   };
@@ -71,115 +132,117 @@ const Table = ({table, total}) => {
   };
 
   const handleRowsPerPageChange = (event) => {
-    setPageSize(event.target.value);
+    setPageSize(parseInt(event.target.value, 10));
+    setPage(0); // Reset to first page when changing rows per page
   };
 
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: `/api/omop/${table}?page=1&pageSize=10`,
-    })
-      .then((res) => res.data)
-      .then((data) => {
-        setData(data);
-      });
-  }, []);
-
-  useEffect(() => {
-    let url = `/api/omop/${table}?page=${page}&pageSize=${pageSize}`;
-
-    if (searchKey) {
-      url = `/api/omop/${table}?search=${searchKey}&page=${page}&pageSize=${pageSize}`;
-    }
-
-    axios
-      .get(url)
-      .then((res) => setData(res.data))
-      .catch((err) => console.error("Error fetching data:", err));
-  }, [page, pageSize, table, searchKey]);
-
+  console.log('unCheckedItems: ', unCheckedItems);
   return (
     <Container maxWidth="xl">
-       <AppBar
-          component="div"
-          sx={{ backgroundColor: "transparent", color: "ButtonText" }}
+      <AppBar
+        component="div"
+        sx={{ backgroundColor: "transparent", color: "ButtonText" }}
+        position="static"
+        elevation={0}
+      >
+        <Toolbar>
+          <Grid container alignItems="center" spacing={1}>
+            <Grid item xs>
+              <Typography color="inherit" variant="h6" component="h2">
+                {table.charAt(0).toUpperCase() + table.slice(1)} 
+                <Chip
+                  color="primary"
+                  size="small"
+                  sx={{ ml: 1, borderRadius: 3 }}
+                  label={total}
+                />
+              </Typography>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+
+        <AppBar
+          sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 2, mb: 2, pr: 1 }}
           position="static"
+          color="inherit"
           elevation={0}
         >
-          <Toolbar>
-            <Grid container alignItems="center" spacing={1}>
-              <Grid item xs>
-                <Typography color="inherit" variant="h6" component="h2">
-                  {table.charAt(0).toUpperCase() + table.slice(1)} 
-                  <Badge badgeContent={total} max={1000000000} color="primary" sx={{ml: 5}}/>
-                </Typography>
-              </Grid>
+          <Grid container alignItems="center">
+            <Grid item xs>
+              <Search>
+                <SearchIconWrapper>
+                  <BiSearchAlt />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search..."
+                  value={searchKey}
+                  onChange={handleSearch}
+                  inputProps={{ "aria-label": "search" }}
+                  disabled={isLoading}
+                />
+              </Search>
             </Grid>
-          </Toolbar>
+            <Grid item>
+              <Stack direction="row" spacing={1}>
+                <Icon>
+                  <MdFilterList style={{ padding: 1 }} />
+                </Icon>
+                <Icon>
+                  <MdOutlineViewColumn  onClick={handleOpenFilter}  />
+                </Icon>
+              </Stack>
+            </Grid>
+          </Grid>
         </AppBar>
-      
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <AppBar
-            sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 2, mb: 2, pr: 1 }}
-            position="static"
-            color="inherit"
-            elevation={0}
-          >
-            <Grid container alignItems="center">
-              <Grid item xs>
-                <Search>
-                  <SearchIconWrapper>
-                    <BiSearchAlt />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search with"
-                    value={searchKey}
-                    onChange={handleSearch}
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </Search>
-              </Grid>
-              <Grid item>
-                <Stack direction="row" spacing={1}>
-                  <Icon>
-                    <MdFilterList style={{ padding: 1 }} />
-                  </Icon>
-                  <Icon>
-                    <MdOutlineViewColumn />
-                  </Icon>
-                </Stack>
-              </Grid>
-            </Grid>
-          </AppBar>
-        </Grid>
-      </Grid>
 
-      <TableContainer component={Paper} sx={{ width: "100%"}}>
-        {data.length > 0 ? (
-          <>
-            <div style={{ overflow: "auto" }}>
-              <CommonTable
-                headers={data ? Object.keys(data[0]) : []}
-                data={data}
-              />
-            </div>
-            <TablePagination
-              rowsPerPageOptions={[10, 20, 30]}
-              component="div"
-              count={total}
-              rowsPerPage={pageSize}
-              page={page}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-            />
-          </>
-        ) : (
-          <NoData />
-        )}
-      </TableContainer>
+    <TableContainer component={Paper} sx={{ width: "100%", minHeight: "100px" }}>
+      {isLoading ? (
+        <Stack alignItems="center" justifyContent="center" sx={{ height: "400px" }}>
+          <CircularProgress />
+          <Typography variant="body2" sx={{ mt: 2 }}>Loading data...</Typography>
+        </Stack>
+      ) : error ? (
+        <Typography variant="body1" color="error" sx={{ textAlign: "center", p: 2 }}>
+          {error}
+        </Typography>
+      ) : data.length > 0 ? (
+        <>
+        
+      <div style={{ overflow: "auto" }}>
+          <CommonTable
+            table={table}
+            headers={data ? Object.keys(data[0]) : []}
+            data={data}
+            columns= {Object.keys(data[0]).filter((item) => !unCheckedItems.includes(item))}
+          />
+          </div>
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30]}
+            component="div"
+            count={total}
+            rowsPerPage={pageSize}
+            page={page}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
+            disabled={isLoading}
+          />
+          <UtilSidebar
+            header="Columns"
+            footer="Clear All"
+            data={Object.keys(data[0])}
+            openFilter={openFilter}
+            onCloseFilter={handleCloseFilter} 
+            handleCheckedItem={handleCheckedItem}      
+          />
+        </>
+      ) : (
+        <NoData />
+      )}
+    </TableContainer>
+      
     </Container>
   );
 };
 
-export default Table;
+export default Person;

@@ -126,7 +126,7 @@ export default function Topbar(props) {
             {[
               {
                 label: "Home",
-                href: "/cada",
+                href: "/ive",
               },
               {
                 label: "Profile",

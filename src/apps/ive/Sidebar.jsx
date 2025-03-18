@@ -58,7 +58,7 @@ export default function Navigator(props) {
               cursor: "pointer",
               display: "flex",
               justifyContent: "space-between",
-              mt: 2,
+              mt: 1,
               p: "10px",
               textAlign: "left",
               ...("/ive" === location.pathname && {
@@ -98,7 +98,7 @@ export default function Navigator(props) {
           </ListItemButton>
         </ListItem>
 
-        <Divider sx={{ mt: 2 }} />
+        <Divider sx={{ mt: 1 }} />
         {[
           {
             id: "",
@@ -229,8 +229,8 @@ export default function Navigator(props) {
                     borderRadius: 1,
                     display: "flex",
                     justifyContent: "flex-start",
-                    px: 2,
-                    py: 0.1,
+                    px: 1,
+                    py: 0,
                     textAlign: "left",
                     ...(href === location.pathname && {
                       backgroundColor: "rgba(255, 255, 255, 0.04)",

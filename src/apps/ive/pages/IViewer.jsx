@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Typography, Grid, AppBar, Stack, Select, MenuItem, IconButton, Paper } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Tiles from "../sections/Dashboard/Tiles";
-import { TbDragDrop2 } from "react-icons/tb";
+import { RxMove } from "react-icons/rx";
 
 export default function Assignments() {
   const dispatch = useDispatch();
@@ -82,7 +82,7 @@ export default function Assignments() {
                       onClick={() => setDisabled(!disabled)}
                       color={disabled ? "info" : "neutral"}
                     >
-                      <TbDragDrop2 />
+                      <RxMove />
                     </IconButton>
                   </Stack>
                 </Grid>

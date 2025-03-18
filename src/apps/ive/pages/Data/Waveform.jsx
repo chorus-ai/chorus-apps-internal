@@ -119,31 +119,31 @@ const handleClose = () => {
       "person_id": 101,
       "start_date": "2024-11-01",
       "duration": "00:30:00",
-      "waveform_path": "/data/waveforms/patient101_session1.adibin"
+      "waveform_path": "/data/waveforms/patient101_session1.hea"
     },
     {
       "person_id": 102,
       "start_date": "2024-11-02",
       "duration": "01:00:00",
-      "waveform_path": "/data/waveforms/patient102_session1.adibin"
+      "waveform_path": "/data/waveforms/patient102_session1.hea"
     },
     {
       "person_id": 103,
       "start_date": "2024-11-03",
       "duration": "00:45:00",
-      "waveform_path": "/data/waveforms/patient103_session1.adibin"
+      "waveform_path": "/data/waveforms/patient103_session1.hea"
     },
     {
       "person_id": 104,
       "start_date": "2024-11-04",
       "duration": "00:50:00",
-      "waveform_path": "/data/waveforms/patient104_session1.adibin"
+      "waveform_path": "/data/waveforms/patient104_session1.hea"
     },
     {
       "person_id": 105,
       "start_date": "2024-11-05",
       "duration": "01:15:00",
-      "waveform_path": "/data/waveforms/patient105_session1.adibin"
+      "waveform_path": "/data/waveforms/patient105_session1.hea"
     }
   ]
 

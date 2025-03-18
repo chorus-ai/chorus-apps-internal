@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, Typography, MenuItem, Select, Card, CardContent, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Container, 
+  Grid, 
+  Typography, 
+  MenuItem, 
+  Select, 
+  Card, 
+  CardContent
+} from '@mui/material';
 import axios from 'axios';
 
 const allTableColumns = [
@@ -69,7 +76,6 @@ function DataDeliveryDashboard() {
             </CardContent>
           </Card>
           
-  
         </Grid>
 
         <Grid item xs={9}>

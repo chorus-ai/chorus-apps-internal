@@ -33,6 +33,8 @@ import Row from "../sections/User/UserRow";
 import NewUser from "../sections/User/NewUser";
 import { PlusIcon } from "../common/Icons";
 
+// ----------------------------------------------------------------------
+
 const Search = styled(FormControl)(({ theme }) => ({
   position: "relative",
   fontSize: theme.typography.fontSize,
@@ -66,6 +68,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// ----------------------------------------------------------------------
+
 function User() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.cada.users);
@@ -76,14 +80,6 @@ function User() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchKey, setSearchKey] = useState("");
-  const [values, setValues] = useState({
-    fname: "",
-    lname: "",
-    email: "",
-    loginType: "",
-    role: "",
-    isBot: false,
-  });
 
   useEffect(() => {
     if (projects.length === 0) dispatch(getProjects());
@@ -94,9 +90,6 @@ function User() {
   }, [users, dispatch]);
 
   const handleChange = (_, newValue) => setValue(newValue);
-
-  const handleFormChange = (event) =>
-    setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
 
   const handleChangePage = (_, newPage) => setPage(newPage);
 
@@ -126,7 +119,11 @@ function User() {
           </Toolbar>
         </AppBar>
 
-        <AppBar component="div" sx={{ backgroundColor: "transparent", color: "ButtonText" }} position="static" elevation={0}>
+        <AppBar
+          sx={{ backgroundColor: "transparent", color: "ButtonText" }}
+          component="div"
+          position="static"
+          elevation={0}>
           <Tabs value={value} onChange={handleChange}>
             <Tab disableRipple label="Overview" />
           </Tabs>
@@ -134,18 +131,32 @@ function User() {
 
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <AppBar sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3 }} position="static" color="inherit" elevation={0}>
+            <AppBar 
+              sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 7, mb: 3 }} 
+              position="static" 
+              color="inherit" 
+              elevation={0}
+            >
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
                   <Search>
                     <SearchIconWrapper>
                       <BiSearchAlt />
                     </SearchIconWrapper>
-                    <StyledInputBase placeholder="Search anything" value={searchKey} onChange={handleSearch} inputProps={{ "aria-label": "search" }} />
+                    <StyledInputBase
+                      placeholder="Search anything"
+                      value={searchKey}
+                      onChange={handleSearch}
+                      inputProps={{ "aria-label": "search" }}
+                    />
                   </Search>
                 </Grid>
                 <Grid item>
-                  <Button onClick={handleClickOpen} variant="contained" color="primary">
+                  <Button
+                    onClick={handleClickOpen}
+                    variant="contained"
+                    color="primary"
+                  >
                     <PlusIcon /> User
                   </Button>
                 </Grid>
@@ -167,7 +178,8 @@ function User() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users
+              {users.length > 0 && 
+                users
                 .filter((data) => JSON.stringify(data).toLowerCase().includes(searchKey.toLowerCase()))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (

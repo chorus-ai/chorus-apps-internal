@@ -629,7 +629,6 @@ function Search() {
   };
 
   const handleCloseFilter = () => {
-    console.log('here: ');
     setOpenFilter(false);
   };
 
@@ -901,8 +900,6 @@ const getActiveFiltersCount = (obj) => {
       )) : null}
       </Box>
       <br />
-            
-
 
       <TableContainer component={Paper}>
         <Table>
