@@ -47,7 +47,7 @@ exports.findByVisitOccurrenceId = (req, res) => {
   visitOccurrenceService
     .findByVisitOccurrenceId(visit_occurrence_id, page, pageSize, sortOrder)
     .then((results) => {
-      if (results.length > 0) return res.status(200).json(results);
+      if (results.length > 0) return res.status(200).json(results[0]);
       return res.status(404).json({
         message: `No visit occurrence found with ID = ${visit_occurrence_id}`
       });
