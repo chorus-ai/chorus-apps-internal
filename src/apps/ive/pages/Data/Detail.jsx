@@ -60,7 +60,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Detail = ({ table, type, pid }) => {
-
   const [searchKey, setSearchKey] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -71,31 +70,18 @@ const Detail = ({ table, type, pid }) => {
   const [openFilter, setOpenFilter] = useState(false);
   const [unCheckedItems, setUnCheckedItems] = useState([]);
 
-  const handleCheckedItem = (item) => {
-    console.log('item: ', item);
-    if (unCheckedItems.includes(item)) {
-      setUnCheckedItems(unCheckedItems.filter((i) => i !== item));
-      return;
-    } 
-    setUnCheckedItems([...unCheckedItems, item]);
-  };
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       setError(null);
       try {
         const response = await axios.get(`/api/omop/${table}/${type}/${pid}`);
+        if (!response.data || response.data.length === 0) {
+          setData([]); // Ensure data is empty and prevent rendering
+          return;
+        }
         setData(response.data);
-        setFilteredData(response.data); // Initialize filtered data with full data set
+        setFilteredData(response.data); // Initialize filtered data
       } catch (err) {
         console.error("Error fetching data:", err);
         setError("Failed to fetch data. Please try again.");
@@ -107,7 +93,6 @@ const Detail = ({ table, type, pid }) => {
     fetchData();
   }, [table, pid]);
 
-  // Search Functionality
   useEffect(() => {
     if (!searchKey.trim()) {
       setFilteredData(data);
@@ -116,111 +101,118 @@ const Detail = ({ table, type, pid }) => {
       const filtered = data.filter((row) =>
         Object.values(row).some(
           (value) =>
-            value &&
-            value.toString().toLowerCase().includes(lowerSearchKey)
+            value && value.toString().toLowerCase().includes(lowerSearchKey)
         )
       );
       setFilteredData(filtered);
     }
   }, [searchKey, data]);
 
-
-  const handleSearch = (event) => {
-    setSearchKey(event.target.value);
+  const handleCheckedItem = (item) => {
+    if (unCheckedItems.includes(item)) {
+      setUnCheckedItems(unCheckedItems.filter((i) => i !== item));
+      return;
+    }
+    setUnCheckedItems([...unCheckedItems, item]);
   };
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+  const handleOpenFilter = () => {
+    setOpenFilter(true);
   };
 
-  const handleRowsPerPageChange = (event) => {
-    setPageSize(parseInt(event.target.value, 10));
-    setPage(0); // Reset to first page when changing rows per page
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
   };
+
+  // If there's no data and not loading, prevent rendering the component entirely
+  if (!isLoading && data.length === 0) {
+    return null;
+  }
 
   return (
     <Container maxWidth="xl">
-        <br />
-        <Typography color="inherit" variant="h6" component="h2">{table}</Typography>
-        <AppBar
-          sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 2, mb: 2, pr: 1 }}
-          position="static"
-          color="inherit"
-          elevation={0}
-        >
-          <Grid container alignItems="center">
-            <Grid item xs>
-              <Search>
-                <SearchIconWrapper>
-                  <BiSearchAlt />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search..."
-                  value={searchKey}
-                  onChange={handleSearch}
-                  inputProps={{ "aria-label": "search" }}
-                  disabled={isLoading}
-                />
-              </Search>
-            </Grid>
-            <Grid item>
-              <Stack direction="row" spacing={1}>
-                <Icon>
-                  <MdFilterList style={{ padding: 1 }} />
-                </Icon>
-                <Icon>
-                  <MdOutlineViewColumn  onClick={handleOpenFilter}  />
-                </Icon>
-              </Stack>
-            </Grid>
+      <br />
+      <Typography color="inherit" variant="h6" component="h2">{table}</Typography>
+      <AppBar
+        sx={{ bgcolor: "rgba(0, 0, 0, 0)", mt: 2, mb: 2, pr: 1 }}
+        position="static"
+        color="inherit"
+        elevation={0}
+      >
+        <Grid container alignItems="center">
+          <Grid item xs>
+            <Search>
+              <SearchIconWrapper>
+                <BiSearchAlt />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search..."
+                value={searchKey}
+                onChange={(e) => setSearchKey(e.target.value)}
+                inputProps={{ "aria-label": "search" }}
+                disabled={isLoading}
+              />
+            </Search>
           </Grid>
-        </AppBar>
+          <Grid item>
+            <Stack direction="row" spacing={1}>
+              <Icon>
+                <MdFilterList style={{ padding: 1 }} />
+              </Icon>
+              <Icon>
+                <MdOutlineViewColumn onClick={handleOpenFilter} />
+              </Icon>
+            </Stack>
+          </Grid>
+        </Grid>
+      </AppBar>
 
-    <TableContainer component={Paper} sx={{ width: "100%", minHeight: "100px" }}>
-      {isLoading ? (
-        <Stack alignItems="center" justifyContent="center" sx={{ height: "400px" }}>
-          <CircularProgress />
-          <Typography variant="body2" sx={{ mt: 2 }}>Loading data...</Typography>
-        </Stack>
-      ) : error ? (
-        <Typography variant="body1" color="error" sx={{ textAlign: "center", p: 2 }}>
-          {error}
-        </Typography>
-      ) : filteredData.length > 0 ? (
-        <>
-          <div style={{ overflow: "auto" }}>
-            <CommonTable
-              table={table}
-              headers={filteredData ? Object.keys(filteredData[0]) : []}
-              data={filteredData}
-              columns={Object.keys(filteredData[0]).filter(
-                (item) => !unCheckedItems.includes(item)
-              )}
+      <TableContainer component={Paper} sx={{ width: "100%", minHeight: "100px" }}>
+        {isLoading ? (
+          <Stack alignItems="center" justifyContent="center" sx={{ height: "400px" }}>
+            <CircularProgress />
+            <Typography variant="body2" sx={{ mt: 2 }}>Loading data...</Typography>
+          </Stack>
+        ) : error ? (
+          <Typography variant="body1" color="error" sx={{ textAlign: "center", p: 2 }}>
+            {error}
+          </Typography>
+        ) : (
+          <>
+            <div style={{ overflow: "auto" }}>
+              <CommonTable
+                table={table}
+                headers={filteredData.length > 0 ? Object.keys(filteredData[0]) : []}
+                data={filteredData}
+                columns={filteredData.length > 0 ? Object.keys(filteredData[0]).filter(
+                  (item) => !unCheckedItems.includes(item)
+                ) : []}
+              />
+            </div>
+            <TablePagination
+              rowsPerPageOptions={[10, 20, 30]}
+              component="div"
+              count={filteredData.length}
+              rowsPerPage={pageSize}
+              page={page}
+              onPageChange={(event, newPage) => setPage(newPage)}
+              onRowsPerPageChange={(event) => {
+                setPageSize(parseInt(event.target.value, 10));
+                setPage(0);
+              }}
+              disabled={isLoading}
             />
-          </div>
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={filteredData.length}
-            rowsPerPage={pageSize}
-            page={page}
-            onPageChange={handlePageChange}
-            onRowsPerPageChange={handleRowsPerPageChange}
-            disabled={isLoading}
-          />
-          <UtilSidebar
-            header="Columns"
-            footer="Clear All"
-            data={Object.keys(data[0])}
-            openFilter={openFilter}
-            onCloseFilter={handleCloseFilter} 
-            handleCheckedItem={handleCheckedItem}      
-          />
-        </>
-      ) : (
-        <NoData />
-      )}
-    </TableContainer>
+            <UtilSidebar
+              header="Columns"
+              footer="Clear All"
+              data={data.length > 0 ? Object.keys(data[0]) : []}
+              openFilter={openFilter}
+              onCloseFilter={handleCloseFilter}
+              handleCheckedItem={handleCheckedItem}
+            />
+          </>
+        )}
+      </TableContainer>
     </Container>
   );
 };

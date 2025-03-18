@@ -20,7 +20,7 @@ import Detail from "./Detail";
 
 // Utility functions
 const formatLabel = (key) => key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
-const formatDate = (dateString) => new Date(dateString).toISOString().split("T")[0];
+const formatDate = (dateString) => dateString ? new Date(dateString).toISOString().split("T")[0] : "N/A";
 
 const PopoverContent = ({ popoverType, popoverData, selectedValue, loading }) => (
   <div style={{ padding: "12px", maxWidth: "350px" }}>
@@ -29,7 +29,9 @@ const PopoverContent = ({ popoverType, popoverData, selectedValue, loading }) =>
     ) : selectedValue && popoverData[selectedValue] ? (
       popoverType === "concept" ? (
         <>
-          <Typography variant="body1" sx={{pb: 1}}><strong>{popoverData[selectedValue]?.name}</strong></Typography>
+          <Typography variant="body1" sx={{ pb: 1 }}>
+            <strong>{popoverData[selectedValue]?.name}</strong>
+          </Typography>
           <Typography variant="body2"><strong>Domain:</strong> {popoverData[selectedValue]?.domainId}</Typography>
           <Typography variant="body2"><strong>Class:</strong> {popoverData[selectedValue]?.conceptClassId}</Typography>
           <Typography variant="body2"><strong>Vocabulary:</strong> {popoverData[selectedValue]?.vocabularyName}</Typography>
@@ -54,7 +56,7 @@ const PopoverContent = ({ popoverType, popoverData, selectedValue, loading }) =>
 const VisitOccurrenceDetails = () => {  
   const navigate = useNavigate();
   const { vid } = useParams();
-  const [data, setDetails] = useState(null);
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -63,6 +65,30 @@ const VisitOccurrenceDetails = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [popoverType, setPopoverType] = useState(null);
 
+  // Fetch visit details
+  useEffect(() => {
+    if (!vid) {
+      setError("Invalid visit ID.");
+      return;
+    }
+
+    console.log(`Fetching visit details for ID: ${vid}`);
+    setIsLoading(true);
+    setError(null);
+
+    axios.get(`/api/omop/visit_occurrence/${parseInt(vid, 10)}`)
+      .then((res) => {
+        console.log("Data received:", res.data);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching details:", err);
+        setError("Failed to fetch details. Please try again.");
+      })
+      .finally(() => setIsLoading(false));
+  }, [vid]);
+
+  // Handle Popover Click
   const handleIconClick = useCallback(async (event, value, type) => {
     setAnchorEl(event.currentTarget);
     setSelectedValue(value);
@@ -88,19 +114,6 @@ const VisitOccurrenceDetails = () => {
     setPopoverType(null);
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    setError(null);
-
-    axios.get(`/api/omop/visit_occurrence/${parseInt(vid, 10)}`)
-      .then((res) => setDetails(res.data))
-      .catch((err) => {
-        console.error("Error fetching details:", err);
-        setError("Failed to fetch details. Please try again.");
-      })
-      .finally(() => setIsLoading(false));
-  }, [vid]);
-
   return (
     <Container maxWidth="xl">
       {isLoading ? (
@@ -125,7 +138,9 @@ const VisitOccurrenceDetails = () => {
             onClose={handlePopoverClose}
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           >
-            <PopoverContent popoverType={popoverType} popoverData={popoverData} selectedValue={selectedValue} loading={loading} />
+            {selectedValue && (
+              <PopoverContent popoverType={popoverType} popoverData={popoverData} selectedValue={selectedValue} loading={loading} />
+            )}
           </Popover>
 
           <Card sx={{ mx: 2 }}>
@@ -161,12 +176,10 @@ const VisitOccurrenceDetails = () => {
             </CardContent>
           </Card>
 
-          <Detail table='procedure_occurrence' type="visit" pid={vid}/> 
-          <Detail table='condition_occurrence' type="visit" pid={vid}/>
-          <Detail table='drug_exposure' type="visit" pid={vid}/>
-          <Detail table='measurement' type="visit" pid={vid}/>
-          <Detail table='observation' type="visit" pid={vid}/>
-          <Detail table='visit_detail' type="visit" pid={vid}/>
+          {/* Load Detail Components */}
+          {["procedure_occurrence", "condition_occurrence", "drug_exposure", "measurement", "observation", "visit_detail"].map(table => (
+            <Detail key={table} table={table} type="visit" pid={vid} />
+          ))}
         </>
       ) : (
         <NoData />
