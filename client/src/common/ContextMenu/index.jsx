@@ -23,7 +23,7 @@ import "./index.css";
  * @returns Your component with right click menu
  */
 export default function ContextMenu(props) {
-  const { children, menuItems, style } = props
+  const { children, menuItems, style, containerStyle } = props
   const [xPos, setXPos] = useState('0px');
   const [yPos, setYPos] = useState('0px');
   const menuRef = useRef(null);
@@ -85,7 +85,7 @@ export default function ContextMenu(props) {
 
   return (
     <>
-      <div onContextMenu={handleContextMenu}>
+      <div onContextMenu={handleContextMenu} style={containerStyle}>
         {children}
       </div>
       <div

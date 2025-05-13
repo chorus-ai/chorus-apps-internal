@@ -1,13 +1,10 @@
-import React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
+import React, { useState } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import AddProject from "./AddProjectForm";
 import AddLabel from "./AddLabelForm";
@@ -16,6 +13,7 @@ import ReviewCard from "./AddProjectReviewCard";
 import { connect } from "react-redux";
 import { addProject } from "../../redux/actions";
 import { createTheme } from "@mui/material/styles";
+import CreateForm from "../../../../common/Form/CreateForm";
 
 const theme = createTheme();
 
@@ -29,12 +27,13 @@ const useStyles = {
   },
 };
 
-const steps = ["Add project", "Add labels", "Review project"];
+const steps = ["Add project", "Add form", "Add labels", "Review project"];
 
 function NewProject({ addProject, handleClose }) {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [values, setValues] = React.useState({});
-  const [attributes, setAttributes] = React.useState([]);
+  const [activeStep, setActiveStep] = useState(0);
+  const [values, setValues] = useState({});
+  const [attributes, setAttributes] = useState([]);
+  const [form, setForm] = useState([]);
 
   function getStepContent(step) {
     switch (step) {
@@ -44,6 +43,10 @@ function NewProject({ addProject, handleClose }) {
         );
       case 1:
         return (
+          <CreateForm form={form} setForm={setForm} />
+        );
+      case 2:
+        return (
           <AddLabel
             attributes={attributes}
             handleChange={handleAttributeChange}
@@ -52,7 +55,7 @@ function NewProject({ addProject, handleClose }) {
             handleAdd={handleAttributeAdd}
           />
         );
-      case 2:
+      case 3:
         return <ReviewCard card={values} attributes={attributes} />;
       default:
         throw new Error("Unknown step");
@@ -63,7 +66,7 @@ function NewProject({ addProject, handleClose }) {
       ...values,
       attributes: JSON.stringify({ Buttons: attributes }),
     };
-    addProject(newArr);
+    addProject(newArr, form);
     setTimeout(handleClose, 1000);
   };
 
@@ -158,7 +161,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addProject: (payload) => dispatch(addProject(payload)),
+  addProject: (payload, form) => dispatch(addProject(payload, form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewProject);

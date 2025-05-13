@@ -37,9 +37,9 @@ import axios from "axios";
 
 export const getProjects = () => (dispatch) => {
   let url = `/api/cada/project`;
-  console.log(url);
   axios({ method: "get", url })
     .then((response) => {
+      console.log(response.data);
       dispatch({
         type: "GET_PROJECTS",
         projects: response.data,
@@ -85,31 +85,73 @@ export const getUserProjects = (uid) => (dispatch) => {
     );
 }
 
-export const addProject = (payload) => (dispatch) => {
-  let url = `/api/cada/project`;
-  console.log(url, payload);
-  axios({ method: "post", url, data: payload })
-    .then((response) => {
-      dispatch({
-        type: "ADD_PROJECT",
-        project: response.data,
-      });
-      dispatch({
-        type: "UPDATE_ALERT",
-        alert: { message: "New project added! ", severity: "success" },
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch({
-        type: "UPDATE_ALERT",
-        alert: { message: err, severity: "warning" },
-      });
-      setTimeout(() => {
-        dispatch({ type: "RESET_ALERT" });
-      }, 3000);
+// export const addProject = (payload, form) => (dispatch) => {
+//   let url = `/api/cada/project`;
+//   console.log(url, payload);
+//   axios({ method: "post", url, data: payload })
+//     .then((response) => {
+//       dispatch({
+//         type: "ADD_PROJECT",
+//         project: response.data,
+//       });
+//       dispatch({
+//         type: "UPDATE_ALERT",
+//         alert: { message: "New project added! ", severity: "success" },
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       dispatch({
+//         type: "UPDATE_ALERT",
+//         alert: { message: err, severity: "warning" },
+//       });
+//       setTimeout(() => {
+//         dispatch({ type: "RESET_ALERT" });
+//       }, 3000);
+//     });
+// };
+
+export const addProject = (payload, form) => async (dispatch) => {
+
+  try {
+    const newProject = await axios({
+      method: "post",
+      url: `/api/cada/project`,
+      data: payload
     });
-};
+
+    dispatch({
+      type: "ADD_PROJECT",
+      project: newProject.data,
+    });
+
+    const newForm = await axios({
+      method: "post",
+      url: `/api/form/form/json`,
+      data: { form: { title: newProject.data.name, fields: form } }
+    });
+
+    await axios({
+      method: "post",
+      url: `/api/cada/project/form/${newProject.data.id}/${newForm.data.id}`,
+    });
+
+    dispatch({
+      type: "UPDATE_ALERT",
+      alert: { message: "New project added! ", severity: "success" },
+    });
+
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: "UPDATE_ALERT",
+      alert: { message: err, severity: "warning" },
+    });
+    setTimeout(() => {
+      dispatch({ type: "RESET_ALERT" });
+    }, 3000);
+  }
+}
 
 export const updateProject = (id, payload) => (dispatch) => {
   let url = `/api/cada/project/${id}`;

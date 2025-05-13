@@ -25,3 +25,6 @@ server/python-scripts/*/__pycache__
 
 # data
 server/data
+data/db.sqlite3
+data/omop.sqlite3
+data/vocab.sqlite3

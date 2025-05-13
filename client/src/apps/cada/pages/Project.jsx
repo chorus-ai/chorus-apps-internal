@@ -315,14 +315,14 @@ const ProjectCard = ({
 
 function Project(props) {
   const { projects, events, eventsCount, getProjects, getEventsCount } = props;
-  const [searchKey, setSearchKey] = React.useState("");
-  const [open, setOpen] = React.useState(false);
-  const [openAlert, setOpenAlert] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [searchKey, setSearchKey] = useState("");
+  const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [openilesDialog, setOpenilesDialog] = React.useState(false);
-  const [value, setValue] = React.useState(0);
-  const [projectId, setProjectId] = React.useState(0);
+  const [openilesDialog, setOpenilesDialog] = useState(false);
+  const [value, setValue] = useState(0);
+  const [projectId, setProjectId] = useState(0);
 
   const handleSearch = (event) => {
     setSearchKey(event.target.value);
@@ -490,7 +490,7 @@ function Project(props) {
             </Grid>
           </Box>
         ) : (
-          <Detail project={projects[projectId]} />
+          <Detail project={projects ? projects.find(p => p.id === projectId) : null} />
         )}
       </Container>
     </div>

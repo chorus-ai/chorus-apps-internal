@@ -17,16 +17,17 @@ import {
   FormControlLabel,
   IconButton,
   Box,
-  Breadcrumbs,
+  Input,
+  Dialog,
 } from "@mui/material";
 
 import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import { FolderIcon, FileIcon } from "../../common/Icons";
 import { MdFilterList, MdKeyboardArrowRight } from "react-icons/md";
-import { createTheme } from "@mui/material/styles";
-
-const theme = createTheme();
+import AssignDialog from "./AssignFileDialog";
+import { set } from "lodash";
+import axios from "axios";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -67,7 +68,7 @@ function EnhancedTableHead(props) {
     order,
     orderBy,
     numSelected,
-    rowCount,
+    fileLength,
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -81,8 +82,8 @@ function EnhancedTableHead(props) {
           <Checkbox
             color="secondary"
             size="small"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
+            indeterminate={numSelected > 0 && numSelected < fileLength}
+            checked={fileLength > 0 && numSelected === fileLength}
             onChange={onSelectAllClick}
             inputProps={{
               "aria-label": "select all records",
@@ -121,11 +122,26 @@ EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  fileLength: PropTypes.number.isRequired,
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, onAssignClick } = props;
+  const { numSelected, onAssignClick, onFilterClick, reset } = props;
+
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+
+  const handleFilterClick = () => {
+    const fromInt = Number(from);
+    const toInt = Number(to);
+    if (!Number.isInteger(fromInt) || !Number.isInteger(toInt) || fromInt > toInt) {
+      return;
+    }
+
+    console.log(fromInt, toInt);
+
+    onFilterClick(curr => curr.slice(fromInt - 1, toInt));
+  }
 
   return (
     <Toolbar
@@ -185,11 +201,44 @@ function EnhancedTableToolbar(props) {
           labelPlacement="start"
         />
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <MdFilterList />
-          </IconButton>
-        </Tooltip>
+        <>
+          <div className="" style={{ display: "flex" }}>
+            <Typography
+              sx={{ lineHeight: "32px", marginRight: 1 }}
+              variant="body1"
+              id="tableTitle"
+              component="div"
+            >
+              From
+            </Typography>
+            <Input
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+            />
+            <Typography
+              sx={{ lineHeight: "32px", marginRight: 1, marginLeft: 1 }}
+              variant="body1"
+              id="tableTitle"
+              component="div"
+            >
+              to
+            </Typography>
+            <Input
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+            />
+          </div>
+          <Tooltip title="Filter list">
+            <IconButton onClick={handleFilterClick}>
+              <MdFilterList />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Reset">
+            <IconButton onClick={reset}>
+              <MdFilterList />
+            </IconButton>
+          </Tooltip>
+        </>
       )}
     </Toolbar>
   );
@@ -200,13 +249,20 @@ EnhancedTableToolbar.propTypes = {
   onAssignClick: PropTypes.func.isRequired,
 };
 
-function EnhancedTable({ path, paths, handleClickDir }) {
+function EnhancedTable({ path, paths, handleClickDir, fileLength }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("Id");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
+  // eslint-disable-next-line
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [currPaths, setCurrPaths] = useState(paths);
+
+  const [assignDialogOpen, setAssignDialogOpen] = useState(false);
+  const [fileType, setFileType] = useState("");
+  const [fileInfo, setFileInfo] = useState("");
+  const [project, setProject] = useState(1);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -216,7 +272,7 @@ function EnhancedTable({ path, paths, handleClickDir }) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = paths.file.map((n, i) => i);
+      const newSelecteds = currPaths.filter(p => p.type === "file").map((n, i) => i);
       setSelected(newSelecteds);
       return;
     }
@@ -252,12 +308,48 @@ function EnhancedTable({ path, paths, handleClickDir }) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+  // const handleChangeDense = (event) => {
+  //   setDense(event.target.checked);
+  // };
 
-  const handleAssignClick = () => {
-    console.log("selected: ", selected);
+  const handleAssign = async () => {
+
+    try {
+      const selectedFiles = selected.map(i => ({
+        path: `${path}/${currPaths[i].path}`,
+        type: fileType, info: fileInfo,
+        ext: currPaths[i].path.split(".")[1]
+      }));
+      const response = await axios({
+        method: "post",
+        url: "/api/cada/file/",
+        data: { files: selectedFiles },
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.status !== 200) {
+        console.error("Error assigning files: ", response.data);
+        return;
+      }
+
+      const cadaFiles = response.data;
+
+      // add project events
+      const eventReponse = await axios({
+        method: "post",
+        url: `/api/cada/event?pid=${project}`,
+        data: { files: cadaFiles.map(f => f.id) },
+      });
+
+      if (eventReponse.status !== 200) {
+        console.error("Error creating events: ", eventReponse.data);
+        return;
+      }
+      
+      setAssignDialogOpen(false);
+      setSelected([]);
+    } catch (err) {
+      console.error("Error assigning files: ", err);
+    }
   };
 
   useEffect(() => {
@@ -265,18 +357,33 @@ function EnhancedTable({ path, paths, handleClickDir }) {
   }, [paths]);
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
-  const rowCount =
-    (paths.dir ? paths.dir.length : 0) + (paths.file ? paths.file.length : 0);
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rowCount - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, fileLength - page * rowsPerPage);
 
   return (
     <div>
+      <Dialog
+        open={assignDialogOpen}
+        onClose={() => setAssignDialogOpen(false)}
+      >
+        <AssignDialog
+          fileType={fileType}
+          setFileType={setFileType}
+          fileInfo={fileInfo}
+          setFileInfo={setFileInfo}
+          project={project}
+          setProject={setProject}
+          handleClose={() => setAssignDialogOpen(false)}
+          handleAssign={handleAssign}
+        />
+      </Dialog>
       <Paper>
         <EnhancedTableToolbar
           numSelected={selected.length}
-          onAssignClick={handleAssignClick}
+          onAssignClick={() => setAssignDialogOpen(true)}
+          onFilterClick={setCurrPaths}
+          reset={() => setCurrPaths(paths)}
         />
         <TableContainer>
           <Table
@@ -290,10 +397,54 @@ function EnhancedTable({ path, paths, handleClickDir }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rowCount}
+              fileLength={currPaths.length}
             />
             <TableBody>
-              {paths.dir &&
+              {currPaths && currPaths.length > 0 &&
+                stableSort(currPaths, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(index);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => row.type === "file" ? handleClick(event, index) : handleClickDir(row.path)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={index}
+                        selected={isItemSelected}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            size="small"
+                            checked={isItemSelected}
+                            onClick={() => row.type === "file" ? {} : handleClickDir(row.path)}
+                            disabled={row.type === "file" ? false : true}
+                            inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </TableCell>
+                        <TableCell component="th" id={labelId} scope="row">
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            {row.type === "file" ? <FileIcon /> : <FolderIcon style={{ marginRight: 5 }} />} {row.path}
+                          </div>
+                        </TableCell>
+                        <TableCell padding="none">{row.type === 'dir' ? 'folder' : 'file'}</TableCell>
+                        <TableCell>{path}</TableCell>
+                        <TableCell>{row.path.split(".")[1]} </TableCell>
+                      </TableRow>
+                    );
+                  })
+              }
+              {/* {paths.dir &&
                 paths.dir.length > 0 &&
                 stableSort(paths.dir, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -378,7 +529,7 @@ function EnhancedTable({ path, paths, handleClickDir }) {
                         <TableCell>{row.path.split(".")[1]} </TableCell>
                       </TableRow>
                     );
-                  })}
+                  })} */}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -390,13 +541,26 @@ function EnhancedTable({ path, paths, handleClickDir }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rowCount}
+          count={fileLength}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <style>
+        {`
+        .MuiTableCell-body {
+          user-select: none; 
+        }
+
+        .MuiInput-input {
+          width: 40px;
+          margin: 0 5px;
+        }
+      `}
+      </style>
+
     </div>
   );
 }

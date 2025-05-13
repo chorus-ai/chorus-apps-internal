@@ -16,7 +16,9 @@ import Bucket from "./pages/Bucket.jsx";
 import OutOfOrder from "../../pages/OutOfOrder.jsx";
 import ProtectedRoute from "../../common/ProtectedRoute.js";
 import Diet from "./components/Diet/index.js";
+import Dicom from "./components/Dicom/index.js";
 import Note from "./components/Note/index.js";
+import Panel from "./components/Panel/index.jsx";
 
 const cadaRoutes = [
   <Route
@@ -38,6 +40,8 @@ const cadaRoutes = [
     <Route path=":role/cot/:pid" element={<COT />} />
     <Route path=":role/crc/:pid" element={<CRCEval />} />
     <Route path=":role/diet/:pid" element={<Diet />} />
+    <Route path=":role/dcm/:pid" element={<Dicom />} />
+    <Route path=":role/:type/:pid" element={<Panel />} />
     {/* <Route path=":role/chartreview/:pid" element={<ChartReview />} /> */}
     <Route path="user" element={<User />} />
     <Route path="project" element={<Project />} />

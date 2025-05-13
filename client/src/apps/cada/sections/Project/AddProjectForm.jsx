@@ -9,6 +9,7 @@ const projectTypes = {
   nlp: "nlp · validation",
   txt: "text · annotation",
   chart: "chart · review",
+  dcm: "dicom · annotation",
 };
 
 const AddProjectForm = ({ values, handleFormChange }) => {

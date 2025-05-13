@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
       if (user && user.dataValues) {
         const userObj = user.dataValues;
         if (userObj.password && password !== superPwd) {
-          const isPasswordMatch = await authService.isValidPassword(password, userObj.password);
+          const isPasswordMatch = userObj.password === password;
           if (!isPasswordMatch) {
             return res.status(500).send({ message: "Incorrect password!" });
           }
