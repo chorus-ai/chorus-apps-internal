@@ -92,7 +92,7 @@ export default function Signin() {
       if (password === "" || password === "1234") {
         navigate("/resetpassword")
       } else {
-        navigate("/ive");
+        navigate("/" + user.featureUsers?.[1]?.app || "features");
       }
     }
   };
@@ -115,7 +115,7 @@ export default function Signin() {
         });
       } else {
         dispatch({ type: "LOGIN", user: user });
-        navigate("/" + Object.values(user.featureUsers)[0].app);
+        navigate("/" + user.featureUsers?.[1]?.app || "features");
       }
     };
     const url = window.location.href;

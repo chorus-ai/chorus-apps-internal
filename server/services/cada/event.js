@@ -2,7 +2,7 @@ db = require("../../models");
 const { groupBy } = require("lodash");
 const { Op } = require("sequelize");
 
-const DEFAULT_PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 1000;
 const DEFAULT_SORT_ORDER = [["id", "ASC"]];
 
 /**
