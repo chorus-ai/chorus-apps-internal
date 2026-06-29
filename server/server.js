@@ -2,18 +2,22 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const app = express();
 const db = require("./models");
 const routes = require("./routes");
 const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require(`./swagger`);
 const createError = require("http-errors");
+const fs = require("fs");
+const authMiddleware = require("./middleware/auth");
 
 require('dotenv').config();
 const PORT = process.env.PORT || 8080;
 const NODE_ENV = process.env.NODE_ENV || "development";
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,10 +35,29 @@ Promise.all([
 app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
+// Public paths that don't require JWT authentication
+const publicPaths = [
+  "/auth/login",
+  "/auth/signup",
+  "/auth/github-login",
+  "/auth/azure-login",
+  "/auth/azure-callback",
+  "/auth/logout",
+  "/auth/resetPassword",
+];
+
+// Apply auth middleware to all /api routes except public ones
+app.use("/api", (req, res, next) => {
+  if (publicPaths.some((p) => req.path === p || req.path.startsWith(p + "/"))) {
+    return next();
+  }
+  return authMiddleware(req, res, next);
+});
+
 app.use("/api", routes);
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
   next(createError(404));
 });
 

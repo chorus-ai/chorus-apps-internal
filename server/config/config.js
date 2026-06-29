@@ -1,17 +1,17 @@
 require('dotenv').config();
 
-const development = {
-  sqlite_app: {
+const sqlite = {
+  app: {
     dialect: "sqlite",
     storage: "data/db.sqlite3",
   },
-  sqlite_omop: {
+  omop: {
     dialect: "sqlite",
     storage: "data/omop.sqlite3",
   },
-  sqlite_vocab: {
+  vocab: {
     dialect: "sqlite",
-    storage: "data/vocab.sqlite3",
+    storage: "data/db.sqlite3",
   },
 };
 
@@ -20,8 +20,8 @@ const test = {
   storage: ":memory:",
 };
 
-const production = {
-  db_app: {
+const postgres = {
+  app: {
     dialect: "postgres",
     host: process.env.DB_HOSTNAME,
     port: process.env.DB_PORT,
@@ -39,7 +39,7 @@ const production = {
       schema: "app",  
     }
   },
-  db_omop: {
+  omop: {
     dialect: "postgres",
     host: process.env.DB_HOSTNAME,
     port: process.env.DB_PORT,
@@ -57,7 +57,7 @@ const production = {
       schema: "omopcdm",  
     }
   },
-  db_vocab: {
+  vocab: {
     dialect: "postgres",
     host: process.env.DB_HOSTNAME,
     port: process.env.DB_PORT,
@@ -72,14 +72,14 @@ const production = {
       },
     },
     define: {
-      schema: "vocabulary",  
+      schema: "app",  
     }
   },
 };
 
 
 module.exports = {
-  development,
+  sqlite,
   test,
-  production,
+  postgres,
 };
