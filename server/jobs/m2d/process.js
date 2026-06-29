@@ -1,7 +1,7 @@
 const pathModule = require("path");
 const child_process = require("child_process");
-const m2djobstatusService = require("../../services/m2d/jobstatus");
-const m2dresultService = require("../../services/m2d/result");
+const m2djobstatusService = require("../../features/m2d/services/jobstatus");
+const m2dresultService = require("../../features/m2d/services/result");
 const dotenv = require("dotenv");
 dotenv.config();
 

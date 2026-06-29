@@ -1,6 +1,6 @@
 const pathModule = require("path");
 const child_process = require("child_process");
-const cadaeventService = require("../../services/cada/event");
+const cadaeventService = require("../../features/cada/services/event");
 const dotenv = require("dotenv");
 dotenv.config();
 
