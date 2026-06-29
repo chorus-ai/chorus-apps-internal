@@ -1,9 +1,12 @@
+"use strict";
+
+require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const _ = require("lodash");
-require("dotenv").config();
+const { isFeatureEnabled } = require("../config/env");
 
-const swagger = {
+const spec = {
   openapi: "3.0.0",
   info: {
     title: `${process.env.APP_NAME} API`,
@@ -11,10 +14,7 @@ const swagger = {
     description: `API documentation for ${process.env.APP_NAME} features`,
   },
   servers: [
-    {
-      url: `${process.env.HOST}/api`,
-      description: `${process.env.NODE_ENV} server`,
-    },
+    { url: `${process.env.APP_HOST}/api`, description: `${process.env.NODE_ENV} server` },
   ],
   tags: [
     { name: "Auth", description: "Auth management" },
@@ -27,106 +27,85 @@ const swagger = {
       post: {
         tags: ["Auth"],
         operationId: "loginUser",
+        security: [],
         summary: "Login user",
         parameters: [],
         requestBody: {
+          required: true,
           content: {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               schema: {
                 type: "object",
+                required: ["username", "password"],
                 properties: {
-                  username: {
-                    type: "string",
-                  },
-                  password: {
-                    type: "string",
-                  },
-                },
-                example: {
-                  username: "test@gmail.com",
-                  password: "1234",
+                  username: { type: "string", example: "test@gmail.com" },
+                  password: { type: "string", format: "password", example: "1234" },
                 },
               },
             },
           },
         },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
+      },
+    },
+    "/auth/token/generate": {
+      post: {
+        tags: ["Auth"],
+        operationId: "generateApiToken",
+        security: [{ bearerAuth: [] }],
+        summary: "Generate a static API token for the authenticated user",
         responses: {
           200: {
-            description: "Success",
+            description: "Token generated",
+            content: {
+              "application/json": {
+                schema: { type: "object", properties: { token: { type: "string", example: "a3f8c2..." } } },
+              },
+            },
           },
-          500: {
-            description: "Internal Server Error",
-          },
+          401: { description: "Unauthorized" },
+          500: { description: "Internal Server Error" },
         },
       },
     },
-    "/auth/github-login": {
+    "/auth/token/revoke": {
       post: {
         tags: ["Auth"],
-        operationId: "loginWithGithub",
-        summary: "Login user with github",
-        parameters: [],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  code: {
-                    type: "string",
-                  },
-                },
-                example: {
-                  code: "CodeFromGithub",
-                },
-              },
-            },
-          },
-        },
+        operationId: "revokeApiToken",
+        security: [{ bearerAuth: [] }],
+        summary: "Revoke the static API token for the authenticated user",
         responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
+          200: { description: "Token revoked" },
+          401: { description: "Unauthorized" },
+          500: { description: "Internal Server Error" },
         },
       },
     },
-    "/auth/google-login": {
+    "/auth/resetPassword": {
       post: {
         tags: ["Auth"],
-        operationId: "loginWithGoogle",
-        summary: "Login user with google",
-        parameters: [],
+        operationId: "resetPassword",
+        security: [],
+        summary: "Reset user password",
         requestBody: {
+          required: true,
           content: {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               schema: {
                 type: "object",
+                required: ["username", "password"],
                 properties: {
-                  username: {
-                    type: "string",
-                  },
-                  password: {
-                    type: "string",
-                  },
-                },
-                example: {
-                  username: "test@gmail.com",
-                  password: "1234",
+                  username: { type: "string", example: "test@gmail.com" },
+                  password: { type: "string", format: "password", example: "newpassword123" },
                 },
               },
             },
           },
         },
         responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
+          200: { description: "Password reset successfully" },
+          404: { description: "User not found" },
+          500: { description: "Internal Server Error" },
         },
       },
     },
@@ -134,166 +113,87 @@ const swagger = {
       post: {
         tags: ["Auth"],
         operationId: "signupUser",
+        security: [],
         summary: "Signup user",
         parameters: [],
         requestBody: {
+          required: true,
           content: {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               schema: {
                 type: "object",
+                required: ["firstName", "lastName", "username", "email", "password"],
                 properties: {
-                  username: {
-                    type: "string",
-                  },
-                  password: {
-                    type: "string",
-                  },
-                },
-                example: {
-                  username: "test@gmail.com",
-                  password: "1234",
+                  firstName: { type: "string", example: "John" },
+                  lastName: { type: "string", example: "Doe" },
+                  username: { type: "string", example: "johndoe" },
+                  email: { type: "string", example: "test@gmail.com" },
+                  password: { type: "string", format: "password", example: "1234" },
+                  loginType: { type: "string", example: "local", default: "local" },
                 },
               },
             },
           },
         },
         responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
+          200: { description: "Success" },
+          409: { description: "User already exists" },
+          500: { description: "Internal Server Error" },
         },
+      },
+    },
+    "/auth/logout": {
+      post: {
+        tags: ["Auth"],
+        operationId: "logoutUser",
+        security: [],
+        summary: "Logout user (clears auth cookie)",
+        responses: { 200: { description: "Logged out" } },
       },
     },
     "/user": {
       get: {
         tags: ["User"],
         operationId: "getAllUsers",
+        security: [{ bearerAuth: [] }],
         summary: "Get all user",
         parameters: [],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
       post: {
         tags: ["User"],
         operationId: "createUser",
+        security: [{ bearerAuth: [] }],
         summary: "Create new user",
         parameters: [],
-        requestBody: {
-          $ref: "#components/requestBodies/User",
-        },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        requestBody: { $ref: "#components/requestBodies/User" },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/user/{uid}": {
       get: {
         tags: ["User"],
         operationId: "getUserById",
+        security: [{ bearerAuth: [] }],
         summary: "Get user detail by id",
-        parameters: [
-          {
-            in: "path",
-            name: "uid",
-            description: "user id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        parameters: [{ in: "path", name: "uid", description: "user id", required: true, schema: { type: "integer" } }],
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
       put: {
         tags: ["User"],
         operationId: "updateUser",
+        security: [{ bearerAuth: [] }],
         summary: "Update user detail by id",
-        parameters: [
-          {
-            in: "path",
-            name: "uid",
-            description: "user id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-        ],
-        requestBody: {
-          $ref: "#/components/requestBodies/User",
-        },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
-      },
-    },
-    "/user/resetPassword": {
-      post: {
-        tags: ["User"],
-        operationId: "reserPasswordByUsername",
-        summary: "Reset user password",
-        parameters: [],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  username: {
-                    type: "string",
-                  },
-                  password: {
-                    type: "string",
-                  },
-                },
-                example: {
-                  username: "test@gmail.com",
-                  password: "123456",
-                },
-              },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        parameters: [{ in: "path", name: "uid", description: "user id", required: true, schema: { type: "integer" } }],
+        requestBody: { $ref: "#/components/requestBodies/User" },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/user/search": {
       post: {
         tags: ["User"],
         operationId: "searchUsers",
+        security: [{ bearerAuth: [] }],
         summary: "Search users",
         parameters: [],
         requestBody: {
@@ -302,30 +202,12 @@ const swagger = {
               schema: {
                 type: "object",
                 properties: {
-                  fid: {
-                    type: "number",
-                  },
-                  attributes: {
-                    type: "array",
-                    items: {
-                      type: "string",
-                    },
-                  },
-                  statusFilter: {
-                    type: "string",
-                  },
-                  exUids: {
-                    type: "array",
-                    items: {
-                      type: "number",
-                    },
-                  },
-                  searchString: {
-                    type: "string",
-                  },
-                  limit: {
-                    type: "number",
-                  },
+                  fid: { type: "number" },
+                  attributes: { type: "array", items: { type: "string" } },
+                  statusFilter: { type: "string" },
+                  exUids: { type: "array", items: { type: "number" } },
+                  searchString: { type: "string" },
+                  limit: { type: "number" },
                 },
                 example: {
                   fid: 1,
@@ -339,49 +221,26 @@ const swagger = {
             },
           },
         },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/feature": {
       get: {
         tags: ["Feature"],
         operationId: "getAllFeatures",
+        security: [{ bearerAuth: [] }],
         summary: "Get all features",
         parameters: [],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
       post: {
         summary: "Create new feature",
         tags: ["Feature"],
         operationId: "createFeature",
+        security: [{ bearerAuth: [] }],
         parameters: [],
-        requestBody: {
-          $ref: "#/components/requestBodies/Feature",
-          description: "Create feature object",
-          required: true,
-        },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        requestBody: { $ref: "#/components/requestBodies/Feature", description: "Create feature object", required: true },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/feature/{fid}": {
@@ -389,78 +248,26 @@ const swagger = {
         summary: "Get feature by feature id",
         tags: ["Feature"],
         operationId: "getFeatureById",
-        parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        security: [{ bearerAuth: [] }],
+        parameters: [{ in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } }],
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
       put: {
         summary: "Update feature detail by feature id",
         tags: ["Feature"],
         operationId: "updateFeatureById",
-        parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-        ],
-        requestBody: {
-          $ref: "#/components/requestBodies/Feature",
-          description: "Create feature object",
-          required: true,
-        },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        security: [{ bearerAuth: [] }],
+        parameters: [{ in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } }],
+        requestBody: { $ref: "#/components/requestBodies/Feature", description: "Create feature object", required: true },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
       delete: {
         summary: "Delete feature detail by feature id",
         tags: ["Feature"],
         operationId: "deleteFeatureById",
-        parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        security: [{ bearerAuth: [] }],
+        parameters: [{ in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } }],
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/feature/{fid}/users": {
@@ -468,297 +275,256 @@ const swagger = {
         summary: "Get specific feature users",
         tags: ["Feature"],
         operationId: "getAllFeatureUsers",
-        parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Success",
-          },
-        },
+        security: [{ bearerAuth: [] }],
+        parameters: [{ in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } }],
+        responses: { 200: { description: "Success" } },
       },
       post: {
         tags: ["Feature"],
         operationId: "createFeatureUser",
+        security: [{ bearerAuth: [] }],
         summary: "Create feature user detail",
-        parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-        ],
-        requestBody: {
-          $ref: "#/components/requestBodies/cadaProjectUser",
-        },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        parameters: [{ in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } }],
+        requestBody: { $ref: "#/components/requestBodies/FeatureUser" },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/feature/{fid}/users/{uid}": {
       get: {
         tags: ["Feature"],
         operationId: "getFeatureUserByUserId",
+        security: [{ bearerAuth: [] }],
         summary: "Get feature user detail by id",
         parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-          {
-            in: "path",
-            name: "uid",
-            description: "user id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
+          { in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } },
+          { in: "path", name: "uid", description: "user id", required: true, schema: { type: "integer" } },
         ],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
       put: {
         tags: ["Feature"],
         operationId: "updateFeatureUserByUserId",
+        security: [{ bearerAuth: [] }],
         summary: "Update feature user detail by id",
         parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-          {
-            in: "path",
-            name: "uid",
-            description: "user id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
+          { in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } },
+          { in: "path", name: "uid", description: "user id", required: true, schema: { type: "integer" } },
         ],
         requestBody: {
           content: {
             "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  role: {
-                    type: "string",
-                    default: "user",
-                  },
-                },
-              },
+              schema: { type: "object", properties: { role: { type: "string", default: "user" } } },
             },
           },
         },
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
       delete: {
         tags: ["Feature"],
         operationId: "deleteFeatureUserById",
+        security: [{ bearerAuth: [] }],
         summary: "Delete feature user detail",
         parameters: [
-          {
-            in: "path",
-            name: "fid",
-            description: "feature id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
-          {
-            in: "path",
-            name: "uid",
-            description: "user id",
-            required: true,
-            schema: {
-              type: "integer",
-            },
-          },
+          { in: "path", name: "fid", description: "feature id", required: true, schema: { type: "integer" } },
+          { in: "path", name: "uid", description: "user id", required: true, schema: { type: "integer" } },
         ],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/bucket": {
       get: {
         tags: ["Bucket"],
         operationId: "getAllBuckets",
+        security: [{ bearerAuth: [] }],
         summary: "Retrieve root files/folders from S3 ",
         parameters: [],
-        responses: {
-          200: {
-            description: "Success",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
       },
     },
     "/bucket/{path}": {
       get: {
         tags: ["Bucket"],
         operationId: "getBucketByPath",
+        security: [{ bearerAuth: [] }],
         summary: "Retrieve files/folders by specified S3 path",
         parameters: [
-          {
-            in: "path",
-            name: "path",
-            schema: {
-              type: "string",
+          { in: "path", name: "path", schema: { type: "string" }, required: true, description: "The path to retrieve files from S3 buckets" },
+        ],
+        responses: { 200: { description: "Success" }, 500: { description: "Internal Server Error" } },
+      },
+    },
+    "/bucket/s3/health": {
+      get: {
+        tags: ["Bucket"],
+        operationId: "s3Health",
+        security: [{ bearerAuth: [] }],
+        summary: "Health check for bucket service",
+        responses: {
+          200: {
+            description: "Bucket service is healthy",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    ok: { type: "boolean", example: true },
+                    message: { type: "string", example: "Bucket service is healthy" },
+                  },
+                },
+              },
             },
-            required: true,
-            description: "The path to retrieve files from S3 buckets",
           },
+        },
+      },
+    },
+    "/bucket/s3/list/{prefix}": {
+      get: {
+        tags: ["Bucket"],
+        operationId: "s3ListObjects",
+        security: [{ bearerAuth: [] }],
+        summary: "List files and folders in the bucket under the specified prefix",
+        parameters: [
+          { in: "path", name: "prefix", required: true, schema: { type: "string" }, description: "Prefix (folder path) to list objects from" },
+          { in: "query", name: "page", required: false, schema: { type: "integer", default: 1 }, description: "Page number" },
+          { in: "query", name: "pageSize", required: false, schema: { type: "integer", default: 20 }, description: "Items per page" },
         ],
         responses: {
           200: {
-            description: "Success",
+            description: "A list of files and folders",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    ok: { type: "boolean", example: true },
+                    bucket: { type: "string", example: "my-bucket" },
+                    prefix: { type: "string", example: "folder1/" },
+                    page: { type: "integer", example: 1 },
+                    pageSize: { type: "integer", example: 20 },
+                    isLastPage: { type: "boolean", example: false },
+                    nextPage: { type: "integer", example: 2 },
+                    folders: { type: "array", items: { type: "string" }, example: ["subfolder1/", "subfolder2/"] },
+                    files: { type: "array", items: { type: "string" }, example: ["file1.txt", "file2.json"] },
+                  },
+                },
+              },
+            },
           },
-          500: {
-            description: "Internal Server Error",
+        },
+      },
+    },
+    "/bucket/s3/read/{key}": {
+      get: {
+        tags: ["Bucket"],
+        operationId: "s3ReadFile",
+        security: [{ bearerAuth: [] }],
+        summary: "Read a file from the bucket by key",
+        parameters: [
+          { in: "path", name: "key", required: true, schema: { type: "string" }, description: "Full object key" },
+        ],
+        responses: {
+          200: { description: "File contents" },
+          404: { description: "Not found" },
+        },
+      },
+    },
+    "/bucket/s3/upload": {
+      post: {
+        tags: ["Bucket"],
+        operationId: "s3UploadFile",
+        security: [{ bearerAuth: [] }],
+        summary: "Upload a file to the bucket",
+        requestBody: {
+          required: true,
+          content: {
+            "multipart/form-data": {
+              schema: {
+                type: "object",
+                properties: {
+                  key: { type: "string", description: "Destination object key" },
+                  file: { type: "string", format: "binary" },
+                },
+                required: ["file"],
+              },
+            },
           },
+        },
+        responses: {
+          200: { description: "Uploaded" },
+          400: { description: "Bad request" },
+        },
+      },
+    },
+    "/bucket/s3/download": {
+      get: {
+        tags: ["Bucket"],
+        operationId: "s3DownloadFile",
+        security: [{ bearerAuth: [] }],
+        summary: "Download a file from the bucket",
+        parameters: [
+          { in: "query", name: "key", required: true, schema: { type: "string" }, description: "Object key to download" },
+        ],
+        responses: {
+          200: { description: "File stream" },
+          404: { description: "Not found" },
+        },
+      },
+    },
+    "/bucket/s3/delete": {
+      delete: {
+        tags: ["Bucket"],
+        operationId: "s3DeleteFile",
+        security: [{ bearerAuth: [] }],
+        summary: "Delete a file from the bucket",
+        parameters: [
+          { in: "query", name: "key", required: true, schema: { type: "string" }, description: "Object key to delete" },
+        ],
+        responses: {
+          200: { description: "Deleted" },
+          404: { description: "Not found" },
         },
       },
     },
   },
   components: {
+    securitySchemes: {
+      bearerAuth: { type: "http", scheme: "bearer", bearerFormat: "JWT" },
+    },
     schemas: {
       user: {
         type: "object",
         required: ["id", "username"],
         properties: {
-          id: {
-            type: "integer",
-          },
-          username: {
-            type: "string",
-            default: "test@gmail.com",
-          },
-          email: {
-            type: "string",
-            default: "test@gmail.com",
-          },
-          password: {
-            type: "string",
-            default: "1234",
-          },
-          loginType: {
-            type: "string",
-            description: "Login type",
-            enum: ["local", "github", "google"],
-          },
-          firstName: {
-            type: "string",
-            default: "Tom",
-          },
-          lastName: {
-            type: "string",
-            default: "Tom",
-          },
-          avatar: {
-            type: "string",
-            default: "",
-          },
-          token: {
-            type: "string",
-            default: "",
-          },
-          IsBot: {
-            type: "boolean",
-            default: false,
-          },
+          id: { type: "integer" },
+          username: { type: "string", default: "test@gmail.com" },
+          email: { type: "string", default: "test@gmail.com" },
+          password: { type: "string", default: "1234" },
+          loginType: { type: "string", description: "Login type", enum: ["local", "github", "google"] },
+          firstName: { type: "string", default: "Tom" },
+          lastName: { type: "string", default: "Tom" },
+          avatar: { type: "string", default: "" },
+          token: { type: "string", default: "" },
+          IsBot: { type: "boolean", default: false },
         },
       },
       feature: {
         type: "object",
         required: ["id", "name"],
         properties: {
-          id: {
-            type: "integer",
-          },
-          name: {
-            type: "string",
-            default: "App name",
-          },
-          description: {
-            type: "string",
-            default: "App description",
-          },
+          id: { type: "integer" },
+          name: { type: "string", default: "App name" },
+          description: { type: "string", default: "App description" },
         },
       },
       featureUser: {
         type: "object",
         required: ["id", "role", "userId", "featureId"],
         properties: {
-          id: {
-            type: "integer",
-          },
-          role: {
-            type: "string",
-            description: "role type",
-            enum: ["user", "admin"],
-          },
-          userId: {
-            type: "integer",
-          },
-          featureId: {
-            type: "integer",
-          },
-          status: {
-            type: "string",
-            default: "Active",
-          },
+          id: { type: "integer" },
+          role: { type: "string", description: "role type", enum: ["user", "admin"] },
+          userId: { type: "integer" },
+          featureId: { type: "integer" },
+          status: { type: "string", default: "Active" },
         },
       },
     },
@@ -771,46 +537,14 @@ const swagger = {
               items: {
                 type: "object",
                 properties: {
-                  id: {
-                    type: "integer",
-                  },
-                  name: {
-                    type: "string",
-                    default: "Tom Jerry",
-                  },
-                  email: {
-                    type: "string",
-                    default: "test@gmail.com",
-                  },
-                  loginType: {
-                    type: "string",
-                    description: "Login type",
-                    enum: ["local", "github", "google"],
-                  },
-                  Token: {
-                    type: "string",
-                    default: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-                  },
-                  WantsEmail: {
-                    type: "boolean",
-                    default: false,
-                  },
-                  IsBot: {
-                    type: "boolean",
-                    default: false,
-                  },
-                  cadaProjectUser: {
-                    type: "array",
-                    items: {
-                      $ref: "#/components/schemas/cadaProjectUser",
-                    },
-                  },
-                  FeatureUser: {
-                    type: "array",
-                    items: {
-                      $ref: "#/components/schemas/featureUser",
-                    },
-                  },
+                  id: { type: "integer" },
+                  name: { type: "string", default: "Tom Jerry" },
+                  email: { type: "string", default: "test@gmail.com" },
+                  loginType: { type: "string", description: "Login type", enum: ["local", "github", "google"] },
+                  Token: { type: "string", default: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" },
+                  WantsEmail: { type: "boolean", default: false },
+                  IsBot: { type: "boolean", default: false },
+                  FeatureUser: { type: "array", items: { $ref: "#/components/schemas/featureUser" } },
                 },
               },
             },
@@ -819,96 +553,78 @@ const swagger = {
         description: "List of user object",
       },
       FeatureArray: {
-        content: {
-          "application/json": {
-            schema: {
-              type: "array",
-              items: {
-                $ref: "#/components/schemas/feature",
-              },
-            },
-          },
-        },
+        content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/feature" } } } },
         description: "List of feature object",
       },
       FeatureUserArray: {
-        content: {
-          "application/json": {
-            schema: {
-              type: "array",
-              items: {
-                $ref: "#/components/schemas/featureUser",
-              },
-            },
-          },
-        },
+        content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/featureUser" } } } },
         description: "List of feature user object",
       },
     },
     requestBodies: {
-      "User": {
-        "content": {
+      User: {
+        content: {
           "application/json": {
-            "schema": {
-              "example": {
-                "name": "Del Bold",
-                "email": "test@gmail.com",
-                "loginType": "saml",
-                "isBot": false,
-                "role": "user"
-              }
-            }
-          }
-        }
+            schema: {
+              example: {
+                name: "ID: 8718462",
+                email: "test@gmail.com",
+                loginType: "saml",
+                isBot: false,
+                role: "user",
+              },
+            },
+          },
+        },
       },
-      "Feature": {
-        "content": {
+      Feature: {
+        content: {
           "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "id",
-                "name"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "default": "App name"
-                },
-                "description": {
-                  "type": "string",
-                  "default": "App description"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+            schema: {
+              type: "object",
+              required: ["id", "name"],
+              properties: {
+                name: { type: "string", default: "App name" },
+                description: { type: "string", default: "App description" },
+              },
+            },
+          },
+        },
+      },
+      FeatureUser: {
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              required: ["userId", "role"],
+              properties: {
+                userId: { type: "integer", example: 0 },
+                role: { type: "string", enum: ["user", "admin"], default: "user" },
+                status: { type: "string", default: "Active" },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 };
 
-const loadFeatures = () => {
-  const featureFiles = fs
-    .readdirSync(__dirname)
-    .filter((file) => file.endsWith(".json") && file !== "index.js");
+// Merge each features/<name>/swagger.json on top of the base spec.
+const featuresDir = path.join(__dirname, "..", "features");
+if (fs.existsSync(featuresDir)) {
+  fs.readdirSync(featuresDir, { withFileTypes: true })
+    .filter((e) => e.isDirectory() && isFeatureEnabled(e.name))
+    .forEach((e) => {
+      const file = path.join(featuresDir, e.name, "swagger.json");
+      if (!fs.existsSync(file)) return;
+      const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+      if (data.tags) spec.tags.push(...data.tags);
+      if (data.paths) _.merge(spec.paths, data.paths);
+      if (data.components?.schemas) _.merge((spec.components.schemas ??= {}), data.components.schemas);
+      if (data.components?.responses) _.merge((spec.components.responses ??= {}), data.components.responses);
+      if (data.components?.requestBodies) _.merge((spec.components.requestBodies ??= {}), data.components.requestBodies);
+    });
+}
 
-  for (const file of featureFiles) {
-    const filePath = path.join(__dirname, file);
-    const featureData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-    if (featureData.tags) swagger.tags.push(...featureData.tags);
-    if (featureData.paths) _.merge(swagger.paths, featureData.paths);
-    if (featureData.components?.schemas)
-      _.merge(swagger.components.schemas, featureData.components.schemas);
-    if (featureData.components?.responses)
-      _.merge(swagger.components.responses, featureData.components.responses);
-    if (featureData.components?.requestBodies)
-      _.merge(swagger.components.requestBodies, featureData.components.request
-    );
-  }
-
-  return swagger;
-};
-
-module.exports = loadFeatures();
+module.exports = spec;
