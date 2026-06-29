@@ -41,9 +41,27 @@ const UserModel = function (sequelize, DataTypes) {
         allowNull: false,
         defaultValue: false,
       },
+      passwordResetAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
+      tokenResetAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
     },
     {
       timestamps: false,
+      defaultScope: {
+        attributes: { exclude: ["password"] },
+      },
+      scopes: {
+        withPassword: {
+          attributes: {},
+        },
+      },
     }
   );
 };

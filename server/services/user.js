@@ -91,7 +91,7 @@ exports.findById = (uid) => {
  * @returns the user with the given username
  */
 exports.findByUsername = (username) => {
-  return db.user.findOne({
+  return db.user.scope("withPassword").findOne({
     where: Sequelize.where(
       Sequelize.fn('lower', Sequelize.col('username')),
       Sequelize.fn('lower', username)
@@ -152,6 +152,13 @@ exports.delete = (uid) => {
  * @param {Number} uid
  * @returns botUser if any
  */
+exports.findByToken = (token) => {
+  return db.user.findOne({
+    where: { token },
+    include: [{ model: db.featureUser, required: false }],
+  });
+};
+
 exports.isBot = (uid) => {
   return db.user.findOne({
     where: {

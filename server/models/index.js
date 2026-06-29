@@ -1,72 +1,51 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + '/../config/config.js');
+const env = require("../config/env");
+const { loadRelations } = require("../utils/relations");
+const { loadSequelizeModels } = require("../utils/models");
+const { loadFeatureModels, loadFeatureRelations, bootSummary } = require("../utils/feature");
 const db = {};
 
-function loadModels(directory) {
-  fs.readdirSync(directory, { withFileTypes: true })
-    .forEach(entry => {
-      const entryPath = path.join(directory, entry.name);
-      
-      if (entry.isDirectory()) {
-          loadModels(entryPath);
-      } else if (entry.isFile() && entry.name.endsWith('.js') && entry.name !== basename && !entry.name.endsWith('_relations.js')) {
-          console.log(`Loading model: ${directory}/${entry.name}`);
-          const modelDefinition = require(entryPath);
-          
-          if (directory.endsWith("omop")) {
-            const model = modelDefinition(sequelize_omop, Sequelize.DataTypes);
-            db[model.name] = model;
-          } else if (directory.endsWith("vocab")) {
-            const model = modelDefinition(sequelize_vocab, Sequelize.DataTypes);
-            db[model.name] = model
-          } else {
-            const model = modelDefinition(sequelize_app, Sequelize.DataTypes);
-            db[model.name] = model;
-          }
-      }
-  });
+// ---------- Boot banner + FEATURES validation ----------
+const _featuresDir = path.join(__dirname, "..", "features");
+const _summary = bootSummary(_featuresDir);
+console.log(`[boot] env=${env.nodeEnv} features=[${_summary.loaded.join(",")}]`);
+console.log(`[boot] skipped (not in FEATURES): ${_summary.skipped.length ? _summary.skipped.join(",") : "-"}`);
+if (env.features !== null) {
+  const unknown = env.features.filter((f) => ![..._summary.loaded, ..._summary.skipped].includes(f));
+  if (unknown.length) console.warn(`[boot] WARNING: FEATURES lists unknown feature(s): ${unknown.join(",")}`);
 }
 
-function loadRelations(directory) {
-  fs.readdirSync(directory)
-  .filter(dir => fs.lstatSync(path.join(directory, dir)).isDirectory()) 
-  .forEach(dir => {
+// ---------- Initialize Sequelize instances (env-resolved) ----------
+console.log(`Using ${env.nodeEnv} environment`);
+const dbCfg = env.selectDb();
+const sequelize_app = new Sequelize(dbCfg.app);
+// `test` historically shared one in-memory instance for app + omop.
+const sequelize_omop = dbCfg.shared ? sequelize_app : new Sequelize(dbCfg.omop);
+const sequelize_vocab = new Sequelize(dbCfg.vocab);
 
-    const relationsPath = path.join(directory, dir, '_relations.js');
-    
-    if (fs.existsSync(relationsPath)) {
-      const setupRelations = require(relationsPath);
-      setupRelations(db); // Call the function to set up associations
-    } else {
-      console.error(`Relations file not found in ${dir}`);
-    }
-  });
-}
+// Core (cross-cutting) models live alongside this file; legacy per-feature
+// models live in subfolders under server/models/. Single recursive scan picks
+// up both. loadSequelizeModels skips this index.js via the `basename` guard.
+loadSequelizeModels({
+  directory: __dirname,
+  db,
+  basename,
+  sequelize_app,
+  sequelize_omop,
+  sequelize_vocab,
+});
 
-let sequelize_app, sequelize_omop, sequelize_vocab;
-if (env === 'development') {
-  console.log("Using development environment");
-  sequelize_app = new Sequelize(config.development.sqlite_app);
-  sequelize_omop = new Sequelize(config.development.sqlite_omop);
-  sequelize_vocab = new Sequelize(config.development.sqlite_vocab);
-} else if (env === 'test') {
-  console.log("Using test environment");
-  const configTest = config.test;
-  sequelize_app = sequelize_omop = new Sequelize(configTest.storage, configTest);
-} else if (env === 'production') {
-  console.log("Using production environment"); 
-  sequelize_app = new Sequelize(config.production.db_app);
-  sequelize_omop = new Sequelize(config.production.db_omop);
-  sequelize_vocab = new Sequelize(config.production.db_vocab);
-}
-
-loadModels(__dirname);
+// Migrated features under features/<name>/models/ (bound by feature name).
+loadFeatureModels({
+  directory: __dirname,
+  featuresDir: path.join(__dirname, "..", "features"),
+  db,
+  instances: { sequelize_app, sequelize_omop, sequelize_vocab },
+});
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
@@ -83,19 +62,20 @@ db.user.belongsToMany(db.feature, {
   through: db.featureUser,
   sourceKey: "id",
   targetKey: "id",
-})
+});
 db.feature.belongsToMany(db.user, {
   through: db.featureUser,
   sourceKey: "id",
   targetKey: "id",
-})
+});
 db.user.hasMany(db.log);
 db.log.belongsTo(db.user);
 
 //------------------------ Features relations ------------------------
 
-loadRelations(__dirname);
-  
+loadRelations({ directory: __dirname, db });
+loadFeatureRelations({ featuresDir: path.join(__dirname, "..", "features"), db });
+
 db.sequelize_app = sequelize_app;
 db.sequelize_omop = sequelize_omop;
 db.sequelize_vocab = sequelize_vocab;

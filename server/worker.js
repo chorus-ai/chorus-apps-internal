@@ -1,7 +1,7 @@
 const { Worker } = require("bullmq");
 const m2dprocess_jobs = require("./jobs/m2d/process");
 const cadaprocess_jobs = require("./jobs/cada/process");
-const m2dresultService = require("./services/m2d/result");
+const m2dresultService = require("./features/m2d/services/result");
 
 const redisConfiguration = {
     connection: {

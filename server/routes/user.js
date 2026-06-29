@@ -12,8 +12,6 @@ router.post("/", userHandler.create);
 router.get("/:uid", userHandler.findById);
 // Update a User by id
 router.put("/:uid", userHandler.update);
-// Reset password
-router.post("/resetPassword", userHandler.resetPasswordByUsername);
 // Delete a User by id
 router.delete("/:uid", userHandler.delete);
 // Search a User by name or email

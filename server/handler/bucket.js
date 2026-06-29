@@ -78,3 +78,199 @@ exports.findAll = (req, res) => {
       res.sendStatus(500);
     });
 };
+const {
+  S3Client,
+  HeadBucketCommand,
+  ListObjectsV2Command,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
+
+// Uses EC2 instance role / ~/.aws automatically
+const s3 = new S3Client({});
+
+const BUCKET = process.env.BUCKET_NAME || "your-bucket-name";
+
+// helper for GetObject
+function streamToString(stream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on("data", (c) => chunks.push(c));
+    stream.on("error", reject);
+    stream.on("end", () =>
+      resolve(Buffer.concat(chunks).toString("utf-8"))
+    );
+  });
+}
+
+function pickFileName(key) {
+  const parts = String(key || "").split("/");
+  return parts[parts.length - 1] || "file";
+}
+
+exports.health = async (req, res) => {
+  try {
+     await s3.send(new HeadBucketCommand({ Bucket: BUCKET }));
+ 
+     const out = await s3.send(
+       new ListObjectsV2Command({
+         Bucket: BUCKET,
+         MaxKeys: 5,
+       })
+     );
+ 
+     res.json({
+       ok: true,
+       bucket: BUCKET,
+       sampleKeys: (out.Contents || []).map(o => o.Key),
+     });
+   } catch (err) {
+     res.status(500).json({
+       ok: false,
+       error: err.name,
+       message: err.message,
+     });
+   }
+};    
+
+exports.listObjects = async (req, res) => {
+try {
+  let prefix = req.params.prefix || "";
+
+  // normalize prefix: remove leading "/" and ensure trailing "/" for folder-like listing
+  prefix = String(prefix).replace(/^\/+/, "");
+  if (prefix && !prefix.endsWith("/")) prefix += "/";
+
+  const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+  const pageSize = Math.min(Math.max(parseInt(req.query.pageSize, 10) || 50, 1), 1000);
+
+  let continuationToken;
+  let currentPage = 1;
+  let result;
+
+  // Walk S3 pages until we reach requested page
+  while (currentPage <= page) {
+    result = await s3.send(
+      new ListObjectsV2Command({
+        Bucket: BUCKET,
+        Prefix: prefix,
+        Delimiter: "/",
+        MaxKeys: pageSize,
+        ContinuationToken: continuationToken,
+      })
+    );
+
+    if (currentPage === page) break;
+    if (!result.IsTruncated) break;
+
+    continuationToken = result.NextContinuationToken;
+    currentPage++;
+  }
+
+  const folders = (result?.CommonPrefixes || []).map(p => p.Prefix);
+
+  const files = (result?.Contents || [])
+    // remove the "folder marker object" (zero byte object equal to the prefix)
+    .filter(f => !(f.Key === prefix && f.Size === 0))
+    // remove mac junk
+    .filter(f => !f.Key.endsWith(".DS_Store"))
+    .filter(f => !f.Key.includes("__MACOSX/"))
+    .map(f => ({
+      key: f.Key,
+      size: f.Size,
+      lastModified: f.LastModified,
+    }));
+
+  res.json({
+    ok: true,
+    bucket: BUCKET,
+    prefix,
+    page,
+    pageSize,
+    isLastPage: !result?.IsTruncated,
+    nextPage: result?.IsTruncated ? page + 1 : null,
+    folders,
+    files,
+  });
+} catch (err) {
+  res.status(500).json({
+    ok: false,
+    message: err.message,
+  });
+}
+};
+
+exports.readFile = async (req, res) => {
+  try {
+     const out = await s3.send(
+       new GetObjectCommand({
+         Bucket: BUCKET,
+         Key: req.params.key,
+       })
+     );
+ 
+     const text = await streamToString(out.Body);
+     res.json({ ok: true, key: req.params.key, content: text });
+   } catch (err) {
+     res.status(500).json({ ok: false, message: err.message });
+   }
+};
+
+exports.uploadFile = async (req, res) => {
+  try {
+      const { key, content } = req.body;
+      if (!key) return res.status(400).json({ error: "key required" });
+  
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: BUCKET,
+          Key: key,
+          Body: typeof content === "string"
+            ? content
+            : JSON.stringify(content),
+          ContentType: "application/json",
+        })
+      );
+  
+      res.json({ ok: true, key });
+    } catch (err) {
+      res.status(500).json({ ok: false, message: err.message });
+    }
+};
+
+
+exports.downloadFile = async (req, res) => {
+  const key = req.query.key;
+  try {
+    const out = await s3.send(
+      new GetObjectCommand({
+        Bucket: BUCKET,
+        Key: key,
+      })
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${pickFileName(key)}"`
+    );
+    out.Body.pipe(res);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+exports.deleteFile = async (req, res) => {
+  const key = req.query.key;
+  try {
+    await s3.send(
+      new DeleteObjectCommand({
+        Bucket: BUCKET,
+        Key: key,
+      })
+    );
+    res.send({ message: "success", key: key });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }   
+};  
+

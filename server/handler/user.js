@@ -2,6 +2,17 @@ const userService = require("../services/user");
 const authService = require("../services/auth");
 const featureService = require("../services/feature");
 
+const NODE_ENV = process.env.NODE_ENV || "development";
+
+function setAuthCookie(res, token) {
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: NODE_ENV === "production",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+}
+
 exports.findAll = (req, res) => {
   userService
     .findAll()
@@ -108,8 +119,8 @@ exports.update = async (req, res) => {
   const body = req.body;
 
   if (Object.keys(body).includes('password')) {
-    entryptedPassword = await authService.getEncryptedPassword(body.password);
-    body.password = entryptedPassword;
+    const encryptedPassword = await authService.getEncryptedPassword(body.password);
+    body.password = encryptedPassword;
   }
 
   userService
@@ -131,8 +142,6 @@ exports.resetPasswordByUsername = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    entryptedPassword = await authService.getEncryptedPassword(password);
-    // get uid
     const user = await userService.findByUsername(username);
     if (!user) {
       return res.status(404).send({
@@ -140,9 +149,12 @@ exports.resetPasswordByUsername = async (req, res) => {
       })
     }
 
+    const encryptedPassword = await authService.getEncryptedPassword(password);
+
     const uid = user.dataValues.id;
     await userService.update(uid, {
-      password: entryptedPassword,
+      password: encryptedPassword,
+      passwordResetAt: new Date(),
     });
 
     const fids = user.featureUsers.map((fu) => {
@@ -161,8 +173,10 @@ exports.resetPasswordByUsername = async (req, res) => {
     }
 
     const newUser = { ...user.dataValues, featureUsers: featureUsers };
+    const token = authService.generateToken(newUser);
+    setAuthCookie(res, token);
 
-    res.send(newUser);
+    res.send({ user: newUser });
   } catch (err) {
     res.status(500).send({
       message: err.message,
