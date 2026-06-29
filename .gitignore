@@ -28,3 +28,5 @@ server/data
 data/db.sqlite3
 data/omop.sqlite3
 data/vocab.sqlite3
+client/dist/*
+scratch/*
