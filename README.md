@@ -1,8 +1,8 @@
-# Hulab Apps! 🌍
+# CHoRUS Apps! 🌍
 
 This is a fullstack JavaScript application with:
 
-- **React (Create React App)** for the frontend
+- **React (VITE App)** for the frontend
 - **Node.js + Express** for the backend
 
 The frontend is modularized into separate apps and shares components via a common `shared/` folder.
@@ -52,7 +52,7 @@ npm run dev
 ```
 
 This will:
-- Start React on [http://localhost:3000](http://localhost:3000)
+- Start Vite on [http://localhost:5173](http://localhost:5173)
 - Start Express on [http://localhost:8080](http://localhost:8080)
 - Forward API requests (from frontend) to the backend
 
