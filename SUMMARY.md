@@ -1,8 +1,8 @@
 # Table of contents
 
 * [CHoRUS Apps](README.md)
-* [Getting Started](getting-started.md)
-* [Architecture](architecture.md)
-* [Features](features.md)
-* [Environment Variables](environment-variables.md)
-* [API Reference](api-reference.md)
+* [Getting Started](docs/getting-started.md)
+* [Architecture](docs/architecture.md)
+* [Features](docs/features.md)
+* [Env Variables](docs/env-variables.md)
+* [API Reference](docs/api-reference.md)

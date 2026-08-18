@@ -20,12 +20,12 @@ The spec advertises three environments:
 | Environment | URL |
 |---|---|
 | Local development | `http://localhost:8080/api` |
-| Azure development | `http://10.112.133.7:8080/api` |
+| Azure production | `https://mgh-chorus.eastus2.cloudapp.azure.com/api` |
 | AWS production | `https://nursingdatascience.emory.edu/api` |
 
 ## Snapshot
 
-A point-in-time export of the assembled spec is checked into this space at [`.gitbook/assets/swagger (1).json`](.gitbook/assets/swagger%20%281%29.json) for reference when a running server isn't handy. It covers auth, user, feature, and bucket management plus the OMOP, vocabulary, CADA, and IVE endpoints described in [Features](features.md). Prefer the live `/docs` endpoint over this snapshot when the two disagree.
+A point-in-time export of the assembled spec is checked into this space at [`.gitbook/assets/swagger.json`](../.gitbook/assets/swagger.json) for reference when a running server isn't handy. It covers auth, user, feature, and bucket management plus the OMOP, vocabulary, CADA, and IVE endpoints described in [Features](features.md). Prefer the live `/docs` endpoint over this snapshot when the two disagree.
 
 ## Auth for API calls
 

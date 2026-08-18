@@ -63,5 +63,5 @@ npm run build              # outputs to dist/, served statically by the server
 ## Next steps
 
 * [Architecture](architecture.md) — how the pieces fit together
-* [Environment Variables](environment-variables.md) — full reference for `server/.env`
+* [Environment Variables](env-variables.md) — full reference for `server/.env`
 * [Features](features.md) — what each feature app does

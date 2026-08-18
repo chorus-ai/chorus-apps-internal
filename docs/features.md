@@ -5,7 +5,7 @@ icon: puzzle-piece
 
 # Features
 
-Each feature is a self-contained folder under `server/features/<name>/`, optionally paired with a client app under `client/src/apps/<name>/`. A feature is only mounted if it's included in the `FEATURES` allowlist (or if `FEATURES` is unset, in which case every feature mounts). See [Environment Variables](environment-variables.md).
+Each feature is a self-contained folder under `server/features/<name>/`, optionally paired with a client app under `client/src/apps/<name>/`. A feature is only mounted if it's included in the `FEATURES` allowlist (or if `FEATURES` is unset, in which case every feature mounts). See [Environment Variables](env-variables.md).
 
 ## CADA
 
