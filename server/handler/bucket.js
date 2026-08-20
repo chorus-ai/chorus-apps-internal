@@ -87,8 +87,25 @@ const {
   DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 
-// Uses EC2 instance role / ~/.aws automatically
-const s3 = new S3Client({});
+// Build S3 client config: use explicit region + credentials from env when
+// provided (local dev), otherwise fall back to the default provider chain
+// (EC2 instance role / ~/.aws) on deployed hosts.
+function buildS3Config() {
+  const config = {};
+  if (process.env.AWS_REGION) config.region = process.env.AWS_REGION;
+  if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+    config.credentials = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      ...(process.env.AWS_SESSION_TOKEN
+        ? { sessionToken: process.env.AWS_SESSION_TOKEN }
+        : {}),
+    };
+  }
+  return config;
+}
+
+const s3 = new S3Client(buildS3Config());
 
 const BUCKET = process.env.BUCKET_NAME || "your-bucket-name";
 
