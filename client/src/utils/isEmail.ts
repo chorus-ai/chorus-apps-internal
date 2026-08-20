@@ -1,4 +1,4 @@
-export const isEmail = (email) => {
+export const isEmail = (email: any) => {
   return email
     .toLowerCase()
     .match(
