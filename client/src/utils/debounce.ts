@@ -4,7 +4,7 @@
  * @param {number} delay 
  * @returns a debounced function
  */
-function debounce(fn, delay = 500) {
+function debounce(fn: any, delay = 500) {
   var timerId;
   return function (...props) {
     clearTimeout(timerId);
