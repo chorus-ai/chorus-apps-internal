@@ -10,17 +10,29 @@ const { getPaginationAndSort } = require("./_helper");
  * @param {Array<Array<String>>} sortOrder 
  * @returns all concepts
  */
-exports.findAll = (table, column, page, pageSize, sortOrder) => {
+exports.findAll = (table, column, page, pageSize, sortOrder, vocabularyId, conceptClassId, conceptCode) => {
   const {order, offset, limit } = getPaginationAndSort(page, pageSize, sortOrder);
-   
+
   const where = {};
-  
+
   if (table) {
     where.table_name = String(table);
   }
 
   if (column) {
     where.column_name = String(column);
+  }
+
+  if (vocabularyId) {
+    where.vocabulary_id = String(vocabularyId);
+  }
+
+  if (conceptClassId) {
+    where.concept_class_id = String(conceptClassId);
+  }
+
+  if (conceptCode) {
+    where.concept_code = String(conceptCode);
   }
 
   return db.concept.findAll({
@@ -49,7 +61,7 @@ exports.findById = (cid) => {
  * @param {Boolean} exactMatch - Whether to match terms exactly.
  * @returns {Promise} - A promise that resolves with the concepts of the current page.
  */
-exports.searchByName = (name, table, column, page, pageSize, exactMatch = false, sortOrder) => {
+exports.searchByName = (name, table, column, page, pageSize, exactMatch = false, sortOrder, vocabularyId, conceptClassId, conceptCode) => {
   const { order, offset, limit } = getPaginationAndSort(page, pageSize, sortOrder);
 
   if (typeof name !== "string") {
@@ -68,7 +80,7 @@ exports.searchByName = (name, table, column, page, pageSize, exactMatch = false,
     where.concept_name = searchString;
   } else {
     where.concept_name = {
-      [Op.like]: `%${searchString}%`, 
+      [Op.like]: `%${searchString}%`,
     };
   }
 
@@ -78,6 +90,18 @@ exports.searchByName = (name, table, column, page, pageSize, exactMatch = false,
 
   if (column) {
     where.column_name = String(column);
+  }
+
+  if (vocabularyId) {
+    where.vocabulary_id = String(vocabularyId);
+  }
+
+  if (conceptClassId) {
+    where.concept_class_id = String(conceptClassId);
+  }
+
+  if (conceptCode) {
+    where.concept_code = String(conceptCode);
   }
 
   return db.concept.findAll({
