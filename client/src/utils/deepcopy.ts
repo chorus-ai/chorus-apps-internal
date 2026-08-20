@@ -1,4 +1,4 @@
-export default function deepCopy(obj) {
+export default function deepCopy(obj: any) {
   if (typeof obj !== "object" || obj === null) {
     return obj;
   }
