@@ -1,4 +1,4 @@
-function stringToColor(string) {
+function stringToColor(string: any) {
   let hash = 0;
   let i;
 
@@ -18,7 +18,7 @@ function stringToColor(string) {
   return color;
 };
 
-export default function stringAvatar(name) {
+export default function stringAvatar(name: any) {
   return {
     sx: {
       bgcolor: stringToColor(name),
