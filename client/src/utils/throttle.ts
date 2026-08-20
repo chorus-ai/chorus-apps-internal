@@ -1,4 +1,4 @@
-export function throttle(func, limit) {
+export function throttle(func: any, limit: any) {
   let inThrottle;
   return function() {
     const args = arguments;
