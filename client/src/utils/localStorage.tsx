@@ -2,7 +2,7 @@
  * 
  * @param {Array<String>} prevent 
  */
-export function clearLocalStorage(prevent) {
+export function clearLocalStorage(prevent: any) {
   if (prevent.length === 0) {
     localStorage.clear();
     return
