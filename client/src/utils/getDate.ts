@@ -1,4 +1,4 @@
-export default function getDate(date) {
+export default function getDate(date: any) {
   // let res = "";
   let datetime = new Date(date);
   let year = datetime.getFullYear();
