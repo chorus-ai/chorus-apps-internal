@@ -4,7 +4,7 @@
  * @param {Object} obj2 
  * @returns if obj1 and obj2 are equal, return true, if not return false
  */
-export function isEqual(obj1, obj2) {
+export function isEqual(obj1: any, obj2: any) {
 
   if (obj1 === null && obj2 === null) {
     return true;
@@ -60,7 +60,7 @@ export function isEqual(obj1, obj2) {
  * @param {Object} obj 
  * @returns an array that contains every key value pair of the object
  */
-export function object2list(obj) {
+export function object2list(obj: any) {
   return Object.keys(obj).map(key => {
     return {
       key: key,
