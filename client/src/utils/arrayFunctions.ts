@@ -3,7 +3,7 @@
  * @param {list} arr 
  * @returns the number of elements in the array
  */
-export function arrayLength(arr) {
+export function arrayLength(arr: any) {
   let res = 0;
   for (const item of arr) {
     if (Array.isArray(item)) {
@@ -16,7 +16,7 @@ export function arrayLength(arr) {
   return res;
 }
 
-export function isArrayEqual(arr1, arr2) {
+export function isArrayEqual(arr1: any, arr2: any) {
   if (arr1.length !== arr2.length) {
     return false;
   }
@@ -29,7 +29,7 @@ export function isArrayEqual(arr1, arr2) {
 }
 
 // array equal without orders
-export function arraysEqual(a, b) {
+export function arraysEqual(a: any, b: any) {
   if (a.length !== b.length) {
     return false;
   }
@@ -43,8 +43,8 @@ export function arraysEqual(a, b) {
   return true;
 }
 
-export function flatten(arr) {
-  return arr.reduce(function (flat, toFlatten) {
+export function flatten(arr: any) {
+  return arr.reduce(function (flat: any, toFlatten: any) {
     return flat.concat(
       Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten
     );
