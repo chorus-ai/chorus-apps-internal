@@ -2,13 +2,13 @@ const fs = require("fs");
 const path = require('path');
 const Sequelize = require("sequelize");
 
-const loadSequelizeModels = ({ directory, db, basename, sequelize_app, sequelize_omop, sequelize_vocab }) => {
+const loadSequelizeModels = ({ directory, db, basename, instances }) => {
   fs.readdirSync(directory, { withFileTypes: true })
     .forEach((entry) => {
       const entryPath = path.join(directory, entry.name);
 
       if (entry.isDirectory()) {
-        loadSequelizeModels({ directory: entryPath, db, basename, sequelize_app, sequelize_omop, sequelize_vocab });
+        loadSequelizeModels({ directory: entryPath, db, basename, instances });
       } else if (
         entry.isFile() &&
         entry.name.endsWith(".js") &&
@@ -18,14 +18,9 @@ const loadSequelizeModels = ({ directory, db, basename, sequelize_app, sequelize
         console.log(`Loading model: ${directory}/${entry.name}`);
         const modelDefinition = require(entryPath);
 
-        let model;
-        if (directory.endsWith("omop")) {
-          model = modelDefinition(sequelize_omop, Sequelize.DataTypes);
-        } else if (directory.endsWith("vocab")) {
-          model = modelDefinition(sequelize_vocab, Sequelize.DataTypes);
-        } else {
-          model = modelDefinition(sequelize_app, Sequelize.DataTypes);
-        }
+        const feature = path.basename(directory);
+        const sequelize = instances[feature] || instances.app;
+        const model = modelDefinition(sequelize, Sequelize.DataTypes);
         db[model.name] = model;
       }
     });

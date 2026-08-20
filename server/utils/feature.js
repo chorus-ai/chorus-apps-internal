@@ -15,12 +15,8 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 
-// Which Sequelize instance a feature's models bind to. Data-layer features
-// (omop, vocab) have their own DB; everything else is the app DB.
-const instanceFor = (feature, { sequelize_app, sequelize_omop }) => {
-  if (feature === "omop") return sequelize_omop;
-  return sequelize_app;
-};
+// Which Sequelize instance a feature's models bind to.
+const instanceFor = (feature, instances) => instances[feature] || instances.app;
 
 const env = require("../config/env");
 
@@ -31,18 +27,6 @@ const eachFeature = (featuresDir, fn) => {
     if (!env.isFeatureEnabled(entry.name)) return; // FEATURES allowlist
     fn(entry.name, path.join(featuresDir, entry.name));
   });
-};
-
-// [boot] banner data: which feature dirs are mounted vs skipped by FEATURES.
-const bootSummary = (featuresDir) => {
-  const all = fs.existsSync(featuresDir)
-    ? fs.readdirSync(featuresDir, { withFileTypes: true })
-        .filter((e) => e.isDirectory()).map((e) => e.name).sort()
-    : [];
-  return {
-    loaded: all.filter((f) => env.isFeatureEnabled(f)),
-    skipped: all.filter((f) => !env.isFeatureEnabled(f)),
-  };
 };
 
 const walkModels = (dir, register) => {
@@ -84,4 +68,4 @@ const loadFeatureRelations = ({ featuresDir, db }) => {
   });
 };
 
-module.exports = { loadFeatureModels, loadFeatureRelations, bootSummary };
+module.exports = { loadFeatureModels, loadFeatureRelations };

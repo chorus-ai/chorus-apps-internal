@@ -14,65 +14,70 @@ const features = process.env.FEATURES
   : null;
 const isFeatureEnabled = (name) => features === null || features.includes(name);
 
-// ---- DB connection builders ----
-const sqlite = {
-  app:    { dialect: "sqlite", storage: "data/db.sqlite3" },
-  omop:   { dialect: "sqlite", storage: "data/omop.sqlite3" },
-  vocab:  { dialect: "sqlite", storage: "data/db.sqlite3" },
-};
+// ---- DB connection builders (fully env-driven) ----
+const buildDb = (prefix) => {
+  const dialect = (process.env[`${prefix}_DB_DIALECT`] || "sqlite").toLowerCase();
 
-const test = { dialect: "sqlite", storage: ":memory:" };
-
-const pg = (schema) => ({
-  dialect: "postgres",
-  host: process.env.DB_HOSTNAME,
-  port: process.env.DB_PORT,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  ssl: true,
-  dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
-  define: { schema },
-});
-
-const postgres = {
-  app: pg("app"),
-  omop: pg("omopcdm"),
-  vocab: pg("vocabulary"),
-};
-
-// Per-NODE_ENV selection — behaviourally identical to the old switch in
-// models/index.js (including the `test` case sharing one instance for
-// app+omop). Returns the option objects passed to `new Sequelize(...)`.
-const selectDb = (env = nodeEnv) => {
-  switch (env) {
-    case "development":
-      return { app: sqlite.app, omop: sqlite.omop, vocab: sqlite.vocab, shared: false };
-    case "test":
-      return { app: test, omop: test, vocab: test, shared: true };
-    case "production":
-      return { app: postgres.app, omop: postgres.omop, vocab: postgres.vocab, shared: false };
-    case "chorus_dev":
-      return { app: postgres.app, omop: sqlite.omop, vocab: sqlite.vocab, shared: false };
-    case "chorus_prod":
-      return { app: postgres.app, omop: postgres.omop, vocab: postgres.vocab, shared: false };
-    default:
-      throw new Error(`Unknown NODE_ENV: ${env}`);
+  if (dialect === "sqlite") {
+    const storage = process.env[`${prefix}_DB_STORAGE`];
+    if (!storage) {
+      throw new Error(
+        `${prefix}_DB_STORAGE is required when ${prefix}_DB_DIALECT=sqlite`
+      );
+    }
+    return { dialect: "sqlite", storage };
   }
+
+  if (dialect === "postgres") {
+    const schema = process.env[`${prefix}_DB_SCHEMA`];
+    if (!schema) {
+      throw new Error(
+        `${prefix}_DB_SCHEMA is required when ${prefix}_DB_DIALECT=postgres`
+      );
+    }
+    return {
+      dialect: "postgres",
+      host:     process.env[`${prefix}_DB_HOSTNAME`],
+      port:     process.env[`${prefix}_DB_PORT`] || 5432,
+      username: process.env[`${prefix}_DB_USERNAME`],
+      password: process.env[`${prefix}_DB_PASSWORD`],
+      database: process.env[`${prefix}_DB_NAME`],
+      ssl: true,
+      dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+      define: { schema },
+    };
+  }
+
+  throw new Error(
+    `Unknown ${prefix}_DB_DIALECT: "${dialect}" (expected sqlite|postgres)`
+  );
+};
+
+// FEATURE_HAS_DEDICATED_DB toggle: comma-separated list of features that bind to
+// their own Sequelize instance (via <FEATURE>_DB_* env vars, prefix = the
+// uppercased feature name) instead of the shared app DB.
+const dedicatedDbs = process.env.FEATURE_HAS_DEDICATED_DB
+  ? process.env.FEATURE_HAS_DEDICATED_DB.split(",").map((s) => s.trim()).filter(Boolean)
+  : [];
+
+const selectDb = () => {
+  const cfg = { app: buildDb("APP") };
+  for (const feature of dedicatedDbs) {
+    if (isFeatureEnabled(feature)) cfg[feature] = buildDb(feature.toUpperCase());
+  }
+  return cfg;
 };
 
 module.exports = {
   nodeEnv,
   features,
   isFeatureEnabled,
+  featureDbNames: dedicatedDbs,
   port: process.env.PORT || 8080,
   host: process.env.APP_HOST,
   appName: process.env.APP_NAME,
   appVersion: process.env.APP_VERSION,
   mongoHost: process.env.MONGO_HOST,
   bucketPath: process.env.BUCKET_PATH,
-
-  // Raw builders (for any consumer that needs the unresolved option objects).
-  db: { sqlite, test, postgres },
   selectDb,
 };

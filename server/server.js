@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -9,7 +8,6 @@ const routes = require("./routes");
 const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require(`./swagger`);
 const createError = require("http-errors");
-const fs = require("fs");
 const authMiddleware = require("./middleware/auth");
 
 require('dotenv').config();
@@ -18,19 +16,18 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Initialize and sync all databases
-Promise.all([
-  db.sequelize_app.sync(),
-  db.sequelize_omop.sync(),
-  db.sequelize_vocab.sync(),
-]).then(() => {
-  console.log("Synced db.");
-}).catch((err) => {
-  console.log("Failed to sync db: " + err.message);
-});
+// Sync every Sequelize instance exposed on `db` (db.sequelize_app, _omop,
+// etc.). Adding or removing an instance in models/index.js is enough — no
+// list to maintain here.
+const sequelizes = Object.entries(db)
+  .filter(([k, v]) => k.startsWith("sequelize_") && v && typeof v.sync === "function");
+
+Promise.all(sequelizes.map(([_, s]) => s.sync()))
+  .then(() => console.log(`Synced db: ${sequelizes.map(([k]) => k).join(", ")}`))
+  .catch((err) => console.log("Failed to sync db: " + err.message));
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 
