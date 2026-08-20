@@ -1,4 +1,4 @@
-export const stringToColor = (string) => {
+export const stringToColor = (string: any) => {
   let hash = 0;
   let i;
 
@@ -18,7 +18,7 @@ export const stringToColor = (string) => {
   return color;
 }
 
-export const stringAvatar = (name, style, approved=true, showFullName=false) => {
+export const stringAvatar = (name: any, style: any, approved=true, showFullName=false) => {
   const fullName = name.split(' ');
   return {
     sx: {
