@@ -9,25 +9,7 @@ exports.findAll = (req, res) => {
   );
 };
 
-exports.findByPersonId = (req, res) => {
-  const { person_id } = req.params;
-  const { attrs, page, pageSize, sortOrder } = req.query;
-  respondWithMode(res, req, "measurement",
-    () => svc.findByPersonId(person_id, attrs, page, pageSize, sortOrder),
-    () => svc.countByPersonId(person_id)
-  );
-};
-
-exports.findByVisitOccurrenceId = (req, res) => {
-  const { visit_occurrence_id } = req.params;
-  const { attrs, page, pageSize, sortOrder } = req.query;
-  respondWithMode(res, req, "measurement",
-    () => svc.findByVisitOccurrenceId(visit_occurrence_id, attrs, page, pageSize, sortOrder),
-    () => svc.countByVisitOccurrenceId(visit_occurrence_id)
-  );
-};
-
-exports.advancedSearch = (req, res) => {
+exports.search = (req, res) => {
   const { attrs, page, pageSize, sortOrder } = req.query;
   respondWithMode(res, req, "measurement",
     () => svc.advancedSearch(req.body, attrs, page, pageSize, sortOrder),

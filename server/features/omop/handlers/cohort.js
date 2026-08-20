@@ -9,16 +9,7 @@ exports.findAll = (req, res) => {
   );
 };
 
-exports.findByCohortDefinitionId = (req, res) => {
-  const { cohort_definition_id } = req.params;
-  const { attrs, page, pageSize, sortOrder } = req.query;
-  respondWithMode(res, req, "cohort",
-    () => svc.findByCohortDefinitionId(cohort_definition_id, attrs, page, pageSize, sortOrder),
-    () => svc.countByCohortDefinitionId(cohort_definition_id)
-  );
-};
-
-exports.advancedSearch = (req, res) => {
+exports.search = (req, res) => {
   const { attrs, page, pageSize, sortOrder } = req.query;
   respondWithMode(res, req, "cohort",
     () => svc.advancedSearch(req.body, attrs, page, pageSize, sortOrder),

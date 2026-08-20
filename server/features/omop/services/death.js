@@ -27,22 +27,6 @@ exports.findAll = (attrs, page, pageSize, sortOrder) => {
   });
 };
 
-exports.findByPersonId = (personId, attrs, page, pageSize, sortOrder) => {
-  const { order, offset, limit } = getPaginationAndSort(
-    page,
-    pageSize,
-    sortOrder,
-    PK,
-  );
-  return db[MODEL].findAll({
-    where: { person_id: personId },
-    attributes: getAttributes(attrs, MODEL),
-    order,
-    offset,
-    limit,
-  });
-};
-
 exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
   const { order, offset, limit } = getPaginationAndSort(
     page,
@@ -89,8 +73,6 @@ exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
 };
 
 exports.countAll = () => db[MODEL].count();
-exports.countByPersonId = (personId) =>
-  db[MODEL].count({ where: { person_id: personId } });
 
 exports.countBySearch = (searchParams) => {
   const where = {};

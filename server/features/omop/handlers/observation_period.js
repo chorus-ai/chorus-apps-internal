@@ -9,16 +9,7 @@ exports.findAll = (req, res) => {
   );
 };
 
-exports.findByPersonId = (req, res) => {
-  const { person_id } = req.params;
-  const { attrs, page, pageSize, sortOrder } = req.query;
-  respondWithMode(res, req, "observation_period",
-    () => svc.findByPersonId(person_id, attrs, page, pageSize, sortOrder),
-    () => svc.countByPersonId(person_id)
-  );
-};
-
-exports.advancedSearch = (req, res) => {
+exports.search = (req, res) => {
   const { attrs, page, pageSize, sortOrder } = req.query;
   respondWithMode(res, req, "observation_period",
     () => svc.advancedSearch(req.body, attrs, page, pageSize, sortOrder),

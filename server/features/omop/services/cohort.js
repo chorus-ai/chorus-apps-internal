@@ -23,28 +23,6 @@ exports.findAll = (attrs, page, pageSize, sortOrder) => {
   });
 };
 
-exports.findByCohortDefinitionId = (
-  cohortDefinitionId,
-  attrs,
-  page,
-  pageSize,
-  sortOrder,
-) => {
-  const { order, offset, limit } = getPaginationAndSort(
-    page,
-    pageSize,
-    sortOrder,
-    PK,
-  );
-  return db[MODEL].findAll({
-    where: { cohort_definition_id: cohortDefinitionId },
-    attributes: getAttributes(attrs, MODEL),
-    order,
-    offset,
-    limit,
-  });
-};
-
 exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
   const { order, offset, limit } = getPaginationAndSort(
     page,
@@ -63,8 +41,6 @@ exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
 };
 
 exports.countAll = () => db[MODEL].count();
-exports.countByCohortDefinitionId = (id) =>
-  db[MODEL].count({ where: { cohort_definition_id: id } });
 
 exports.countBySearch = (searchParams) => {
   const where = buildWhereClause(searchParams);

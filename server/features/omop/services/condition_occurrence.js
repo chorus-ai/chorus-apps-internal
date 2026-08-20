@@ -23,44 +23,6 @@ exports.findAll = (attrs, page, pageSize, sortOrder) => {
   });
 };
 
-exports.findByPersonId = (personId, attrs, page, pageSize, sortOrder) => {
-  const { order, offset, limit } = getPaginationAndSort(
-    page,
-    pageSize,
-    sortOrder,
-    PK,
-  );
-  return db[MODEL].findAll({
-    where: { person_id: personId },
-    attributes: getAttributes(attrs, MODEL),
-    order,
-    offset,
-    limit,
-  });
-};
-
-exports.findByVisitOccurrenceId = (
-  visitOccurrenceId,
-  attrs,
-  page,
-  pageSize,
-  sortOrder,
-) => {
-  const { order, offset, limit } = getPaginationAndSort(
-    page,
-    pageSize,
-    sortOrder,
-    PK,
-  );
-  return db[MODEL].findAll({
-    where: { visit_occurrence_id: visitOccurrenceId },
-    attributes: getAttributes(attrs, MODEL),
-    order,
-    offset,
-    limit,
-  });
-};
-
 exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
   const { order, offset, limit } = getPaginationAndSort(
     page,
@@ -79,10 +41,6 @@ exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
 };
 
 exports.countAll = () => db[MODEL].count();
-exports.countByPersonId = (personId) =>
-  db[MODEL].count({ where: { person_id: personId } });
-exports.countByVisitOccurrenceId = (visitOccurrenceId) =>
-  db[MODEL].count({ where: { visit_occurrence_id: visitOccurrenceId } });
 
 exports.countBySearch = (searchParams) => {
   const where = buildWhereClause(searchParams);

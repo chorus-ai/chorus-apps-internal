@@ -48,9 +48,6 @@ exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
   });
 };
 
-/* --------------------------------------------------------------------- */
-/*  COUNTS                                                               */
-/* --------------------------------------------------------------------- */
 exports.countAll = () => db.person.count();
 
 exports.countBySearch = (searchParams) => {

@@ -23,12 +23,6 @@ exports.findAll = (attrs, page, pageSize, sortOrder) => {
   });
 };
 
-exports.findById = (cohortDefinitionId) => {
-  return db[MODEL].findOne({
-    where: { cohort_definition_id: cohortDefinitionId },
-  });
-};
-
 exports.advancedSearch = (searchParams, attrs, page, pageSize, sortOrder) => {
   const { order, offset, limit } = getPaginationAndSort(
     page,
