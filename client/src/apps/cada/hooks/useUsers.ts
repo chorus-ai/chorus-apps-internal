@@ -4,7 +4,7 @@ import { useMutation } from '../../../hooks/useApiMutation';
 import * as usersApi from '../api/users';
 import type { UserAddPayload } from '../api/users';
 import type { User } from '../types';
-import { setUsers, showAlert } from '../store/slicer';
+import { setUsers, showAlert } from '../store';
 
 export function useUsers() {
   const users = useAppSelector((state) => state.cada.users);

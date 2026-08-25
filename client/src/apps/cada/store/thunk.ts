@@ -14,7 +14,7 @@ import {
   setAdjEvents,
   updateAdjEvent,
   setAnnotatorProgress,
-} from './slicer'
+} from '.'
 import type { CadaEvent, EventCount } from '../types'
 
 type Dispatch = (action: unknown) => void

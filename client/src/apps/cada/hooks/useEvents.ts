@@ -18,7 +18,7 @@ import {
   updateAnnEvent,
   updateAdjEvent,
   showAlert,
-} from '../store/slicer'
+} from '../store'
 
 export function useAnnotationEvents(pid: number, uid: number) {
   const annEvents = useAppSelector((state) => state.cada.annEvents)

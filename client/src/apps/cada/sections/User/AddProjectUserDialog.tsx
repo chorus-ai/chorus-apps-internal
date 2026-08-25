@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useProjects } from "../../hooks";
 import { useAppDispatch } from "../../../../hooks/redux";
-import { setUserProjectRoles } from "../../store/slicer";
+import { setUserProjectRoles } from "../../store";
 import * as projectsApi from "../../api/projects";
 import type { Project, ProjectWithRoles, ProjectUserRole } from "../../types";
 

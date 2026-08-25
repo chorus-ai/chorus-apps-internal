@@ -19,7 +19,7 @@ import { MdNotifications as NotificationsIcon } from "react-icons/md";
 import { MdApps as Apps } from "react-icons/md";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import * as authApi from "./api/auth";
-import { resetCadaState } from "./store/slicer";
+import { resetCadaState } from "./store";
 
 interface TopbarProps {
   onDrawerToggle: () => void;

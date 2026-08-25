@@ -15,7 +15,7 @@ import {
   setUserProjectRoles, 
   setProjectUsers, 
   showAlert 
-} from '../store/slicer';
+} from '../store';
 
 export function useUserProjects(uid: number) {
   const dispatch = useAppDispatch();

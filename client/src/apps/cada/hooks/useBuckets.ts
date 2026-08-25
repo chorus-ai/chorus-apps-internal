@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux'
 import { useQuery } from '../../../hooks/useApiQuery'
 import * as bucketsApi from '../api/buckets'
-import { setBuckets, showAlert } from '../store/slicer'
+import { setBuckets, showAlert } from '../store'
 
 export function useBucket(path: string) {
   const buckets = useAppSelector((state) => state.cada.buckets)
