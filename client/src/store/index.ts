@@ -1,9 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, type Reducer } from '@reduxjs/toolkit'
 import deepCopy from '../utils/deepcopy';
 import { clearLocalStorage } from '../utils/localStorage';
 
-import { cadaReducer } from '../apps/cada/store/slicer'
-import { iveReducer } from '../apps/ive/store';
+// Every app under `apps/<name>/` may ship a Redux slice at `store/index.ts`
+// Picked up automatically — no manual import needed when adding a new app.
+const appStoreModules = import.meta.glob<Record<string, unknown>>('../apps/*/store/index.ts', { eager: true });
+
+const appReducers: Record<string, Reducer> = {};
+for (const [path, mod] of Object.entries(appStoreModules)) {
+  const appName = path.match(/\.\.\/apps\/([^/]+)\/store\//)?.[1];
+  const reducerKey = Object.keys(mod).find((key) => key.endsWith('Reducer'));
+  if (!appName || !reducerKey) continue;
+  appReducers[appName] = mod[reducerKey] as Reducer;
+}
 
 export interface FeatureUser {
   id: number;
@@ -65,13 +74,14 @@ const mainReducer = (state: MainState = { user: null }, action: MainAction) => {
   }
 };
 
+const reducers: { main: typeof mainReducer } & Record<string, Reducer> = {
+  main: mainReducer,
+  ...appReducers,
+};
+
 export const store = configureStore({
-  reducer: {
-    main: mainReducer,
-    cada: cadaReducer,
-    ive: iveReducer,
-  },
-  devTools: true, 
+  reducer: reducers,
+  devTools: true,
 })
 
 export type RootState = ReturnType<typeof store.getState>

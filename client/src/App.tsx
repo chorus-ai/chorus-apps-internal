@@ -12,9 +12,13 @@ import AuthLayout from "./layouts/Auth";
 import LoginCallback from "./pages/LoginCallback";
 import axios from "./utils/axios";
 
-//Feature routes
-import cadaRoutes from "./apps/cada/routes";
-import iveRoutes from "./apps/ive/routes";
+// Every app under `apps/<name>/` may ship routes at `apps/<name>/routes.tsx`
+// Picked up automatically — no manual import needed when adding a new app.
+const appRouteModules = import.meta.glob<{ default: React.ReactNode }>("./apps/*/routes.tsx", { eager: true });
+
+const appRoutes: React.ReactNode[] = Object.keys(appRouteModules)
+  .sort()
+  .map((path) => appRouteModules[path].default);
 
 function SessionLoader({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
@@ -61,8 +65,7 @@ function App() {
 
             <Route path="/auth/callback" element={<LoginCallback />} />
 
-            {cadaRoutes}
-            {iveRoutes}
+            {appRoutes}
 
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
