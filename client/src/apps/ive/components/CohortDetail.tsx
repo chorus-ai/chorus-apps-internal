@@ -1,71 +1,94 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CohortSubjectView from './CohortSubjectView';
+import { getOmopRows, getOmopCount } from '../api/omop';
 
-const COHORT_SUBJECT_DATA: Record<string, { header: string[], rows: string[][] }> = {
-  "3": {
-    "header": [
-      "cohort_definition_id",
-      "subject_id",
-      "cohort_start_date",
-      "cohort_end_date"
-    ],
-    "rows": [
-      ["3", "4009", "2020-03-14", "2020-04-13"],
-      ["3", "4019", "2021-06-13", "2021-08-27"],
-      ["3", "4023", "2023-11-25", "2023-12-25"],
-      ["3", "4028", "2021-08-08", "2021-09-07"],
-      ["3", "4040", "2022-09-27", "2022-10-27"],
-      ["3", "4082", "2023-08-15", "2023-11-07"],
-      ["3", "4082", "2024-08-14", "2024-09-13"],
-      ["3", "4101", "2022-06-08", "2022-07-08"],
-      ["3", "4101", "2022-08-10", "2022-09-09"],
-      ["3", "4110", "2022-05-29", "2022-06-09"]
-    ]
-  },
-  "4": {
-    "header": [
-      "cohort_definition_id",
-      "subject_id",
-      "cohort_start_date",
-      "cohort_end_date"
-    ],
-    "rows": [
-      ["4", "3930", "2021-07-03", "2021-08-02"],
-      ["4", "3932", "2021-01-29", "2021-02-12"],
-      ["4", "3933", "2024-09-24", "2024-09-24"],
-      ["4", "3934", "2022-07-09", "2022-07-27"],
-      ["4", "3937", "2024-05-03", "2024-05-18"],
-      ["4", "3937", "2024-09-27", "2024-10-27"],
-      ["4", "3954", "2021-07-29", "2021-08-13"],
-      ["4", "3954", "2023-07-15", "2023-07-31"],
-      ["4", "3955", "2021-02-08", "2021-02-23"],
-      ["4", "3955", "2021-08-15", "2021-09-11"]
-    ]
-  }
-};
+const PAGE_SIZE = 20;
 
 const CohortDetail: React.FC = () => {
   const { cohortDefinitionId } = useParams<{ cohortDefinitionId: string }>();
   const navigate = useNavigate();
   const [selectedRecordId, setSelectedRecordId] = useState<string | null>(null);
 
-  const data = cohortDefinitionId ? COHORT_SUBJECT_DATA[cohortDefinitionId] : null;
+  const [header, setHeader] = useState<string[]>([]);
+  const [rows, setRows] = useState<unknown[][]>([]);
+  const [total, setTotal] = useState<number | null>(null);
+  const [pagesLoaded, setPagesLoaded] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Derive unique record ID from subject_id + start_date
+  useEffect(() => {
+    if (!cohortDefinitionId) {
+      setLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    setHeader([]);
+    setRows([]);
+    setTotal(null);
+    setPagesLoaded(0);
+    setSelectedRecordId(null);
+
+    Promise.all([
+      getOmopRows('cohort', { page: 1, pageSize: PAGE_SIZE }, { cohort_definition_id: cohortDefinitionId }),
+      getOmopCount('cohort', { cohort_definition_id: cohortDefinitionId }),
+    ])
+      .then(([res, count]) => {
+        if (cancelled) return;
+        setHeader(res.header);
+        setRows(res.rows);
+        setTotal(count >= 0 ? count : 0);
+        setPagesLoaded(1);
+      })
+      .catch((err: Error) => {
+        if (cancelled) return;
+        setError(err.message);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [cohortDefinitionId]);
+
+  const loadMore = () => {
+    if (!cohortDefinitionId || loadingMore) return;
+    const nextPage = pagesLoaded + 1;
+    setLoadingMore(true);
+    getOmopRows('cohort', { page: nextPage, pageSize: PAGE_SIZE }, { cohort_definition_id: cohortDefinitionId })
+      .then((res) => {
+        setRows((prev) => [...prev, ...res.rows]);
+        setPagesLoaded(nextPage);
+      })
+      .catch((err: Error) => setError(err.message))
+      .finally(() => setLoadingMore(false));
+  };
+
+  const hasMore = total !== null && rows.length < total;
+
+  // header is [cohort_definition_id, subject_id, cohort_start_date, cohort_end_date]
   const records = useMemo(() => {
-    if (!data) return [];
-    return data.rows.map(row => ({
-      id: `${row[1]}_${row[2]}`,
-      subjectId: row[1],
-      startDate: row[2],
-      endDate: row[3],
-      cohortId: row[0]
+    if (!header.length) return [];
+    const subjectIdx = header.indexOf('subject_id');
+    const startIdx = header.indexOf('cohort_start_date');
+    const endIdx = header.indexOf('cohort_end_date');
+    const cohortIdx = header.indexOf('cohort_definition_id');
+    return rows.map((row) => ({
+      id: `${row[subjectIdx]}_${row[startIdx]}`,
+      subjectId: String(row[subjectIdx]),
+      startDate: String(row[startIdx]),
+      endDate: String(row[endIdx]),
+      cohortId: String(row[cohortIdx]),
     }));
-  }, [data]);
+  }, [header, rows]);
 
   const selectedRecord = useMemo(() => {
-    return records.find(r => r.id === selectedRecordId) || records[0];
+    return records.find((r) => r.id === selectedRecordId) || records[0];
   }, [records, selectedRecordId]);
 
   useEffect(() => {
@@ -74,25 +97,37 @@ const CohortDetail: React.FC = () => {
     }
   }, [records, selectedRecordId]);
 
-  if (!data) {
+  if (loading) {
+    return (
+      <div className="flex flex-col h-full w-full bg-slate-50 dark:bg-slate-950 items-center justify-center">
+        <p className="text-slate-500 italic">Loading cohort subjects...</p>
+      </div>
+    );
+  }
+
+  if (error || !records.length) {
     return (
       <div className="flex flex-col h-full w-full bg-slate-50 dark:bg-slate-950 p-8">
         <div className="max-w-6xl mx-auto w-full">
           <header className="mb-8 flex items-center gap-4">
-            <button 
+            <button
               onClick={() => navigate('/ive/cohort')}
               className="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors"
             >
               <span className="material-symbols-outlined">arrow_back</span>
             </button>
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">No Data Available</h2>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+              {error ? 'Failed to Load Cohort' : 'No Data Available'}
+            </h2>
           </header>
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-12 text-center shadow-xl">
             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">folder_off</span>
             <p className="text-slate-500 max-w-md mx-auto mb-6">
-              No subject records were found for cohort ID {cohortDefinitionId}.
+              {error
+                ? error
+                : `No subject records were found for cohort ID ${cohortDefinitionId}.`}
             </p>
-            <button 
+            <button
               onClick={() => navigate('/ive/cohort')}
               className="text-primary font-bold hover:underline"
             >
@@ -109,7 +144,7 @@ const CohortDetail: React.FC = () => {
       {/* Sidebar - Subject List */}
       <aside className="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex flex-col shrink-0 overflow-hidden">
         <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-center gap-3">
-          <button 
+          <button
             onClick={() => navigate('/ive/cohort')}
             className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors"
           >
@@ -117,10 +152,12 @@ const CohortDetail: React.FC = () => {
           </button>
           <div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white">Cohort {cohortDefinitionId}</h3>
-            <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{data.rows.length} Subjects</p>
+            <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
+              {total !== null ? total.toLocaleString() : records.length} Subjects
+            </p>
           </div>
         </div>
-        
+
         <div className="flex-grow overflow-y-auto custom-scrollbar p-3 space-y-1">
           {records.map((record) => {
             const isActive = selectedRecordId === record.id || (!selectedRecordId && record.id === records[0]?.id);
@@ -155,23 +192,27 @@ const CohortDetail: React.FC = () => {
               </button>
             );
           })}
-          <div className="p-4 border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-           <button 
-             className="w-full flex items-center justify-center gap-2 py-2 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-slate-400 hover:text-primary hover:border-primary transition-all text-xs font-bold uppercase tracking-widest group"
-             >
-             <span className="material-symbols-outlined text-sm">sync</span>
-             Load more
-           </button>
-        </div>
+          {hasMore && (
+            <div className="p-4 border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+             <button
+               onClick={loadMore}
+               disabled={loadingMore}
+               className="w-full flex items-center justify-center gap-2 py-2 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-slate-400 hover:text-primary hover:border-primary transition-all text-xs font-bold uppercase tracking-widest group disabled:opacity-50"
+               >
+               <span className="material-symbols-outlined text-sm">sync</span>
+               {loadingMore ? 'Loading...' : 'Load more'}
+             </button>
+            </div>
+          )}
         </div>
 
-    
+
       </aside>
 
       {/* Main Content - Subject View */}
       <div className="flex-grow overflow-hidden flex flex-col relative h-full">
         {selectedRecord ? (
-          <CohortSubjectView 
+          <CohortSubjectView
             personId={selectedRecord.subjectId}
             cohortDefinitionId={selectedRecord.cohortId}
             startDate={selectedRecord.startDate}

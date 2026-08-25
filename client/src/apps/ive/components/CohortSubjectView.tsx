@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import WidgetGrid from '../widgets/WidgetGrid';
-import { getWidget } from '../widgets/registry';
+import WidgetGrid from './widgets/WidgetGrid';
+import { getWidget } from './widgets/registry';
 import { useSavedLayouts } from '../hooks/useLayouts';
 import type { DashboardLayout } from '../types';
 
